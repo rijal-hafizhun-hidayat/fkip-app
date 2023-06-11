@@ -5,7 +5,8 @@
         <template #header>
             <div class="flex justify-between">
                 <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2></div>
-                <div><PrimaryButton class="order-1 mt-[-10px]">Tambah Kelas</PrimaryButton></div>
+                <!-- <div><PrimaryButton class="order-1 mt-[-10px]">Tambah Kelas</PrimaryButton></div> -->
+                <div class="order-1"><Modal class="order-1 mt-[-10px]" /></div>
             </div>
         </template>
 
@@ -60,8 +61,9 @@ import { ref } from 'vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head } from '@inertiajs/vue3';
+import Modal from './Partials/Modal.vue';
 export default {
-    components: { AuthenticatedLayout, Head, PrimaryButton },
+    components: { AuthenticatedLayout, Head, Modal, PrimaryButton },
     setup(){
         const image = ref('')
         image.value = 'images/default/7506073.jpg'
