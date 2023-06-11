@@ -1,11 +1,16 @@
 <template>
-    <PrimaryButton>Tambah Kelas</PrimaryButton>
+    <PrimaryButton @click="showModal">Tambah Kelas</PrimaryButton>
 
-    <div class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50">
+    <div :class="{ 'hidden': isHidden }" class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50">
         <div class="bg-white rounded shadow-lg w-1/3">
             <!--- modal title -->
-            <div class="px-6 py-2">
-                <p>buat kelas</p>
+            <div class="flex justify-between px-6 ">
+                <div class="py-2">
+                    <p>Buat Kelas</p>
+                </div>
+                <div class="mt-2">
+                    <PrimaryButton @click="showModal"><i class="fa-solid fa-xmark text-white"></i></PrimaryButton>
+                </div>
             </div>
             <!-- modal body -->
             <div class="p-3">
@@ -55,7 +60,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Select from '@/Components/Select.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue';
 export default{
     components: { InputError, InputLabel, PrimaryButton, TextInput, Select, PrimaryButton },
     setup(){
@@ -65,12 +70,21 @@ export default{
             matakuliah: ''
         })
 
+        const isHidden = ref(true)
+
         const submit = () => {
             console.log(form)
         }
 
+        const showModal = () => {
+            isHidden.value = !isHidden.value
+            console.log(isHidden.value)
+        }
+
         return {
             submit,
+            showModal,
+            isHidden,
             form
         }
     }
