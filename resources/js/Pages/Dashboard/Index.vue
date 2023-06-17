@@ -12,7 +12,7 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid sm:grid-cols-4 gap-3 mt-5">
-                <div class="rounded bg-cover bg-center" :style="{ 'background-image': 'url('+image+')' }">
+                <div class="shadow-md rounded bg-cover bg-center" :style="{ 'background-image': 'url('+image+')' }">
                     <div class="py-2 px-5">
                         <p class="font-bold capitalize text-lg text-white">Matematika</p>
                         <p class="text-xs text-white font-light">Selasa, 12.00 WIB</p>
@@ -22,7 +22,7 @@
                         <p></p>
                     </div>
                 </div>
-                <div class="rounded bg-cover bg-center" :style="{ 'background-image': 'url('+image+')' }">
+                <div class="shadow-md rounded bg-cover bg-center" :style="{ 'background-image': 'url('+image+')' }">
                     <div class="py-2 px-5">
                         <p class="font-bold capitalize text-lg text-white">Fisika</p>
                         <p class="text-xs text-white font-light">Rabu, 13.00 WIB</p>
@@ -32,7 +32,7 @@
                         <p></p>
                     </div>
                 </div>
-                <div class="rounded bg-cover bg-center" :style="{ 'background-image': 'url('+image+')' }">
+                <div class="shadow-md rounded bg-cover bg-center" :style="{ 'background-image': 'url('+image+')' }">
                     <div class="py-2 px-5">
                         <p class="font-bold capitalize text-lg text-white">Kimia</p>
                         <p class="text-xs text-white font-light">Kamis, 14.00 WIB</p>
@@ -42,7 +42,7 @@
                         <p></p>
                     </div>
                 </div>
-                <div class="rounded bg-cover bg-center" :style="{ 'background-image': 'url('+image+')' }">
+                <div class="shadow-md rounded bg-cover bg-center" :style="{ 'background-image': 'url('+image+')' }">
                     <div class="py-2 px-5">
                         <p class="font-bold capitalize text-lg text-white">Indonesia</p>
                         <p class="text-xs text-white font-light">Jumat, 15.00 WIB</p>

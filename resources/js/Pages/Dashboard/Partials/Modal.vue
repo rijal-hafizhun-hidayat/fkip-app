@@ -2,7 +2,7 @@
     <PrimaryButton @click="showModal">Tambah Kelas</PrimaryButton>
 
     <div :class="{ 'hidden': isHidden }" class="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center bg-black bg-opacity-50">
-        <div class="bg-white rounded shadow-lg w-1/3">
+        <div class="bg-white rounded shadow-lg sm:w-1/3">
             <!--- modal title -->
             <div class="flex justify-between px-6 ">
                 <div class="py-2">
@@ -17,33 +17,17 @@
                 <form @submit.prevent="submit" class="px-3">
                     <div class="mb-5">
                         <InputLabel for="nama" value="Nama Kelas (wajib)" />
-                        <TextInput
-                            id="nama"
-                            type="text"
-                            class="mt-1 block w-full"
-                            required
-                            v-model="form.nama"
-                        />
+                        <TextInput id="nama" type="text" class="mt-1 block w-full" v-model="form.nama" required />
                         <InputError class="mt-2" />
                     </div>
                     <div class="mb-5">
                         <InputLabel for="prodi" value="prodi" />
-                        <Select
-                            v-model="form.prodi"
-                            class="mt-1 block w-full"
-                            required
-                        />
+                        <Select v-model="form.prodi" class="mt-1 block w-full" required />
                         <InputError class="mt-2" />
                     </div>
                     <div>
                         <InputLabel for="matakuliah" value="Matakuliah" />
-                        <TextInput
-                            id="matakuliah"
-                            type="text"
-                            class="mt-1 block w-full"
-                            required
-                            v-model="form.matakuliah" 
-                        />
+                        <TextInput id="matakuliah" type="text" class="mt-1 block w-full" v-model="form.matakuliah" required />
                         <InputError class="mt-2" />
                     </div>
                     <div class="flex justify-end">
@@ -78,7 +62,6 @@ export default{
 
         const showModal = () => {
             isHidden.value = !isHidden.value
-            console.log(isHidden.value)
         }
 
         return {
