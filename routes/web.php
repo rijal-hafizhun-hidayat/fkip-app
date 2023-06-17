@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Akun\AkunController;
 use App\Http\Controllers\Akun\Service\AkunService;
+use App\Http\Controllers\Mahasiswa\MahasiswaController;
+use App\Http\Controllers\Mahasiswa\Service\MahasiswaService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -48,6 +50,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/akuns', [AkunService::class, 'store'])->name('akun.store');
     Route::delete('/akuns/{id}', [AkunService::class, 'destroy'])->name('akun.destroy');
     Route::put('/akun/{id}', [AkunService::class, 'update'])->name('akun.update');
+
+    //mahasiswa
+    Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
+    Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
+    Route::get('/mahasiswa/{id}', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
+
+    //service mahasiswa
+    Route::get('/getMahasiswa', [MahasiswaService::class, 'getMahasiswa'])->name('mahasiswa.getMahasiswa');
+    Route::get('/getMahasiswaById/{id}', [MahasiswaService::class, 'getMahasiswaById'])->name('mahasiswa.getMahasiswaById');
+    Route::post('/mahasiswa', [MahasiswaService::class, 'store'])->name('mahasiswa.store');
 });
 
 require __DIR__.'/auth.php';

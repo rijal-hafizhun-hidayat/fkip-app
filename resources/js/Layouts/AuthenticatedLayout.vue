@@ -40,7 +40,10 @@ icon.value = 'images/icons/Logo-UAD-Hitam-Putihpng.png'
                                 </NavLink>
                                 <NavLink :href="route('akun')" :active="route().current('akun')">
                                     Akun
-                                </NavLink>  
+                                </NavLink>
+                                <NavLink :href="route('mahasiswa')" :active="route().current('mahasiswa')">
+                                    Mahasiswa
+                                </NavLink>   
                             </div>
                         </div>
 
@@ -126,6 +129,9 @@ icon.value = 'images/icons/Logo-UAD-Hitam-Putihpng.png'
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('akun')" :active="route().current('akun')">
                             Akun
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('mahasiswa')" :active="route().current('mahasiswa')">
+                            Mahasiswa
                         </ResponsiveNavLink>
                     </div>
 
