@@ -26,7 +26,7 @@
                     </td>
                     <td class="border-t">
                         <div class="flex flex-row space-x-4">
-                            <DestroyButton><i class="fa-solid fa-trash text-white"></i></DestroyButton>
+                            <DestroyButton @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
                             <MahasiswaButton><i class="fa-solid fa-user-plus text-white"></i></MahasiswaButton>
                         </div>
@@ -71,9 +71,29 @@ export default{
             router.get(`/mahasiswa/${id}`)
         }
 
+        const destroy = (id) => {
+            NProgress.start()
+            axios.delete(`/mahasiswa/${id}`)
+            .then((res) => {
+                Swal.fire({
+                    icon: 'success',
+                    title: res.data.title,
+                    text: res.data.text
+                })
+                router.get('/mahasiswa')
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() => {
+                NProgress.done()
+            })
+        }
+
         return {
             mahasiswas,
-            show
+            show,
+            destroy
         }
     }
 }

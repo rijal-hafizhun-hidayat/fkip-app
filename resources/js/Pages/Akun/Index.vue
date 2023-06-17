@@ -1,5 +1,5 @@
 <template>
-    <Head title="Dashboard" />
+    <Head title="Akun" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -20,7 +20,7 @@ import { ref } from 'vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head } from '@inertiajs/vue3';
-import Table from './Partials/Table.vue';
+import Table from './partials/Table.vue';
 import { router } from '@inertiajs/vue3'
 export default {
     components: { AuthenticatedLayout, Head, PrimaryButton, Table },

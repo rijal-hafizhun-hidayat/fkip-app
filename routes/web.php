@@ -60,6 +60,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/getMahasiswa', [MahasiswaService::class, 'getMahasiswa'])->name('mahasiswa.getMahasiswa');
     Route::get('/getMahasiswaById/{id}', [MahasiswaService::class, 'getMahasiswaById'])->name('mahasiswa.getMahasiswaById');
     Route::post('/mahasiswa', [MahasiswaService::class, 'store'])->name('mahasiswa.store');
+    Route::delete('/mahasiswa/{id}', [MahasiswaService::class, 'destroy'])->name('mahasiswa.destroy');
+    Route::put('/mahasiswa/{id}', [MahasiswaService::class, 'update'])->name('mahasiswa.update');
 });
 
 require __DIR__.'/auth.php';

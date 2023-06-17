@@ -1,5 +1,5 @@
 <template>
-    <Head title="Dashboard" />
+    <Head title="Mahasiswa" />
 
     <AuthenticatedLayout>
         <template #header>

@@ -121,7 +121,7 @@ export default {
 
         const submit = () => {
             NProgress.start()
-            axios.post('/mahasiswa', {
+            axios.put(`/mahasiswa/${props.id}`, {
                 nama: form.nama,
                 nim: form.nim,
                 email: form.email,
