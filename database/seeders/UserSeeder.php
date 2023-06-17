@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'email' => Str::random(5).'@gmail.com',
             'role' => 1, //admin
             'password' => Hash::make('password'),
+            'prodi' => 'FKIP'
         ]);
     }
 }

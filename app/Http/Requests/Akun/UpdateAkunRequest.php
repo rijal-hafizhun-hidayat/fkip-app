@@ -37,7 +37,9 @@ class UpdateAkunRequest extends FormRequest
             'nama' => 'required|string',
             'username' => 'required|string',
             'email' => 'required|email:rfc,dns',
-            'role' => 'required|numeric'
+            'role' => 'required|numeric',
+            'prodi' => 'required|string',
+            'id_mahasiswa' => 'nullable|numeric'
         ];
     }
 }

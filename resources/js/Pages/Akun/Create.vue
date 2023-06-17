@@ -22,19 +22,30 @@
                             class="mt-1 block w-full"
                             v-model="form.nama"
                             :class="{ 'border-rose-600': validation.nama }"
+                            @change="setUsername(form.nama, form.prodi)"
                         />
                         <InputError v-if="validation.nama" :message="validation.nama[0]" class="mt-2" />
                     </div>
 
                     <div>
+                        <InputLabel for="prodi" value="Prodi"/>
+                        <Select class="mt-1 blobk w-full" v-model="form.prodi" @change="setUsername(form.nama, form.prodi)" :class="{ 'border-rose-600': validation.prodi }">
+                            <option selected disabled value="">-- Pilih --</option>
+                            <option v-for="prodi in prodis">{{ prodi.nama }}</option>
+                        </Select>
+                        <InputError v-if="validation.prodi" :message="validation.prodi[0]" class="mt-2" />
+                    </div>
+                    
+                    <div>
                         <InputLabel for="username" value="Username" />
                         <TextInput
+                            :disabled="disabled"
                             id="username"
                             ref="username"
                             type="text"
                             class="mt-1 block w-full"
                             v-model="form.username"
-                            :class="{ 'border-rose-600': validation.username }"
+                            :class="{ 'border-rose-600': validation.username, 'bg-slate-200': disabled }"
                         />
                         <InputError v-if="validation.username" :message="validation.username[0]" class="mt-2" />
                     </div>
@@ -107,14 +118,20 @@ export default {
         Select,
         Footer
     },
+    props: {
+        prodis: Object
+    },
     setup(){
         const form = reactive({
             nama: '',
             username: '',
             email: '',
             password: '',
-            role: ''
+            role: '',
+            prodi: ''
         })
+
+        const disabled = ref(true)
 
         const validation = ref([])
 
@@ -125,7 +142,8 @@ export default {
                 username: form.username,
                 email: form.email,
                 password: form.password,
-                role: form.role
+                role: form.role,
+                prodi: form.prodi
             })
             .then((res) => {
                 Swal.fire({
@@ -133,7 +151,7 @@ export default {
                     title: res.data.title,
                     text: res.data.text
                 })
-                
+
                 router.get('/akuns')
             })
             .catch((err) => {
@@ -144,10 +162,16 @@ export default {
             })
         }
 
+        const setUsername = (nama, prodi) => {
+            form.username = nama+'_'+prodi
+        }
+
         return {
             form,
             validation,
-            submit
+            disabled,
+            submit,
+            setUsername
         }
     }
 }

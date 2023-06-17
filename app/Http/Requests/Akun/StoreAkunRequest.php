@@ -37,7 +37,9 @@ class StoreAkunRequest extends FormRequest
             'username' => 'required|string',
             'email' => 'required|email:rfc,dns',
             'password' => 'required|string',
-            'role' => 'required|numeric'
+            'role' => 'required|numeric',
+            'prodi' => 'required|string',
+            'id_mahasiswa' => 'nullable|numeric'
         ];
     }
 }

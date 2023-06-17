@@ -4,9 +4,7 @@
     <AuthenticatedLayout>
         <template #header>
             <div class="flex justify-between">
-                <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Tambah Akun</h2></div>
-                <!-- <div><PrimaryButton class="order-1 mt-[-10px]">Tambah Kelas</PrimaryButton></div> -->
-                <!-- <div class="order-1"><PrimaryButton>Tambah Akun</PrimaryButton></div> -->
+                <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Edit Akun</h2></div>
             </div>
         </template>
 
@@ -22,22 +20,34 @@
                             class="mt-1 block w-full"
                             v-model="form.nama"
                             :class="{ 'border-rose-600': validation.nama }"
+                            @change="setUsername(form.nama, form.prodi)"
                         />
                         <InputError v-if="validation.nama" :message="validation.nama[0]" class="mt-2" />
                     </div>
 
                     <div>
+                        <InputLabel for="prodi" value="Prodi"/>
+                        <Select class="mt-1 blobk w-full" v-model="form.prodi" @change="setUsername(form.nama, form.prodi)" :class="{ 'border-rose-600': validation.prodi }">
+                            <option selected disabled value="">-- Pilih --</option>
+                            <option v-for="prodi in prodis">{{ prodi.nama }}</option>
+                        </Select>
+                        <InputError v-if="validation.prodi" :message="validation.prodi[0]" class="mt-2" />
+                    </div>
+
+                    <div>
                         <InputLabel for="username" value="Username" />
                         <TextInput
+                            :disabled="disabled"
                             id="username"
                             ref="username"
                             type="text"
                             class="mt-1 block w-full"
                             v-model="form.username"
-                            :class="{ 'border-rose-600': validation.username }"
+                            :class="{ 'border-rose-600': validation.username, 'bg-slate-200': disabled }"
                         />
                         <InputError v-if="validation.username" :message="validation.username[0]" class="mt-2" />
                     </div>
+
                     <div>
                         <InputLabel for="email" value="Email" />
                         <TextInput
@@ -96,15 +106,19 @@ export default {
         Footer
     },
     props: {
-        id: Number
+        id: Number,
+        prodis: Object
     },
     setup(props){
         const form = reactive({
             nama: '',
             username: '',
             email: '',
-            role: ''
+            role: '',
+            prodi: ''
         })
+
+        const disabled = ref(true)
 
         const validation = ref([])
 
@@ -116,6 +130,7 @@ export default {
                 form.username = res.data.data.username
                 form.email = res.data.data.email
                 form.role = res.data.data.role
+                form.prodi = res.data.data.prodi
             })
             .catch((err) => {
                 console.log(err)
@@ -131,7 +146,8 @@ export default {
                 nama: form.nama,
                 username: form.username,
                 email: form.email,
-                role: form.role
+                role: form.role,
+                prodi: form.prodi
             })
             .then((res) => {
                 Swal.fire({
@@ -150,10 +166,16 @@ export default {
             })
         }
 
+        const setUsername = (nama, prodi) => {
+            form.username = nama+'_'+prodi
+        }
+
         return {
             form,
             validation,
-            submit
+            disabled,
+            submit,
+            setUsername
         }
     }
 }
