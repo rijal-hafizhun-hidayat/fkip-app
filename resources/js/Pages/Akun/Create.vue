@@ -75,17 +75,17 @@
 
                     <div>
                         <InputLabel for="role" value="Role"/>
-                        <Select class="mt-1 blobk w-full" v-model="form.role" :class="{ 'border-rose-600': validation.role }">
+                        <SelectInput class="mt-1 blobk w-full" v-model="form.role" :class="{ 'border-rose-600': validation.role }">
                             <option selected disabled value="">-- Pilih --</option>
                             <option value="1">Admin</option>
                             <option value="2">DPL</option>
                             <option value="3">Guru Pamong</option>
-                        </Select>
+                        </SelectInput>
                         <InputError v-if="validation.role" :message="validation.role[0]" class="mt-2" />
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <PrimaryButton >Save</PrimaryButton>
+                        <PrimaryButton>Save</PrimaryButton>
                     </div>
                 </form>
             </div>
@@ -100,7 +100,7 @@ import InputError from '@/Components/InputError.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import Select from '@/Components/Select.vue'
+import SelectInput from '@/Components/SelectInput.vue';
 import { Head, router } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
 import axios from 'axios';
@@ -115,7 +115,7 @@ export default {
         InputLabel,
         InputError,
         Dropdown,
-        Select,
+        SelectInput,
         Footer
     },
     props: {

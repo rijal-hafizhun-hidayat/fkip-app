@@ -22,7 +22,7 @@
                     </div>
                     <div class="mb-5">
                         <InputLabel for="prodi" value="prodi" />
-                        <Select v-model="form.prodi" class="mt-1 block w-full" required />
+                        <SelectInput v-model="form.prodi" class="mt-1 block w-full" required />
                         <InputError class="mt-2" />
                     </div>
                     <div>
@@ -42,11 +42,11 @@
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
-import Select from '@/Components/Select.vue';
+import SelectInput from '@/Components/SelectInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { reactive, ref } from 'vue';
 export default{
-    components: { InputError, InputLabel, PrimaryButton, TextInput, Select, PrimaryButton },
+    components: { InputError, InputLabel, PrimaryButton, TextInput, SelectInput, PrimaryButton },
     setup(){
         const form = reactive({
             nama: '',

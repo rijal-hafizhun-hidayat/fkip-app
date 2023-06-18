@@ -27,4 +27,10 @@ class AkunController extends Controller
             'prodis' => Prodi::all()
         ]);
     }
+
+    public function addMhs($id){
+        return Inertia::render('Akun/AddMhs', [
+            'id' => $id
+        ]);
+    }
 }

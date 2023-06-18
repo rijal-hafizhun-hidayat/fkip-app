@@ -30,11 +30,11 @@
                     <td v-else class="border-t items-center px-6 py-4">
                         Guru Pamong
                     </td>
-                    <td class="border-t">
+                    <td class="border-t items-center px-6 py-4">
                     <div class="flex flex-row space-x-4">
                         <DestroyButton @click="destroy(akun.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                         <UpdateButton @click="update(akun.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
-                        <MahasiswaButton><i class="fa-solid fa-user-plus text-white"></i></MahasiswaButton>
+                        <MahasiswaButton @click="addMhs(akun.id)"><i class="fa-solid fa-user-plus text-white"></i></MahasiswaButton>
                     </div>
                     
                     </td>
@@ -97,10 +97,15 @@ export default{
             router.get(`/akun/${id}`)
         }
 
+        const addMhs = (id) => {
+            router.get(`/akun/tambah-mahasiswa/${id}`)
+        }
+
         return {
             akuns,
             destroy,
-            update
+            update,
+            addMhs
         }
     }
 }

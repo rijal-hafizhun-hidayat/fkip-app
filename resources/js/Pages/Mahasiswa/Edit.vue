@@ -39,10 +39,10 @@
 
                     <div>
                         <InputLabel for="prodi" value="Prodi"/>
-                        <Select class="mt-1 blobk w-full" v-model="form.prodi" :class="{ 'border-rose-600': validation.prodi }">
+                        <SelectInput class="mt-1 blobk w-full" v-model="form.prodi" :class="{ 'border-rose-600': validation.prodi }">
                             <option selected disabled value="">-- Pilih --</option>
                             <option v-for="prodi in prodis">{{ prodi.nama }}</option>
-                        </Select>
+                        </SelectInput>
                         <InputError v-if="validation.prodi" :message="validation.prodi[0]" class="mt-2" />
                     </div>
                     
@@ -73,7 +73,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import Select from '@/Components/Select.vue'
+import SelectInput from '@/Components/SelectInput.vue';
 import { Head, router } from '@inertiajs/vue3';
 import axios from 'axios';
 import NProgress from 'nprogress';
@@ -86,7 +86,7 @@ export default {
         TextInput,
         InputLabel,
         InputError,
-        Select
+        SelectInput
     },
     props: {
         id: Number,

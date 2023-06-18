@@ -6,6 +6,7 @@ use App\Http\Controllers\Akun\AkunController;
 use App\Http\Controllers\Akun\Service\AkunService;
 use App\Http\Controllers\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\Mahasiswa\Service\MahasiswaService;
+use App\Http\Controllers\Mahasiswa\Service\MahasiswaImportService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -43,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/akuns', [AkunController::class, 'index'])->name('akun');
     Route::get('/akuns/create', [AkunController::class, 'create'])->name('akun.create');
     Route::get('/akun/{id}', [AkunController::class, 'show'])->name('akun.show');
+    Route::get('/akun/tambah-mahasiswa/{id}', [AkunController::class, 'addMhs'])->name('akun.addMhs');
 
     //service akun
     Route::get('/getAkuns', [AkunService::class, 'getAkuns'])->name('akun.getAkuns');
@@ -62,6 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/mahasiswa', [MahasiswaService::class, 'store'])->name('mahasiswa.store');
     Route::delete('/mahasiswa/{id}', [MahasiswaService::class, 'destroy'])->name('mahasiswa.destroy');
     Route::put('/mahasiswa/{id}', [MahasiswaService::class, 'update'])->name('mahasiswa.update');
+    Route::post('/mahasiswa/import', [MahasiswaImportService::class, 'import'])->name('mahasiswa.import');
 });
 
 require __DIR__.'/auth.php';
