@@ -7,6 +7,8 @@ use App\Http\Controllers\Akun\Service\AkunService;
 use App\Http\Controllers\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\Mahasiswa\Service\MahasiswaService;
 use App\Http\Controllers\Mahasiswa\Service\MahasiswaImportService;
+use App\Http\Controllers\Guru_Pamong\GuruPamongController;
+use App\Http\Controllers\Guru_Pamong\Service\GuruPamongService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,16 +43,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     //akun
-    Route::get('/akuns', [AkunController::class, 'index'])->name('akun');
-    Route::get('/akuns/create', [AkunController::class, 'create'])->name('akun.create');
+    Route::get('/akun', [AkunController::class, 'index'])->name('akun');
+    Route::get('/akun/create', [AkunController::class, 'create'])->name('akun.create');
     Route::get('/akun/{id}', [AkunController::class, 'show'])->name('akun.show');
     Route::get('/akun/tambah-mahasiswa/{id}', [AkunController::class, 'addMhs'])->name('akun.addMhs');
 
     //service akun
     Route::get('/getAkuns', [AkunService::class, 'getAkuns'])->name('akun.getAkuns');
     Route::get('/getAkunById/{id}', [AkunService::class, 'getAkunById'])->name('akun.getAkunById');
-    Route::post('/akuns', [AkunService::class, 'store'])->name('akun.store');
-    Route::delete('/akuns/{id}', [AkunService::class, 'destroy'])->name('akun.destroy');
+    Route::post('/akun', [AkunService::class, 'store'])->name('akun.store');
+    Route::delete('/akun/{id}', [AkunService::class, 'destroy'])->name('akun.destroy');
     Route::put('/akun/{id}', [AkunService::class, 'update'])->name('akun.update');
 
     //mahasiswa
@@ -65,6 +67,17 @@ Route::middleware('auth')->group(function () {
     Route::delete('/mahasiswa/{id}', [MahasiswaService::class, 'destroy'])->name('mahasiswa.destroy');
     Route::put('/mahasiswa/{id}', [MahasiswaService::class, 'update'])->name('mahasiswa.update');
     Route::post('/mahasiswa/import', [MahasiswaImportService::class, 'import'])->name('mahasiswa.import');
+
+    //guru pamong
+    Route::get('/guru-pamong', [GuruPamongController::class, 'index'])->name('guru_pamong');
+    Route::get('/guru-pamong/create', [GuruPamongController::class, 'create'])->name('guru_pamong.create');
+    Route::get('/guru-pamong/{id}', [GuruPamongController::class, 'show'])->name('guru_pamong.show');
+
+    //service guru pamong
+    Route::get('/getGuruPamongs', [GuruPamongService::class, 'getGuruPamongs'])->name('guru_pamong.getGuruPamongs');
+    Route::post('/guru-pamong', [GuruPamongService::class, 'store'])->name('guru_pamong.store');
+    Route::get('/getGuruPamongById/{id}', [GuruPamongService::class, 'getGuruPamongById'])->name('guru_pamong.getGuruPamongById');
+    Route::put('/guru-pamong/{id}', [GuruPamongService::class, 'update'])->name('guru_pamong.update');
 });
 
 require __DIR__.'/auth.php';

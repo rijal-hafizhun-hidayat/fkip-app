@@ -75,7 +75,7 @@ export default{
 
         const destroy = (id) => {
             NProgress.start()
-            axios.delete(`/akuns/${id}`)
+            axios.delete(`/akun/${id}`)
             .then((res) => {
                 Swal.fire({
                     icon: 'success',

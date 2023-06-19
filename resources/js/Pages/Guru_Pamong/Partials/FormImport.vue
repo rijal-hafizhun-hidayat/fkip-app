@@ -1,0 +1,69 @@
+<template>
+    <form @submit.prevent="submit" class="mt-6 space-y-6">
+        <div>
+            <InputLabel for="excel" value="Import File Excel"/>
+            <input @input="form.excel = $event.target.files[0]" class="mt-3 border-rose-600" type="file" id="excel">
+            <InputError class="mt-4" v-if="validation.excel" :message="validation.excel[0]"/>
+        </div>
+       
+        <div class="flex items-center gap-4">
+            <PrimaryButton>Import</PrimaryButton>
+        </div>
+    </form>
+</template>
+<script>
+import InputLabel from '@/Components/InputLabel.vue';
+import NProgress from 'nprogress';
+import axios from 'axios';
+import { reactive, ref } from 'vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import InputError from '@/Components/InputError.vue';
+import Swal from 'sweetalert2';
+import { router } from '@inertiajs/vue3'
+export default{
+    components: {
+        PrimaryButton,
+        InputLabel,
+        InputError
+    },
+    setup(){
+        const form = reactive({
+            excel: ''
+        })
+
+        const validation = ref([])
+
+        const submit = () => {
+            NProgress.start()
+            axios.post('/mahasiswa/import', {
+                excel: form.excel
+            }, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then((res) => {
+                Swal.fire({
+                    icon: 'success',
+                    title: res.data.title,
+                    text: res.data.text
+                })
+
+                router.get('/mahasiswa')
+            })
+            .catch((err) => {
+                validation.value = err.response.data.errors
+            })
+            .finally(() => {
+                NProgress.done()
+            })
+        }
+
+        return {
+            form,
+            validation,
+            submit
+        }
+    }
+}
+</script>

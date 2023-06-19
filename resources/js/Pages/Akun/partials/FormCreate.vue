@@ -119,7 +119,7 @@ export default {
 
         const submit = () => {
             NProgress.start()
-            axios.post('/akuns', {
+            axios.post('/akun', {
                 nama: form.nama,
                 username: form.username,
                 email: form.email,
