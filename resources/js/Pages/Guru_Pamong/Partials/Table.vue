@@ -66,7 +66,24 @@ export default{
         }
 
         const destroy = (id) => {
-            console.log(id)
+            NProgress.start()
+            axios.delete(`/guru-pamong/${id}`)
+            .then((res) => {
+                Swal.fire({
+                    icon: 'success',
+                    title: res.data.title,
+                    text: res.data.text
+                })
+
+                router.get('/guru-pamong')
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() => {
+                NProgress.done()
+            })
+
         }
 
         return {

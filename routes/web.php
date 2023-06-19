@@ -9,6 +9,7 @@ use App\Http\Controllers\Mahasiswa\Service\MahasiswaService;
 use App\Http\Controllers\Mahasiswa\Service\MahasiswaImportService;
 use App\Http\Controllers\Guru_Pamong\GuruPamongController;
 use App\Http\Controllers\Guru_Pamong\Service\GuruPamongService;
+use App\Http\Controllers\Guru_Pamong\Service\GuruPamongImportService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -78,6 +79,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/guru-pamong', [GuruPamongService::class, 'store'])->name('guru_pamong.store');
     Route::get('/getGuruPamongById/{id}', [GuruPamongService::class, 'getGuruPamongById'])->name('guru_pamong.getGuruPamongById');
     Route::put('/guru-pamong/{id}', [GuruPamongService::class, 'update'])->name('guru_pamong.update');
+    Route::delete('/guru-pamong/{id}', [GuruPamongService::class, 'destroy'])->name('guru_pamong.destroy');
+    Route::post('/guru-pamong/import', [GuruPamongImportService::class, 'import'])->name('guru_pamong.import');
 });
 
 require __DIR__.'/auth.php';

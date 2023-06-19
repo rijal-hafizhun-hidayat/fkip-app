@@ -2,16 +2,20 @@
 
 namespace App\Imports;
 
+use App\Models\GuruPamong;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
+use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithUpserts;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class GuruPamongImport implements ToCollection
+class GuruPamongImport implements ToModel, WithHeadingRow
 {
-    /**
-    * @param Collection $collection
-    */
-    public function collection(Collection $collection)
-    {
-        //
+    public function model(array $row){
+        return new GuruPamong([
+            'nama' => $row['nama'],
+            'asal' => $row['asal'],
+            'asal_sekolah' => $row['asal_sekolah']
+        ]);
     }
 }

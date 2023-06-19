@@ -30,6 +30,11 @@ class GuruPamongService extends Controller
         return $this->responseService(null, 200, true, 'Berhasil', 'Berhasul Ubah Data');
     }
 
+    public function destroy($id){
+        GuruPamong::destroy($id);
+        return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil Hapus Data');
+    }
+
     private function responseService($data, $code, $status, $title, $text){
         $response = [
             'data' => $data,
