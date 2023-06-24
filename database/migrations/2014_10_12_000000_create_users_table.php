@@ -20,7 +20,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('prodi');
-            $table->json('id_mahasiswa')->nullable();
+            $table->bigInteger('id_dpl')->nullable();
+            $table->bigInteger('id_guru_pamong')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

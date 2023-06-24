@@ -1,10 +1,10 @@
 <template>
-    <Head title="Tambah Akun" />
+    <Head title="Tambah Dpl" />
 
     <AuthenticatedLayout>
         <template #header>
             <div class="flex justify-between">
-                <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Tambah Akun</h2></div>
+                <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Tambah Dpl</h2></div>
             </div>
         </template>
 
@@ -14,24 +14,42 @@
                     <PrimaryButton @click="clickForm(false)">Manual</PrimaryButton>
                     <PrimaryButton @click="clickForm(true)">Import</PrimaryButton>
                 </div>
-                <FormCreate :guruPamongs="guruPamongs" :prodis="prodis"/>
+                <FormCreate v-if="!isClick" :prodis="prodis"/>
+                <FormImport v-if="isClick"/>
             </div>
         </div>
     </AuthenticatedLayout>
 </template>
 <script>
+import { ref } from 'vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import FormCreate from './partials/FormCreate.vue';
+import FormCreate from './Partials/FormCreate.vue';
+import FormImport from './Partials/FormImport.vue';
 export default {
     components: {
         AuthenticatedLayout,
         Head,
-        FormCreate
+        FormCreate,
+        FormImport,
+        PrimaryButton
     },
     props: {
         guruPamongs: Object,
         prodis: Object
+    },
+    setup(){
+        const isClick= ref(false);
+
+        const clickForm = (isBool) => {
+            isClick.value = isBool
+        }
+
+        return {
+            isClick,
+            clickForm
+        }
     }
 }
 </script>

@@ -21,10 +21,11 @@ class User extends Authenticatable
         'nama',
         'username',
         'email',
-        'password',
         'role',
+        'password',
         'prodi',
-        'id_mahasiswa'
+        'id_dpl',
+        'id_guru_pamong'
     ];
 
     /**

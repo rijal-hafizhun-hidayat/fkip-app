@@ -10,6 +10,8 @@ use App\Http\Controllers\Mahasiswa\Service\MahasiswaImportService;
 use App\Http\Controllers\Guru_Pamong\GuruPamongController;
 use App\Http\Controllers\Guru_Pamong\Service\GuruPamongService;
 use App\Http\Controllers\Guru_Pamong\Service\GuruPamongImportService;
+use App\Http\Controllers\Dpl\DplController;
+use App\Http\Controllers\Dpl\Service\DplService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -81,6 +83,18 @@ Route::middleware('auth')->group(function () {
     Route::put('/guru-pamong/{id}', [GuruPamongService::class, 'update'])->name('guru_pamong.update');
     Route::delete('/guru-pamong/{id}', [GuruPamongService::class, 'destroy'])->name('guru_pamong.destroy');
     Route::post('/guru-pamong/import', [GuruPamongImportService::class, 'import'])->name('guru_pamong.import');
+
+    //dpl
+    Route::get('/dpl', [DplController::class, 'index'])->name('dpl');
+    Route::get('/dpl/create', [DplController::class, 'create'])->name('dpl.create');
+    Route::get('/dpl/{id}', [DplController::class, 'show'])->name('dpl.show');
+
+    //service dpl
+    Route::get('/getDpls', [DplService::class, 'getDpls'])->name('dpl.getDpls');
+    Route::get('/getDplById/{id}', [DplService::class, 'getDplById'])->name('dpl.getDplById');
+    Route::post('/dpl', [DplService::class, 'store'])->name('dpl.store');
+    Route::delete('/dpl/{id}', [DplService::class, 'destroy'])->name('dpl.destroy');
+    Route::put('/dpl/{id}', [DplService::class, 'update'])->name('dpl.update');
 });
 
 require __DIR__.'/auth.php';

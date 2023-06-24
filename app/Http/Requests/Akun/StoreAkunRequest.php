@@ -39,7 +39,8 @@ class StoreAkunRequest extends FormRequest
             'password' => 'required|string',
             'role' => 'required|numeric',
             'prodi' => 'required|string',
-            'id_mahasiswa' => 'nullable|numeric'
+            'id_dpl' => 'nullable|numeric',
+            'id_guru_pamong' => 'nullable|numeric'
         ];
     }
 }

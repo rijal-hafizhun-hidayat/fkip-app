@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Akun;
+namespace App\Http\Requests\Dpl;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class UpdateAkunRequest extends FormRequest
+class UpdateDplRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,14 +15,13 @@ class UpdateAkunRequest extends FormRequest
         return Auth::check();
     }
 
-
     public function messages(): array
     {
         return [
-            'required' => 'Wajib diisi',
-            'string' => 'Wajib dalam bentuk teks',
-            'numeric' => 'Wajib dalam bentuk angka',
-            'email' => 'Wajib format email'
+            'required' => 'wajib diisi',
+            'numeric' => 'wajib dalam bentuk angka',
+            'string' => 'wajib dalam bentuk teks',
+            'email' => 'email wajib dengan format yang sesuai'
         ];
     }
 
@@ -34,13 +33,10 @@ class UpdateAkunRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_depan' => 'required|string',
-            'nama_belakang' => 'required|string',
-            'username' => 'required|string',
-            'email' => 'required|email:rfc,dns',
-            'role' => 'required|numeric',
+            'nipy' => 'required|numeric',
+            'nama' => 'required|string',
             'prodi' => 'required|string',
-            'id_mahasiswa' => 'nullable|numeric'
+            'email' => 'required|email:rfc,dns'
         ];
     }
 }

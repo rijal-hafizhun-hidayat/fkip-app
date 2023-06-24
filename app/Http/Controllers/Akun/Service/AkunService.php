@@ -7,6 +7,7 @@ use App\Http\Requests\Akun\StoreAkunRequest;
 use App\Http\Requests\Akun\UpdateAkunRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AkunService extends Controller
 {
@@ -16,7 +17,19 @@ class AkunService extends Controller
     }
 
     public function store(StoreAkunRequest $request){
+        //dd($request->validated());
         User::create($request->validated());
+        // dd($request->nama_depan.' '.$request->nama_belakang);
+        // $user = new User;
+        // $user->nama = $request->nama_depan.' '.$request->nama_belakang;
+        // $user->username = $request->username;
+        // $user->email = $request->email;
+        // $user->role = $request->role;
+        // $user->password = Hash::make($request->password);
+        // $user->prodi = $request->prodi;
+        // $user->id_dpl = $request->id_dpl;
+        // $user->id_guru_pamong = $request->id_guru_pamong;
+        // $user->save();
         return $this->responseService(null, 200, true, 'Berhasil', 'Tambah Akun Berhasil');
     }
 

@@ -3,8 +3,7 @@
         <div>
             <InputLabel for="nama" value="Nama" />
             <TextInput
-                id="nama"
-                ref="nama"
+                id="nama_depan"
                 type="text"
                 class="mt-1 block w-full"
                 v-model="form.nama"
@@ -72,6 +71,12 @@
             <InputError v-if="validation.role" :message="validation.role[0]" class="mt-2" />
         </div>
 
+        <div>
+            <InputLabel for="id_dpl" value="Guru Pamong"/>
+            <Multiselect :class="{ 'border-rose-600': validation.id_guru_pamong }" v-model="form.id_guru_pamong" :custom-label="nameWithLang" :options="guruPamongs"></Multiselect>
+            <InputError v-if="validation.id_guru_pamong" :message="validation.id_guru_pamong[0]" class="mt-2" />
+        </div>
+
         <div class="flex items-center gap-4">
             <PrimaryButton>Save</PrimaryButton>
         </div>
@@ -90,6 +95,8 @@ import Footer from '@/Components/Footer.vue';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import Swal from 'sweetalert2'
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.css'
 export default {
     components: {
         PrimaryButton,
@@ -98,25 +105,26 @@ export default {
         InputError,
         Dropdown,
         SelectInput,
-        Footer
+        Footer,
+        Multiselect
     },
     props: {
+        guruPamongs: Object,
         prodis: Object
     },
-    setup(){
+    setup(props){
         const form = reactive({
             nama: '',
             username: '',
             email: '',
             password: '',
             role: '',
-            prodi: ''
+            prodi: '',
+            id_guru_pamong: '',
+            id_dpl: ''
         })
-
         const disabled = ref(true)
-
         const validation = ref([])
-
         const submit = () => {
             NProgress.start()
             axios.post('/akun', {
@@ -125,7 +133,9 @@ export default {
                 email: form.email,
                 password: form.password,
                 role: form.role,
-                prodi: form.prodi
+                prodi: form.prodi,
+                id_guru_pamong: form.id_guru_pamong.id,
+                id_dpl: form.id_dpl.id
             })
             .then((res) => {
                 Swal.fire({
@@ -134,7 +144,7 @@ export default {
                     text: res.data.text
                 })
 
-                router.get('/akuns')
+                router.get('/akun')
             })
             .catch((err) => {
                 validation.value = err.response.data.errors
@@ -145,7 +155,12 @@ export default {
         }
 
         const setUsername = (nama, prodi) => {
-            form.username = nama+'_'+prodi
+            let firstWord = nama.split(" ")[0]
+            form.username = firstWord+'_'+prodi
+        }
+
+        const nameWithLang = ({nama}) => {
+            return nama
         }
 
         return {
@@ -153,8 +168,10 @@ export default {
             validation,
             disabled,
             submit,
-            setUsername
+            setUsername,
+            nameWithLang
         }
     }
 }
 </script>
+<!-- <style src="vue-multiselect/dist/vue-multiselect.min.css"></style> -->
