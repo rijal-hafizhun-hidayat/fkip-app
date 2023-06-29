@@ -34,7 +34,6 @@
                     <div class="flex flex-row space-x-4">
                         <DestroyButton @click="destroy(akun.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                         <UpdateButton @click="update(akun.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
-                        <MahasiswaButton @click="addMhs(akun.id)"><i class="fa-solid fa-user-plus text-white"></i></MahasiswaButton>
                     </div>
                     
                     </td>
@@ -52,11 +51,10 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
-import MahasiswaButton from '@/Components/MahasiswaButton.vue';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 export default{
-    components: { DestroyButton, UpdateButton, MahasiswaButton },
+    components: { DestroyButton, UpdateButton },
     setup(){
         const akuns = ref([])
         onMounted(() => {
@@ -97,15 +95,10 @@ export default{
             router.get(`/akun/${id}`)
         }
 
-        const addMhs = (id) => {
-            router.get(`/akun/tambah-mahasiswa/${id}`)
-        }
-
         return {
             akuns,
             destroy,
-            update,
-            addMhs
+            update
         }
     }
 }

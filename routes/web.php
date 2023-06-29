@@ -12,6 +12,7 @@ use App\Http\Controllers\Guru_Pamong\Service\GuruPamongService;
 use App\Http\Controllers\Guru_Pamong\Service\GuruPamongImportService;
 use App\Http\Controllers\Dpl\DplController;
 use App\Http\Controllers\Dpl\Service\DplService;
+use App\Http\Controllers\Dpl\Service\DplImportService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -57,6 +58,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/akun', [AkunService::class, 'store'])->name('akun.store');
     Route::delete('/akun/{id}', [AkunService::class, 'destroy'])->name('akun.destroy');
     Route::put('/akun/{id}', [AkunService::class, 'update'])->name('akun.update');
+    Route::get('/getGuruPamongByIdGuruPamong/{id}', [AkunService::class, 'getGuruPamongByIdGuruPamong'])->name('akun.getGuruPamongByIdGuruPamong');
+    Route::get('/getDplByIdDpl/{id}', [AkunService::class, 'getDplByIdDpl'])->name('akun.getDplByIdDpl');
+    Route::put('/destroyAsosiasiGuruPamong/{id}', [AkunService::class, 'destroyAsosiasiGuruPamong'])->name('akun.destroyAsosiasiGuruPamong');
+    Route::put('/destroyAsosiasiDpl/{id}', [AkunService::class, 'destroyAsosiasiDpl'])->name('akun.destroyAsosiasiDpl');
 
     //mahasiswa
     Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
@@ -88,13 +93,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/dpl', [DplController::class, 'index'])->name('dpl');
     Route::get('/dpl/create', [DplController::class, 'create'])->name('dpl.create');
     Route::get('/dpl/{id}', [DplController::class, 'show'])->name('dpl.show');
+    Route::get('/dpl/guru-pamong/{id}', [DplController::class, 'dplGuruPamong'])->name('dpl.dplGuruPamong');
 
     //service dpl
     Route::get('/getDpls', [DplService::class, 'getDpls'])->name('dpl.getDpls');
     Route::get('/getDplById/{id}', [DplService::class, 'getDplById'])->name('dpl.getDplById');
+    Route::get('/getDplGuruPamongById/{id}', [DplService::class, 'getDplGuruPamongById'])->name('dpl.getDplGuruPamongById');
     Route::post('/dpl', [DplService::class, 'store'])->name('dpl.store');
     Route::delete('/dpl/{id}', [DplService::class, 'destroy'])->name('dpl.destroy');
     Route::put('/dpl/{id}', [DplService::class, 'update'])->name('dpl.update');
+    Route::post('/dpl/import', [DplImportService::class, 'import'])->name('dpl.import');
+    Route::put('/storeGuruPamong/{id}', [DplService::class, 'storeGuruPamong'])->name('dpl.storeGuruPamong');
+    Route::get('/getGuruPamongsIsNull', [DplService::class, 'getGuruPamongsIsNull'])->name('dpl.getGuruPamongsIsNull');
+    Route::put('/destroyAssociationGuruPamong/{id}', [DplService::class, 'destroyAssociationGuruPamong'])->name('dpl.destroyAssociationGuruPamong');
 });
 
 require __DIR__.'/auth.php';

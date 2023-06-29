@@ -25,4 +25,10 @@ class DplController extends Controller
             'id' => $id
         ]);
     }
+
+    public function dplGuruPamong($id){
+        return Inertia::render('Dpl/AddGuruPamong', [
+            'id' => $id
+        ]);
+    }
 }

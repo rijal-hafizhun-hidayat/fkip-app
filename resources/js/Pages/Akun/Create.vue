@@ -10,11 +10,7 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
-                <div class="space-x-4">
-                    <PrimaryButton @click="clickForm(false)">Manual</PrimaryButton>
-                    <PrimaryButton @click="clickForm(true)">Import</PrimaryButton>
-                </div>
-                <FormCreate :guruPamongs="guruPamongs" :prodis="prodis"/>
+                <FormCreate :guruPamongs="guruPamongs" :prodis="prodis" :dpls="dpls"/>
             </div>
         </div>
     </AuthenticatedLayout>
@@ -31,7 +27,8 @@ export default {
     },
     props: {
         guruPamongs: Object,
-        prodis: Object
+        prodis: Object,
+        dpls: Object
     }
 }
 </script>

@@ -8,10 +8,12 @@
             </div>
         </template>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 pb-10 sm:px-6 lg:px-8">
             <div class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
-                <FormUpdate :id="id" :prodis="prodis"/>
+                <FormUpdate :id="id" :prodis="prodis" :guruPamongs="guruPamongs" :dpls="dpls"/>
             </div>
+            <TableDpl v-if="roleAkun == 2" :id="id"/>
+            <TableGuruPamong v-if="roleAkun == 3" :id="id"/>
         </div>
     </AuthenticatedLayout>
 </template>
@@ -19,15 +21,22 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import FormUpdate from './partials/FormUpdate.vue';
+import TableDpl from './partials/TableDpl.vue'
+import TableGuruPamong from './partials/TableGuruPamong.vue';
 export default {
     components: {
         AuthenticatedLayout,
         Head,
-        FormUpdate
+        FormUpdate,
+        TableDpl,
+        TableGuruPamong
     },
     props: {
         id: Number,
-        prodis: Object
+        prodis: Object,
+        guruPamongs: Object,
+        dpls: Object,
+        roleAkun: Number
     }
 }
 </script>

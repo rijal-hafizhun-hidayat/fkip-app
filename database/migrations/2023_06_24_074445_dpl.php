@@ -17,7 +17,6 @@ return new class extends Migration
             $table->bigInteger('nipy')->unique();
             $table->string('email');
             $table->string('prodi');
-            $table->bigInteger('id_guru_pamong')->unique()->nullable();
             $table->timestamps();
         });
     }

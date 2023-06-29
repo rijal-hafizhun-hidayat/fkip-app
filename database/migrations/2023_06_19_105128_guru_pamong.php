@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('asal');
             $table->string('asal_sekolah');
             $table->bigInteger('id_dpl')->nullable();
-            $table->bigInteger('id_mahasiswa')->nullable();
             $table->timestamps();
         });
     }

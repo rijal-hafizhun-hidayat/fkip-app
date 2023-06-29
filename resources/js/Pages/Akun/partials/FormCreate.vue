@@ -71,10 +71,16 @@
             <InputError v-if="validation.role" :message="validation.role[0]" class="mt-2" />
         </div>
 
-        <div>
-            <InputLabel for="id_dpl" value="Guru Pamong"/>
-            <Multiselect :class="{ 'border-rose-600': validation.id_guru_pamong }" v-model="form.id_guru_pamong" :custom-label="nameWithLang" :options="guruPamongs"></Multiselect>
+        <div v-if="form.role == 3">
+            <InputLabel for="id_guru_pamong" value="Guru Pamong"/>
+            <Multiselect v-model="form.id_guru_pamong" :custom-label="nameWithLang" :options="guruPamongs"></Multiselect>
             <InputError v-if="validation.id_guru_pamong" :message="validation.id_guru_pamong[0]" class="mt-2" />
+        </div>
+
+        <div v-if="form.role == 2">
+            <InputLabel for="id_dpl" value="Dpl"/>
+            <Multiselect v-model="form.id_dpl" :custom-label="nameWithLang" :options="dpls"></Multiselect>
+            <InputError v-if="validation.id_dpl" :message="validation.id_dpl[0]" class="mt-2" />
         </div>
 
         <div class="flex items-center gap-4">
@@ -110,7 +116,8 @@ export default {
     },
     props: {
         guruPamongs: Object,
-        prodis: Object
+        prodis: Object,
+        dpls: Object
     },
     setup(props){
         const form = reactive({

@@ -7,16 +7,17 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithUpserts;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class DplImport implements ToModel, WithUpserts
+class DplImport implements ToModel, WithUpserts, WithHeadingRow
 {
     public function model(array $row)
     {
         return new Dpl([
-            'nama' => $row[1],
-            'nipy' => $row[0],
-            'email' => $row[2],
-            'prodi' => $row[3]
+            'nama' => $row['nama'],
+            'nipy' => $row['nip_niy'],
+            'email' => $row['email'],
+            'prodi' => $row['prodi']
         ]);
     }
 

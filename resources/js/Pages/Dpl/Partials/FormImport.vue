@@ -35,7 +35,7 @@ export default{
 
         const submit = () => {
             NProgress.start()
-            axios.post('/mahasiswa/import', {
+            axios.post('/dpl/import', {
                 excel: form.excel
             }, {
                 headers: {
@@ -49,7 +49,7 @@ export default{
                     text: res.data.text
                 })
 
-                router.get('/mahasiswa')
+                router.get('/dpl')
             })
             .catch((err) => {
                 validation.value = err.response.data.errors

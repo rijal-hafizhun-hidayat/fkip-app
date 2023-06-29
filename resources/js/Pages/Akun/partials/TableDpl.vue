@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
+    <div class="bg-white rounded-md shadow-md overflow-x-auto mt-10">
         <table class="w-full whitespace-nowrap">
             <thead>
                 <tr class="text-left font-bold">
@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="dpl in dpls" :key="dpl.id" class="hover:bg-gray-100">
+                <tr v-for="dpl in dplByIdDpl" :key="dpl.id" class="hover:bg-gray-100">
                     <td class="border-t items-center px-6 py-4">
                         {{ dpl.nipy }}
                     </td>
@@ -26,13 +26,11 @@
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
-                            <DestroyButton @click="destroy(dpl.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                            <UpdateButton @click="update(dpl.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
-                            <DetailButton @click="addBimbinganGuruPamong(dpl.id)"><i class="fa-solid fa-person-circle-plus fa-xl"></i></DetailButton>
+                            <DestroyButton @click="destroyAsosiasiDpl"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                         </div>
                     </td>
                 </tr>
-            <tr v-if="dpls.length === 0">
+            <tr v-if="dplByIdDpl.length == 0">
                 <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
             </tr>
             </tbody>
@@ -44,31 +42,28 @@ import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import DestroyButton from '@/Components/DestroyButton.vue';
-import UpdateButton from '@/Components/UpdateButton.vue';
-import DetailButton from '@/Components/DetailButton.vue';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 export default{
-    components: { DestroyButton, UpdateButton, DetailButton },
-    setup(){
-        const dpls = ref([])
+    components: { DestroyButton },
+    props: {
+        id: Number
+    },
+    setup(props){
+        const dplByIdDpl = ref([])
+
         onMounted(() => {
-            NProgress.start()
-            axios.get('getDpls')
+            axios.get(`/getDplByIdDpl/${props.id}`)
             .then((res) => {
-                dpls.value = res.data.data
+                dplByIdDpl.value = res.data.data
             })
             .catch((err) => {
                 console.log(err)
             })
-            .finally(() => {
-                NProgress.done()
-            })
         })
 
-        const destroy = (id) => {
-            NProgress.start()
-            axios.delete(`/dpl/${id}`)
+        const destroyAsosiasiDpl = () => {
+            axios.put(`/destroyAsosiasiDpl/${props.id}`)
             .then((res) => {
                 Swal.fire({
                     icon: 'success',
@@ -76,29 +71,16 @@ export default{
                     text: res.data.text
                 })
 
-                router.get('/dpl')
+                router.get('/akun')
             })
             .catch((err) => {
                 console.log(err)
             })
-            .finally(() => {
-                NProgress.done()
-            })
-        }
-
-        const update = (id) => {
-            router.get(`/dpl/${id}`)
-        }
-
-        const addBimbinganGuruPamong = (id) => {
-            router.get(`/dpl/guru-pamong/${id}`)
         }
 
         return {
-            dpls,
-            destroy,
-            update,
-            addBimbinganGuruPamong
+            dplByIdDpl,
+            destroyAsosiasiDpl
         }
     }
 }

@@ -34,13 +34,13 @@ class UpdateAkunRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_depan' => 'required|string',
-            'nama_belakang' => 'required|string',
+            'nama' => 'required|string',
             'username' => 'required|string',
             'email' => 'required|email:rfc,dns',
             'role' => 'required|numeric',
             'prodi' => 'required|string',
-            'id_mahasiswa' => 'nullable|numeric'
+            'id_dpl' => 'nullable|numeric',
+            'id_guru_pamong' => 'nullable|numeric'
         ];
     }
 }

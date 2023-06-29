@@ -60,8 +60,20 @@
             <InputError v-if="validation.role" :message="validation.role[0]" class="mt-2" />
         </div>
 
+        <div v-if="form.role == 3">
+            <InputLabel for="id_guru_pamong" value="Guru Pamong"/>
+            <Multiselect :class="{ 'border-rose-600': validation.id_guru_pamong }" v-model="form.id_guru_pamong" :custom-label="nameWithLang" label="nama" :options="guruPamongs"></Multiselect>
+            <InputError v-if="validation.id_guru_pamong" :message="validation.id_guru_pamong[0]" class="mt-2" />
+        </div>
+        
+        <div v-if="form.role == 2">
+            <InputLabel for="id_dpl" value="Dpl"/>
+            <Multiselect :class="{ 'border-rose-600': validation.id_dpl }" v-model="form.id_dpl" :custom-label="nameWithLang" label="nama" :options="dpls"></Multiselect>
+            <InputError v-if="validation.id_dpl" :message="validation.id_dpl[0]" class="mt-2" />
+        </div>
+
         <div class="flex items-center gap-4">
-            <PrimaryButton >Save</PrimaryButton>
+            <PrimaryButton>Save</PrimaryButton>
         </div>
     </form>
 </template>
@@ -78,6 +90,8 @@ import Footer from '@/Components/Footer.vue';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import Swal from 'sweetalert2'
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.css'
 export default {
     components: {
         PrimaryButton,
@@ -86,11 +100,14 @@ export default {
         InputError,
         Dropdown,
         SelectInput,
-        Footer
+        Footer,
+        Multiselect
     },
     props: {
         id: Number,
-        prodis: Object
+        prodis: Object,
+        guruPamongs: Object,
+        dpls: Object
     },
     setup(props){
         const form = reactive({
@@ -98,11 +115,13 @@ export default {
             username: '',
             email: '',
             role: '',
-            prodi: ''
+            prodi: '',
+            id_guru_pamong: '',
+            id_dpl: ''
         })
 
         const disabled = ref(true)
-
+        const value = ref('vuex')
         const validation = ref([])
 
         onMounted(() => {
@@ -124,13 +143,16 @@ export default {
         })
 
         const submit = () => {
+            //console.log(form.id_guru_pamong, form.id_dpl.id)
             NProgress.start()
             axios.put(`/akun/${props.id}`, {
                 nama: form.nama,
                 username: form.username,
                 email: form.email,
                 role: form.role,
-                prodi: form.prodi
+                prodi: form.prodi,
+                id_dpl: form.id_dpl.id,
+                id_guru_pamong: form.id_guru_pamong.id
             })
             .then((res) => {
                 Swal.fire({
@@ -139,7 +161,7 @@ export default {
                     text: res.data.text
                 })
                 
-                router.get('/akuns')
+                router.get('/akun')
             })
             .catch((err) => {
                 validation.value = err.response.data.errors
@@ -153,12 +175,23 @@ export default {
             form.username = nama+'_'+prodi
         }
 
+        const nameWithLang = ({nama}) => {
+            return nama
+        }
+
+        const updateValueAction = ({ commit }, value) => {
+            commit('updateValue', value)
+        }
+
         return {
             form,
             validation,
             disabled,
+            value,
             submit,
-            setUsername
+            setUsername,
+            nameWithLang,
+            updateValueAction,
         }
     }
 }
