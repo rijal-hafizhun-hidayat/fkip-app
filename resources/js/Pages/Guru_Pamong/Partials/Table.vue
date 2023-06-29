@@ -24,12 +24,13 @@
                         <div class="flex flex-row space-x-4">
                             <DestroyButton @click="destroy(guruPamong.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton @click="show(guruPamong.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
+                            <DetailButton @click="addAsosiasiMahasiswa(guruPamong.id)"><i class="fa-solid fa-person-circle-plus fa-xl"></i></DetailButton>
                         </div>
                     </td>
                 </tr>
-            <!-- <tr v-if="mahasiswas.length === 0">
-                <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
-            </tr> -->
+            <tr v-if="guruPamongs.length === 0">
+                <td class="px-6 py-4 text-center border-t" colspan="4">No data found.</td>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -40,10 +41,11 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
+import DetailButton from '@/Components/DetailButton.vue';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 export default{
-    components: { DestroyButton, UpdateButton },
+    components: { DestroyButton, UpdateButton, DetailButton },
     setup(){
         const guruPamongs = ref([])
 
@@ -86,10 +88,15 @@ export default{
 
         }
 
+        const addAsosiasiMahasiswa = (id) => {
+            router.get(`/guru-pamong/mahasiswa/${id}`)
+        }
+
         return {
             guruPamongs,
             show,
-            destroy
+            destroy,
+            addAsosiasiMahasiswa
         }
     }
 }
