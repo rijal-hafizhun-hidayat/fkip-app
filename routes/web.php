@@ -46,22 +46,24 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    //akun
-    Route::get('/akun', [AkunController::class, 'index'])->name('akun');
-    Route::get('/akun/create', [AkunController::class, 'create'])->name('akun.create');
-    Route::get('/akun/{id}', [AkunController::class, 'show'])->name('akun.show');
-    Route::get('/akun/tambah-mahasiswa/{id}', [AkunController::class, 'addMhs'])->name('akun.addMhs');
+    Route::middleware('isAdmin')->group(function (){
+        //akun
+        Route::get('/akun', [AkunController::class, 'index'])->name('akun');
+        Route::get('/akun/create', [AkunController::class, 'create'])->name('akun.create');
+        Route::get('/akun/{id}', [AkunController::class, 'show'])->name('akun.show');
+        Route::get('/akun/tambah-mahasiswa/{id}', [AkunController::class, 'addMhs'])->name('akun.addMhs');
 
-    //service akun
-    Route::get('/getAkuns', [AkunService::class, 'getAkuns'])->name('akun.getAkuns');
-    Route::get('/getAkunById/{id}', [AkunService::class, 'getAkunById'])->name('akun.getAkunById');
-    Route::post('/akun', [AkunService::class, 'store'])->name('akun.store');
-    Route::delete('/akun/{id}', [AkunService::class, 'destroy'])->name('akun.destroy');
-    Route::put('/akun/{id}', [AkunService::class, 'update'])->name('akun.update');
-    Route::get('/getGuruPamongByIdGuruPamong/{id}', [AkunService::class, 'getGuruPamongByIdGuruPamong'])->name('akun.getGuruPamongByIdGuruPamong');
-    Route::get('/getDplByIdDpl/{id}', [AkunService::class, 'getDplByIdDpl'])->name('akun.getDplByIdDpl');
-    Route::put('/destroyAsosiasiGuruPamong/{id}', [AkunService::class, 'destroyAsosiasiGuruPamong'])->name('akun.destroyAsosiasiGuruPamong');
-    Route::put('/destroyAsosiasiDpl/{id}', [AkunService::class, 'destroyAsosiasiDpl'])->name('akun.destroyAsosiasiDpl');
+        //service akun
+        Route::get('/getAkuns', [AkunService::class, 'getAkuns'])->name('akun.getAkuns');
+        Route::get('/getAkunById/{id}', [AkunService::class, 'getAkunById'])->name('akun.getAkunById');
+        Route::post('/akun', [AkunService::class, 'store'])->name('akun.store');
+        Route::delete('/akun/{id}', [AkunService::class, 'destroy'])->name('akun.destroy');
+        Route::put('/akun/{id}', [AkunService::class, 'update'])->name('akun.update');
+        Route::get('/getGuruPamongByIdGuruPamong/{id}', [AkunService::class, 'getGuruPamongByIdGuruPamong'])->name('akun.getGuruPamongByIdGuruPamong');
+        Route::get('/getDplByIdDpl/{id}', [AkunService::class, 'getDplByIdDpl'])->name('akun.getDplByIdDpl');
+        Route::put('/destroyAsosiasiGuruPamong/{id}', [AkunService::class, 'destroyAsosiasiGuruPamong'])->name('akun.destroyAsosiasiGuruPamong');
+        Route::put('/destroyAsosiasiDpl/{id}', [AkunService::class, 'destroyAsosiasiDpl'])->name('akun.destroyAsosiasiDpl');
+    });
 
     //mahasiswa
     Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
