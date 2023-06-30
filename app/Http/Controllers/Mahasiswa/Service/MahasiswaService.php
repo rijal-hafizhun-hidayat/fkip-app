@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Mahasiswa\Service;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Mahasiswa\StoreMahasiswaRequest;
 use App\Http\Requests\Mahasiswa\UpdateMahasiswaRequest;
+use Illuminate\Support\Facades\DB;
+use App\Models\GuruPamong;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
@@ -33,6 +35,27 @@ class MahasiswaService extends Controller
     public function destroy($id){
         Mahasiswa::destroy($id);
         return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil Hapus Mahasiswa');
+    }
+
+    public function getMahasiswaGuruPamongById($id){
+        try {
+            $mahasiswa = DB::table('guru_pamong')->join('mahasiswa', 'guru_pamong.id', '=', 'mahasiswa.id_guru_pamong')->select(
+                'mahasiswa.id',
+                'mahasiswa.nama',
+                'mahasiswa.nim',
+                'mahasiswa.prodi',
+                'mahasiswa.email',
+                'guru_pamong.nama AS nama_guru_pamong',
+                'mahasiswa.n_komponen_satu',
+                'mahasiswa.n_komponen_dua',
+                'mahasiswa.n_komponen_tiga',
+                'mahasiswa.n_komponen_empat',
+                'mahasiswa.nilai'
+                )->where('mahasiswa.id', $id)->first();
+            return $this->responseService($mahasiswa, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, $e);
+        }
     }
 
     private function responseService($data, $code, $status, $title, $text){

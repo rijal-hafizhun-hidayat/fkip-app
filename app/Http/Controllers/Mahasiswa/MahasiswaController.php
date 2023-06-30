@@ -25,4 +25,10 @@ class MahasiswaController extends Controller
             'id' => $id
         ]);
     }
+
+    public function nilai($id){
+        return Inertia::render('Mahasiswa/Nilai', [
+            'id' => $id
+        ]);
+    }
 }

@@ -8,7 +8,7 @@
             </div>
         </template>
 
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-7">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-7">
             <div class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
                 <FormAddMahasiswa :id="id"/>
             </div>

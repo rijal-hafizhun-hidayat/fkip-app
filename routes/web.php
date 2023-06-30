@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
     Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
     Route::get('/mahasiswa/{id}', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
+    Route::get('/mahasiswa/nilai/{id}', [MahasiswaController::class, 'nilai'])->name('mahasiswa.nilai');
 
     //service mahasiswa
     Route::get('/getMahasiswa', [MahasiswaService::class, 'getMahasiswa'])->name('mahasiswa.getMahasiswa');
@@ -77,6 +78,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/mahasiswa/{id}', [MahasiswaService::class, 'destroy'])->name('mahasiswa.destroy');
     Route::put('/mahasiswa/{id}', [MahasiswaService::class, 'update'])->name('mahasiswa.update');
     Route::post('/mahasiswa/import', [MahasiswaImportService::class, 'import'])->name('mahasiswa.import');
+    Route::get('/getMahasiswaGuruPamongById/{id}', [MahasiswaService::class, 'getMahasiswaGuruPamongById'])->name('mahasiswa.getMahasiswaGuruPamongById');
 
     //guru pamong
     Route::get('/guru-pamong', [GuruPamongController::class, 'index'])->name('guru_pamong');

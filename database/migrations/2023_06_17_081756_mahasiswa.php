@@ -18,6 +18,11 @@ return new class extends Migration
             $table->string('nama');
             $table->string('email');
             $table->string('prodi');
+            $table->integer('n_komponen_satu')->nullable();
+            $table->integer('n_komponen_dua')->nullable();
+            $table->integer('n_komponen_tiga')->nullable();
+            $table->integer('n_komponen_empat')->nullable();
+            $table->integer('nilai')->nullable();
             $table->timestamps();
         });
     }

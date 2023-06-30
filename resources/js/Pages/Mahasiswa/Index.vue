@@ -4,7 +4,7 @@
     <AuthenticatedLayout>
         <template #header>
             <div class="flex justify-between">
-                <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Akun</h2></div>
+                <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Mahasiswa</h2></div>
                 <!-- <div><PrimaryButton class="order-1 mt-[-10px]">Tambah Kelas</PrimaryButton></div> -->
                 <div class="order-1"><PrimaryButton @click="create">Tambah Mahasiswa</PrimaryButton></div>
             </div>

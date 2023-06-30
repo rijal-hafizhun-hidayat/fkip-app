@@ -28,6 +28,7 @@
                         <div class="flex flex-row space-x-4">
                             <DestroyButton @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
+                            <DetailButton @click="addNilai(mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
                         </div>
                     </td>
                 </tr>
@@ -44,10 +45,11 @@ import axios from 'axios';
 import NProgress from 'nprogress';
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
+import DetailButton from '@/Components/DetailButton.vue';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 export default{
-    components: { DestroyButton, UpdateButton },
+    components: { DestroyButton, UpdateButton, DetailButton },
     setup(){
         const mahasiswas = ref([])
 
@@ -89,10 +91,15 @@ export default{
             })
         }
 
+        const addNilai = (id) => {
+            router.get(`/mahasiswa/nilai/${id}`)
+        }
+
         return {
             mahasiswas,
             show,
-            destroy
+            destroy,
+            addNilai
         }
     }
 }
