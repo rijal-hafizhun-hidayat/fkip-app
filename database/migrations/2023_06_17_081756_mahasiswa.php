@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('n_komponen_dua')->nullable();
             $table->integer('n_komponen_tiga')->nullable();
             $table->integer('n_komponen_empat')->nullable();
-            $table->integer('nilai')->nullable();
+            $table->decimal('nilai', $precision = 8, $scale = 1)->nullable();
             $table->timestamps();
         });
     }

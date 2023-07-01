@@ -8,7 +8,9 @@
                 type="text"
                 class="mt-1 block w-full bg-slate-200"
                 v-model="form.nama"
+                :class="{ 'border-rose-600': validation.nama }"
             />
+            <InputError v-if="validation.nama" :message="validation.nama[0]" class="mt-2" />
         </div>
         <div class="flex">
             <InputLabel for="nim" class="basis-1/4 mt-3" value="Nim" />
@@ -18,45 +20,55 @@
                 type="text"
                 class="mt-1 block w-full bg-slate-200"
                 v-model="form.nim"
+                :class="{ 'border-rose-600': validation.nim }"
             />
+            <InputError v-if="validation.nim" :message="validation.nim[0]" class="mt-2" />
         </div>
         <div class="flex">
             <InputLabel for="n_komponen_satu" class="basis-1/5 mt-3" value="Nilai Komponen 1" />
             <InputLikertScale
                 class="mt-2.5 block"
-                :name="n_komponen_satu"
+                :name="'n_komponen_satu'"
                 v-model="form.n_komponen_satu"
+                :class="{ 'border-rose-600': validation.n_komponen_satu }"
             />
+            <InputError v-if="validation.n_komponen_satu" :message="validation.n_komponen_satu[0]" class="mt-3 ml-3" />
         </div>
         <div class="flex">
             <InputLabel for="n_komponen_dua" class="basis-1/5 mt-3" value="Nilai Komponen 2" />
             <InputLikertScale
                 class="mt-2.5 block"
-                :name="n_komponen_dua"
+                :name="'n_komponen_dua'"
                 v-model="form.n_komponen_dua"
+                :class="{ 'border-rose-600': validation.n_komponen_dua }"
             />
+            <InputError v-if="validation.n_komponen_dua" :message="validation.n_komponen_dua[0]" class="mt-3 ml-3" />
         </div>
         <div class="flex">
             <InputLabel for="n_komponen_tiga" class="basis-1/5 mt-3" value="Nilai Komponen 3" />
             <InputLikertScale
                 class="mt-2.5 block"
-                :name="n_komponen_tiga"
+                :name="'n_komponen_tiga'"
                 v-model="form.n_komponen_tiga"
+                :class="{ 'border-rose-600': validation.n_komponen_tiga }"
             />
+            <InputError v-if="validation.n_komponen_tiga" :message="validation.n_komponen_tiga[0]" class="mt-3 ml-3" />
         </div>
         <div class="flex">
-            <InputLabel for="n_komponen_empat" class="basis-1/5 mt-3" value="Nilai Komponen 4" />
+            <InputLabel for="n_komponen_empat" class="md:basis-1/5 mt-3" value="Nilai Komponen 4" />
             <InputLikertScale
                 class="mt-2.5 block"
-                :name="n_komponen_empat"
+                :name="'n_komponen_empat'"
                 v-model="form.n_komponen_empat"
+                :class="{ 'border-rose-600': validation.n_komponen_empat }"
             />
+            <InputError v-if="validation.n_komponen_empat" :message="validation.n_komponen_empat[0]" class="mt-3 ml-3" />
         </div>
         <PrimaryButton>Submit</PrimaryButton>
     </form>
 </template>
 <script>
-import { reactive, onMounted } from 'vue'
+import { reactive, onMounted, ref } from 'vue'
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
@@ -85,6 +97,8 @@ export default {
 
         })
 
+        const validation = ref([])
+
         onMounted(() => {
             axios.get(`/getMahasiswaGuruPamongById/${props.id}`)
             .then((res) => {
@@ -97,11 +111,25 @@ export default {
         })
 
         const submit = () => {
-            console.log(form)
+            axios.put(`/updateNilai/${props.id}`, {
+                nama: form.nama,
+                nim: form.nim,
+                n_komponen_satu: form.n_komponen_satu,
+                n_komponen_dua: form.n_komponen_dua,
+                n_komponen_tiga: form.n_komponen_tiga,
+                n_komponen_empat: form.n_komponen_empat,
+            })
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                validation.value = err.response.data.errors
+            })
         }
 
         return {
             form,
+            validation,
             submit
         }
     }

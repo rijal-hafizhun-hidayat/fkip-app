@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Mahasiswa\Service;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Mahasiswa\StoreMahasiswaRequest;
 use App\Http\Requests\Mahasiswa\UpdateMahasiswaRequest;
+use App\Http\Requests\Mahasiswa\UpdateNilaiMahasiswa;
 use Illuminate\Support\Facades\DB;
 use App\Models\GuruPamong;
 use App\Models\Mahasiswa;
@@ -56,6 +57,23 @@ class MahasiswaService extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, $e);
         }
+    }
+
+    public function updateNilai(UpdateNilaiMahasiswa $request, $id){
+        $data = $this->setNilai($request->validated());
+        try {
+            Mahasiswa::where('id', $id)->update($data);
+            return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil Update Nilai');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, $e);
+        }
+    }
+
+    private function setNilai($credential){
+        $nilai = ($credential['n_komponen_satu'] + $credential['n_komponen_dua'] + $credential['n_komponen_tiga'] + $credential['n_komponen_empat']) / 4;
+        $credential['nilai'] = $nilai;
+
+        return $credential;
     }
 
     private function responseService($data, $code, $status, $title, $text){

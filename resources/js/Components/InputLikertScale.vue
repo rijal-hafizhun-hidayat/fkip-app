@@ -1,5 +1,5 @@
 <script setup>
-    defineProps({
+    const props = defineProps({
         modelValue: {
             type: String,
             required: true,
@@ -12,18 +12,18 @@
     defineEmits(['update:modelValue']);
 </script>
 <template>
-    <ul class="likert space-x-4">
-        <li>Tidak Bagus</li>
-        <li><input type="radio" :name="name" value="25" @input="$emit('update:modelValue', $event.target.value)" /></li>
-        <li><input type="radio" :name="name" value="50" @input="$emit('update:modelValue', $event.target.value)" /></li>
-        <li><input type="radio" :name="name" value="75" @input="$emit('update:modelValue', $event.target.value)" /></li>
-        <li><input type="radio" :name="name" value="100" @input="$emit('update:modelValue', $event.target.value)" /></li>
-        <li>Sangat Bagus</li>
+    <ul class="space-x-4">
+        <li class="float-left list-none">Tidak Bagus</li>
+        <li class="float-left list-none"><input type="radio" :name="props.name" value="25" @input="$emit('update:modelValue', $event.target.value)" /></li>
+        <li class="float-left list-none"><input type="radio" :name="props.name" value="50" @input="$emit('update:modelValue', $event.target.value)" /></li>
+        <li class="float-left list-none"><input type="radio" :name="props.name" value="75" @input="$emit('update:modelValue', $event.target.value)" /></li>
+        <li class="float-left list-none"><input type="radio" :name="props.name" value="100" @input="$emit('update:modelValue', $event.target.value)" /></li>
+        <li class="float-left list-none">Sangat Bagus</li>
     </ul>
 </template>
 <style scoped>
-    .likert li {
+    /* .likert li {
         float: left;
         list-style-type: none;
-    }
+    } */
 </style>

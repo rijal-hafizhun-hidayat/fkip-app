@@ -79,6 +79,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/mahasiswa/{id}', [MahasiswaService::class, 'update'])->name('mahasiswa.update');
     Route::post('/mahasiswa/import', [MahasiswaImportService::class, 'import'])->name('mahasiswa.import');
     Route::get('/getMahasiswaGuruPamongById/{id}', [MahasiswaService::class, 'getMahasiswaGuruPamongById'])->name('mahasiswa.getMahasiswaGuruPamongById');
+    Route::put('/updateNilai/{id}', [MahasiswaService::class, 'updateNilai'])->name('mahasiswa.updateNilai');
 
     //guru pamong
     Route::get('/guru-pamong', [GuruPamongController::class, 'index'])->name('guru_pamong');
