@@ -18,6 +18,15 @@ class MahasiswaService extends Controller
         return $this->responseService($mahasiswa, 200, true, null, null);
     }
 
+    public function getMahasiswaByIdAkun($id){
+        try {
+            $mahasiswa = Mahasiswa::where('id_guru_pamong', $id)->get();
+            return $this->responseService($mahasiswa, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, null);
+        }
+    }
+
     public function getMahasiswaById($id){
         $mahasiswa = Mahasiswa::find($id);
         return $this->responseService($mahasiswa, 200, true, null, null);
@@ -40,19 +49,7 @@ class MahasiswaService extends Controller
 
     public function getMahasiswaGuruPamongById($id){
         try {
-            $mahasiswa = DB::table('guru_pamong')->join('mahasiswa', 'guru_pamong.id', '=', 'mahasiswa.id_guru_pamong')->select(
-                'mahasiswa.id',
-                'mahasiswa.nama',
-                'mahasiswa.nim',
-                'mahasiswa.prodi',
-                'mahasiswa.email',
-                'guru_pamong.nama AS nama_guru_pamong',
-                'mahasiswa.n_komponen_satu',
-                'mahasiswa.n_komponen_dua',
-                'mahasiswa.n_komponen_tiga',
-                'mahasiswa.n_komponen_empat',
-                'mahasiswa.nilai'
-                )->where('mahasiswa.id', $id)->first();
+            $mahasiswa = Mahasiswa::find($id);
             return $this->responseService($mahasiswa, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, $e);
@@ -70,7 +67,7 @@ class MahasiswaService extends Controller
     }
 
     private function setNilai($credential){
-        $nilai = ($credential['n_komponen_satu'] + $credential['n_komponen_dua'] + $credential['n_komponen_tiga'] + $credential['n_komponen_empat']) / 4;
+        $nilai = ($credential['n_komponen_satu'] + $credential['n_komponen_dua'] + $credential['n_komponen_tiga'] + $credential['n_komponen_empat'] + $credential['n_komponen_lima']) / 5;
         $credential['nilai'] = $nilai;
 
         return $credential;

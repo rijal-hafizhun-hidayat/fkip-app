@@ -50,14 +50,27 @@ import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 export default{
     components: { DestroyButton, UpdateButton, DetailButton },
-    setup(){
+    props: {
+        user: Object
+    },
+    setup(props){
         const mahasiswas = ref([])
+        console.log(props.user.role)
 
         onMounted(() => {
+            if(props.user.role == 3){
+                getMahasiswaByIdGuruPamong(props.user.id_guru_pamong)
+            }
+            else{
+                getMahasiswa()
+            }
+            
+        })
+
+        const getMahasiswa = () => {
             NProgress.start()
             axios.get('/getMahasiswa')
             .then((res) => {
-                console.log(res.data)
                 mahasiswas.value = res.data.data
             })
             .catch((err) => {
@@ -66,7 +79,21 @@ export default{
             .finally(() => {
                 NProgress.done()
             })
-        })
+        }
+
+        const getMahasiswaByIdGuruPamong = (id) => {
+            NProgress.start()
+            axios.get(`/getMahasiswaByIdAkun/${id}`)
+            .then((res) => {
+                mahasiswas.value = res.data.data
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() => {
+                NProgress.done()
+            })
+        }
 
         const show = (id) => {
             router.get(`/mahasiswa/${id}`)
@@ -97,6 +124,8 @@ export default{
 
         return {
             mahasiswas,
+            getMahasiswa,
+            getMahasiswaByIdGuruPamong,
             show,
             destroy,
             addNilai

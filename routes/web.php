@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::middleware('isAdmin')->group(function (){
+
         //akun
         Route::get('/akun', [AkunController::class, 'index'])->name('akun');
         Route::get('/akun/create', [AkunController::class, 'create'])->name('akun.create');
@@ -65,21 +66,29 @@ Route::middleware('auth')->group(function () {
         Route::put('/destroyAsosiasiDpl/{id}', [AkunService::class, 'destroyAsosiasiDpl'])->name('akun.destroyAsosiasiDpl');
     });
 
-    //mahasiswa
-    Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
-    Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
-    Route::get('/mahasiswa/{id}', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
-    Route::get('/mahasiswa/nilai/{id}', [MahasiswaController::class, 'nilai'])->name('mahasiswa.nilai');
+    Route::middleware('isAdminGuruPamong')->group(function(){
+        
+        //mahasiswa
+        Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
+        Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
+        Route::get('/mahasiswa/{id}', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
+        Route::get('/mahasiswa/nilai/{id}', [MahasiswaController::class, 'nilai'])->name('mahasiswa.nilai');
 
-    //service mahasiswa
-    Route::get('/getMahasiswa', [MahasiswaService::class, 'getMahasiswa'])->name('mahasiswa.getMahasiswa');
-    Route::get('/getMahasiswaById/{id}', [MahasiswaService::class, 'getMahasiswaById'])->name('mahasiswa.getMahasiswaById');
-    Route::post('/mahasiswa', [MahasiswaService::class, 'store'])->name('mahasiswa.store');
-    Route::delete('/mahasiswa/{id}', [MahasiswaService::class, 'destroy'])->name('mahasiswa.destroy');
-    Route::put('/mahasiswa/{id}', [MahasiswaService::class, 'update'])->name('mahasiswa.update');
-    Route::post('/mahasiswa/import', [MahasiswaImportService::class, 'import'])->name('mahasiswa.import');
-    Route::get('/getMahasiswaGuruPamongById/{id}', [MahasiswaService::class, 'getMahasiswaGuruPamongById'])->name('mahasiswa.getMahasiswaGuruPamongById');
-    Route::put('/updateNilai/{id}', [MahasiswaService::class, 'updateNilai'])->name('mahasiswa.updateNilai');
+        //service mahasiswa
+        Route::get('/getMahasiswa', [MahasiswaService::class, 'getMahasiswa'])->name('mahasiswa.getMahasiswa');
+        Route::get('/getMahasiswaById/{id}', [MahasiswaService::class, 'getMahasiswaById'])->name('mahasiswa.getMahasiswaById');
+        Route::post('/mahasiswa', [MahasiswaService::class, 'store'])->name('mahasiswa.store');
+        Route::delete('/mahasiswa/{id}', [MahasiswaService::class, 'destroy'])->name('mahasiswa.destroy');
+        Route::put('/mahasiswa/{id}', [MahasiswaService::class, 'update'])->name('mahasiswa.update');
+        Route::post('/mahasiswa/import', [MahasiswaImportService::class, 'import'])->name('mahasiswa.import');
+        Route::get('/getMahasiswaGuruPamongById/{id}', [MahasiswaService::class, 'getMahasiswaGuruPamongById'])->name('mahasiswa.getMahasiswaGuruPamongById');
+        Route::put('/updateNilai/{id}', [MahasiswaService::class, 'updateNilai'])->name('mahasiswa.updateNilai');
+
+        //service mahasiswa by guru pamong
+        Route::get('/getMahasiswaByIdAkun/{id}', [MahasiswaService::class, 'getMahasiswaByIdAkun'])->name('mahasiswa.getMahasiswaByIdAkun');
+    });
+
+    
 
     //guru pamong
     Route::get('/guru-pamong', [GuruPamongController::class, 'index'])->name('guru_pamong');

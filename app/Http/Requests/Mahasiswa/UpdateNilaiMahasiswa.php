@@ -35,10 +35,11 @@ class UpdateNilaiMahasiswa extends FormRequest
         return [
             'nama' => 'required|string',
             'nim' => 'required|numeric|min_digits:10|max_digits:10',
-            'n_komponen_satu' => 'nullable|numeric',
-            'n_komponen_dua' => 'nullable|numeric',
-            'n_komponen_tiga' => 'nullable|numeric',
-            'n_komponen_empat' => 'nullable|numeric',
+            'n_komponen_satu' => 'required|numeric',
+            'n_komponen_dua' => 'required|numeric',
+            'n_komponen_tiga' => 'required|numeric',
+            'n_komponen_empat' => 'required|numeric',
+            'n_komponen_lima' => 'required|numeric',
         ];
     }
 }

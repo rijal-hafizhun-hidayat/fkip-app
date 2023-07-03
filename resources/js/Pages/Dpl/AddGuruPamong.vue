@@ -10,17 +10,17 @@
 
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
-                <FormAddGuruPamong :id="id"/>
+                <FormAddGuruPamong :id="id" />
             </div>
             <TableGuruPamong :id="id"/>
         </div>
     </AuthenticatedLayout>
 </template>
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import FormAddGuruPamong from './Partials/FormAddGuruPamong.vue';
 import TableGuruPamong from './Partials/TableGuruPamong.vue';
 export default {
@@ -33,6 +33,15 @@ export default {
     },
     props: {
         id: Number
+    },
+    setup(){
+        const page = usePage()
+        const user = computed(() => page.props.auth.user)
+
+        return {
+            page,
+            user
+        }
     }
 }
 </script>

@@ -11,24 +11,30 @@
         </template>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Table />
+            <Table :user="user" />
         </div>
     </AuthenticatedLayout>
 </template>
 <script>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import Table from './Partials/Table.vue';
 import { router } from '@inertiajs/vue3'
+import { computed } from 'vue'
 export default {
     components: { AuthenticatedLayout, Head, PrimaryButton, Table },
     setup(){
+        const page = usePage()
+        const user = computed(() => page.props.auth.user)
+
         const create = () => {
             router.get('/mahasiswa/create')
         }
 
         return {
+            page,
+            user,
             create
         }
     }

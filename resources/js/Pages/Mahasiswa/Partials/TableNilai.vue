@@ -10,7 +10,6 @@
                     <th class="pb-4 pt-6 px-6">Nilai Komponen 3</th>
                     <th class="pb-4 pt-6 px-6">Nilai Komponen 4</th>
                     <th class="pb-4 pt-6 px-6">Nilai</th>
-                    <th class="pb-4 pt-6 px-6">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,15 +35,7 @@
                     <td class="border-t items-center px-6 py-4">
                         {{ mahasiswa.nilai }}
                     </td>
-                    <td class="border-t items-center px-6 py-4">
-                        <div class="flex flex-row space-x-4">
-                            <UpdateButton><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
-                        </div>
-                    </td>
                 </tr>
-            <!-- <tr v-if="mahasiswas.length === 0">
-                <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
-            </tr> -->
             </tbody>
         </table>
     </div>
@@ -79,7 +70,6 @@ export default{
                 mahasiswa.n_komponen_tiga = res.data.data.n_komponen_tiga
                 mahasiswa.n_komponen_empat = res.data.data.n_komponen_empat
                 mahasiswa.nilai = res.data.data.nilai
-                console.log(res)
             })
             .catch((err) => {
                 console.log(err)

@@ -64,6 +64,16 @@
             />
             <InputError v-if="validation.n_komponen_empat" :message="validation.n_komponen_empat[0]" class="mt-3 ml-3" />
         </div>
+        <div class="flex">
+            <InputLabel for="n_komponen_lima" class="md:basis-1/5 mt-3" value="Nilai Komponen 4" />
+            <InputLikertScale
+                class="mt-2.5 block"
+                :name="'n_komponen_lima'"
+                v-model="form.n_komponen_lima"
+                :class="{ 'border-rose-600': validation.n_komponen_lima }"
+            />
+            <InputError v-if="validation.n_komponen_lima" :message="validation.n_komponen_lima[0]" class="mt-3 ml-3" />
+        </div>
         <PrimaryButton>Submit</PrimaryButton>
     </form>
 </template>
@@ -95,7 +105,8 @@ export default {
             n_komponen_satu: '',
             n_komponen_dua: '',
             n_komponen_tiga: '',
-            n_komponen_empat: ''
+            n_komponen_empat: '',
+            n_komponen_lima: ''
 
         })
 
@@ -111,7 +122,7 @@ export default {
                 form.n_komponen_dua = res.data.data.n_komponen_dua
                 form.n_komponen_tiga = res.data.data.n_komponen_tiga
                 form.n_komponen_empat = res.data.data.n_komponen_empat
-                console.log(form)
+                form.n_komponen_lima = res.data.data.n_komponen_lima
             })
             .catch((err) => {
                 console.log(err)
@@ -126,6 +137,7 @@ export default {
                 n_komponen_dua: form.n_komponen_dua,
                 n_komponen_tiga: form.n_komponen_tiga,
                 n_komponen_empat: form.n_komponen_empat,
+                n_komponen_lima: form.n_komponen_lima,
             })
             .then((res) => {
                 Swal.fire({
