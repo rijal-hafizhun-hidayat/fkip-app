@@ -117,7 +117,7 @@ export default {
         }
 
         const getGuruPamongs = () => {
-            axios.get('/getGuruPamongs')
+            axios.get('/getGuruPamongsIsNull')
             .then((res) => {
                 guruPamongs.value = res.data.data
             })

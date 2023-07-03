@@ -97,6 +97,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/getMahasiswaByIdGuruPamong/{id}', [GuruPamongService::class, 'getMahasiswaByIdGuruPamong'])->name('guru_pamong.getMahasiswaByIdGuruPamong');
     Route::put('/storeAsosiasiMahasiswa/{id}', [GuruPamongService::class, 'storeAsosiasiMahasiswa'])->name('guru_pamong.storeAsosiasiMahasiswa');
     Route::put('/destroyAsosiasiMahasiswa/{id}', [GuruPamongService::class, 'destroyAsosiasiMahasiswa'])->name('guru_pamong.destroyAsosiasiMahasiswa');
+    Route::get('/getMahasiswaIsNull', [GuruPamongService::class, 'getMahasiswaIsNull'])->name('guru_pamong.getMahasiswaIsNull');
 
     //dpl
     Route::get('/dpl', [DplController::class, 'index'])->name('dpl');

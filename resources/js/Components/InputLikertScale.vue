@@ -1,5 +1,5 @@
 <script setup>
-    const props = defineProps({
+    defineProps({
         modelValue: {
             type: String,
             required: true,
@@ -14,10 +14,10 @@
 <template>
     <ul class="space-x-4">
         <li class="float-left list-none">Tidak Bagus</li>
-        <li class="float-left list-none"><input type="radio" :name="props.name" value="25" @input="$emit('update:modelValue', $event.target.value)" /></li>
-        <li class="float-left list-none"><input type="radio" :name="props.name" value="50" @input="$emit('update:modelValue', $event.target.value)" /></li>
-        <li class="float-left list-none"><input type="radio" :name="props.name" value="75" @input="$emit('update:modelValue', $event.target.value)" /></li>
-        <li class="float-left list-none"><input type="radio" :name="props.name" value="100" @input="$emit('update:modelValue', $event.target.value)" /></li>
+        <li class="float-left list-none"><input type="radio" :name="name" :value="'25'" @input="$emit('update:modelValue', $event.target.value)" :checked="modelValue === 25"/></li>
+        <li class="float-left list-none"><input type="radio" :name="name" :value="'50'" @input="$emit('update:modelValue', $event.target.value)" :checked="modelValue === 50"/></li>
+        <li class="float-left list-none"><input type="radio" :name="name" :value="'75'" @input="$emit('update:modelValue', $event.target.value)" :checked="modelValue === 75"/></li>
+        <li class="float-left list-none"><input type="radio" :name="name" :value="'100'" @input="$emit('update:modelValue', $event.target.value)" :checked="modelValue === 100"/></li>
         <li class="float-left list-none">Sangat Bagus</li>
     </ul>
 </template>

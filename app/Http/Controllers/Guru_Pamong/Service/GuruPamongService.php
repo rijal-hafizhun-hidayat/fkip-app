@@ -54,6 +54,15 @@ class GuruPamongService extends Controller
         }
     }
 
+    public function getMahasiswaIsNull(){
+        try {
+            $mahasiswaIsNull = Mahasiswa::whereNull('id_guru_pamong')->get();
+            return $this->responseService($mahasiswaIsNull, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e);
+        }
+    }
+
     public function destroyAsosiasiMahasiswa($id){
         try {
             Mahasiswa::where('id', $id)->update(['id_guru_pamong' => null]);

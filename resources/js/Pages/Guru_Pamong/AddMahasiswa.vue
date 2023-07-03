@@ -4,7 +4,7 @@
     <AuthenticatedLayout>
         <template #header>
             <div class="flex justify-between">
-                <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Tambah Asosiasi Mahasiswa</h2></div>
+                <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Tambah Guru Pamong Asosiasi Mahasiswa</h2></div>
             </div>
         </template>
 

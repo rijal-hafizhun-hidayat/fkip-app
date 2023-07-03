@@ -92,7 +92,7 @@ export default {
         }
 
         const getMahasiswa = () => {
-            axios.get('/getMahasiswa')
+            axios.get('/getMahasiswaIsNull')
             .then((res) => {
                 console.log(res)
                 mahasiswa.value = res.data.data

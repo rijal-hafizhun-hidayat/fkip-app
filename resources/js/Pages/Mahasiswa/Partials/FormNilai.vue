@@ -75,6 +75,8 @@ import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputLikertScale from '@/Components/InputLikertScale.vue'
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import { router } from '@inertiajs/vue3'
 export default {
     components: {
         TextInput,
@@ -102,8 +104,14 @@ export default {
         onMounted(() => {
             axios.get(`/getMahasiswaGuruPamongById/${props.id}`)
             .then((res) => {
+                console.log(res)
                 form.nama = res.data.data.nama
                 form.nim = res.data.data.nim
+                form.n_komponen_satu = res.data.data.n_komponen_satu
+                form.n_komponen_dua = res.data.data.n_komponen_dua
+                form.n_komponen_tiga = res.data.data.n_komponen_tiga
+                form.n_komponen_empat = res.data.data.n_komponen_empat
+                console.log(form)
             })
             .catch((err) => {
                 console.log(err)
@@ -120,7 +128,13 @@ export default {
                 n_komponen_empat: form.n_komponen_empat,
             })
             .then((res) => {
-                console.log(res)
+                Swal.fire({
+                    icon: 'success',
+                    title: res.data.title,
+                    text: res.data.text
+                })
+
+                router.get(`/mahasiswa/nilai/${props.id}`)
             })
             .catch((err) => {
                 validation.value = err.response.data.errors

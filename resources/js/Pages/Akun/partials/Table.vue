@@ -38,9 +38,9 @@
                     
                     </td>
                 </tr>
-            <!-- <tr v-if="organizations.data.length === 0">
-                <td class="px-6 py-4 border-t" colspan="4">No organizations found.</td>
-            </tr> -->
+            <tr v-if="akuns.length === 0">
+                <td class="px-6 py-4 text-center border-t" colspan="5">No organizations found.</td>
+            </tr>
             </tbody>
         </table>
     </div>
