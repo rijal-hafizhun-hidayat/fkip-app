@@ -28,8 +28,12 @@ class MahasiswaService extends Controller
     }
 
     public function getMahasiswaById($id){
-        $mahasiswa = Mahasiswa::find($id);
-        return $this->responseService($mahasiswa, 200, true, null, null);
+        try {
+            $mahasiswa = Mahasiswa::find($id);
+            return $this->responseService($mahasiswa, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, $e);
+        }
     }
 
     public function store(StoreMahasiswaRequest $request){
@@ -45,15 +49,6 @@ class MahasiswaService extends Controller
     public function destroy($id){
         Mahasiswa::destroy($id);
         return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil Hapus Mahasiswa');
-    }
-
-    public function getMahasiswaGuruPamongById($id){
-        try {
-            $mahasiswa = Mahasiswa::find($id);
-            return $this->responseService($mahasiswa, 200, true, null, null);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return $this->responseService(null, 400, false, null, $e);
-        }
     }
 
     public function updateNilai(UpdateNilaiMahasiswa $request, $id){

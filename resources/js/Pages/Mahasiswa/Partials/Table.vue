@@ -26,8 +26,8 @@
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
-                            <DestroyButton @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                            <UpdateButton @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
+                            <DestroyButton v-if="user.role == 1" @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
+                            <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
                             <DetailButton @click="addNilai(mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
                         </div>
                     </td>
@@ -55,7 +55,6 @@ export default{
     },
     setup(props){
         const mahasiswas = ref([])
-        console.log(props.user.role)
 
         onMounted(() => {
             if(props.user.role == 3){

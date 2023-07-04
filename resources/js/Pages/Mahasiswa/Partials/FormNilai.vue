@@ -113,7 +113,7 @@ export default {
         const validation = ref([])
 
         onMounted(() => {
-            axios.get(`/getMahasiswaGuruPamongById/${props.id}`)
+            axios.get(`/getMahasiswaById/${props.id}`)
             .then((res) => {
                 console.log(res)
                 form.nama = res.data.data.nama

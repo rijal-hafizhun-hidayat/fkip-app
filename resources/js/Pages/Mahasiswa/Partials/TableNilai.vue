@@ -61,7 +61,7 @@ export default{
         })
 
         onMounted(() => {
-            axios.get(`/getMahasiswaGuruPamongById/${props.id}`)
+            axios.get(`/getMahasiswaById/${props.id}`)
             .then((res) => {
                 mahasiswa.nim = res.data.data.nim
                 mahasiswa.nama = res.data.data.nama

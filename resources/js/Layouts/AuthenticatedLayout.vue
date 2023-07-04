@@ -1,16 +1,18 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 import Footer from '@/Components/Footer.vue';
 
 const showingNavigationDropdown = ref(false);
-const icon = ref('')
-icon.value = 'images/icons/Logo-UAD-Hitam-Putihpng.png'
+
+const page = usePage()
+const user = computed(() => page.props.auth.user)
+
 </script>
 
 <template>
@@ -38,16 +40,16 @@ icon.value = 'images/icons/Logo-UAD-Hitam-Putihpng.png'
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink :href="route('akun')" :active="route().current('akun')">
+                                <NavLink v-if="user.role == 1" :href="route('akun')" :active="route().current('akun')">
                                     Akun
                                 </NavLink>
-                                <NavLink :href="route('mahasiswa')" :active="route().current('mahasiswa')">
+                                <NavLink v-if="user.role == 1 || user.role == 3" :href="route('mahasiswa')" :active="route().current('mahasiswa')">
                                     Mahasiswa
                                 </NavLink>
-                                <NavLink :href="route('dpl')" :active="route().current('dpl')">
+                                <NavLink v-if="user.role == 1 || user.role == 2" :href="route('dpl')" :active="route().current('dpl')">
                                     Dpl
                                 </NavLink> 
-                                <NavLink :href="route('guru_pamong')" :active="route().current('guru_pamong')">
+                                <NavLink v-if="user.role == 1" :href="route('guru_pamong')" :active="route().current('guru_pamong')">
                                     Guru Pamong
                                 </NavLink>  
                             </div>
@@ -133,16 +135,16 @@ icon.value = 'images/icons/Logo-UAD-Hitam-Putihpng.png'
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('akun')" :active="route().current('akun')">
+                        <ResponsiveNavLink v-if="user.role == 1" :href="route('akun')" :active="route().current('akun')">
                             Akun
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('mahasiswa')" :active="route().current('mahasiswa')">
+                        <ResponsiveNavLink v-if="user.role == 1 || user.role == 3" :href="route('mahasiswa')" :active="route().current('mahasiswa')">
                             Mahasiswa
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('dpl')" :active="route().current('dpl')">
+                        <ResponsiveNavLink v-if="user.role == 1 || user.role == 2" :href="route('dpl')" :active="route().current('dpl')">
                             Dpl
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('guru_pamong')" :active="route().current('guru_pamong')">
+                        <ResponsiveNavLink v-if="user.role == 1" :href="route('guru_pamong')" :active="route().current('guru_pamong')">
                             Guru Pamong
                         </ResponsiveNavLink>
                     </div>
