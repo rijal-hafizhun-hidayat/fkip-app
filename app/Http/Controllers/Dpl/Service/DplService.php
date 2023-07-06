@@ -17,6 +17,15 @@ class DplService extends Controller
         return $this->responseService($dpls, 200, true, null, null);
     }
 
+    public function getDplByProdi($prodi){
+        try {
+            $dpl = Dpl::where('prodi', $prodi)->get();
+            return $this->responseService($dpl, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService($dpl, 400, false, 'Gagal', $e);
+        }
+    }
+
     public function store(StoreDplRequest $request){
         try {
             Dpl::create($request->validated());

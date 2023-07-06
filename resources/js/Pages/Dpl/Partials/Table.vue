@@ -40,30 +40,29 @@
     </div>
 </template>
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
 import DetailButton from '@/Components/DetailButton.vue';
-import { router } from '@inertiajs/vue3'
+import { router, usePage } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 export default{
     components: { DestroyButton, UpdateButton, DetailButton },
-    setup(){
+    props: {
+        user: Object
+    },
+    setup(props){        
         const dpls = ref([])
         onMounted(() => {
-            NProgress.start()
-            axios.get('getDpls')
-            .then((res) => {
-                dpls.value = res.data.data
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                NProgress.done()
-            })
+            if(props.user.role === 1){
+                getDpl()
+            }
+            else{
+                getDplByProdi(props.user.prodi)
+            }
+           
         })
 
         const destroy = (id) => {
@@ -86,6 +85,34 @@ export default{
             })
         }
 
+        const getDpl = () => {
+            NProgress.start()
+            axios.get('getDpls')
+            .then((res) => {
+                dpls.value = res.data.data
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() => {
+                NProgress.done()
+            })
+        }
+
+        const getDplByProdi = (prodi) => {
+            NProgress.start()
+            axios.get(`/getDplByProdi/${prodi}`)
+            .then((res) => {
+                dpls.value = res.data.data
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() => {
+                NProgress.done()
+            })
+        }
+
         const update = (id) => {
             router.get(`/dpl/${id}`)
         }
@@ -96,6 +123,8 @@ export default{
 
         return {
             dpls,
+            getDpl,
+            getDplByProdi,
             destroy,
             update,
             addBimbinganGuruPamong

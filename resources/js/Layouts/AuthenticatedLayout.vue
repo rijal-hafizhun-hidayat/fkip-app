@@ -46,10 +46,10 @@ const user = computed(() => page.props.auth.user)
                                 <NavLink v-if="user.role == 1 || user.role == 3" :href="route('mahasiswa')" :active="route().current('mahasiswa')">
                                     Mahasiswa
                                 </NavLink>
-                                <NavLink v-if="user.role == 1 || user.role == 2" :href="route('dpl')" :active="route().current('dpl')">
+                                <NavLink v-if="user.role == 1" :href="route('dpl')" :active="route().current('dpl')">
                                     Dpl
                                 </NavLink> 
-                                <NavLink v-if="user.role == 1" :href="route('guru_pamong')" :active="route().current('guru_pamong')">
+                                <NavLink v-if="user.role == 1 || user.role == 2" :href="route('guru_pamong')" :active="route().current('guru_pamong')">
                                     Guru Pamong
                                 </NavLink>  
                             </div>
@@ -141,10 +141,10 @@ const user = computed(() => page.props.auth.user)
                         <ResponsiveNavLink v-if="user.role == 1 || user.role == 3" :href="route('mahasiswa')" :active="route().current('mahasiswa')">
                             Mahasiswa
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink v-if="user.role == 1 || user.role == 2" :href="route('dpl')" :active="route().current('dpl')">
+                        <ResponsiveNavLink v-if="user.role == 1" :href="route('dpl')" :active="route().current('dpl')">
                             Dpl
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink v-if="user.role == 1" :href="route('guru_pamong')" :active="route().current('guru_pamong')">
+                        <ResponsiveNavLink v-if="user.role == 1 || user.role == 2" :href="route('guru_pamong')" :active="route().current('guru_pamong')">
                             Guru Pamong
                         </ResponsiveNavLink>
                     </div>

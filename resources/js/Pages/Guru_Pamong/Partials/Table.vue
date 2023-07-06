@@ -22,9 +22,9 @@
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
-                            <DestroyButton @click="destroy(guruPamong.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                            <UpdateButton @click="show(guruPamong.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
-                            <DetailButton @click="addAsosiasiMahasiswa(guruPamong.id)"><i class="fa-solid fa-person-circle-plus fa-xl"></i></DetailButton>
+                            <DestroyButton v-if="user.role === 1" @click="destroy(guruPamong.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
+                            <UpdateButton v-if="user.role === 1" @click="show(guruPamong.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
+                            <DetailButton v-if="user.role === 1 || user.role === 2" @click="addAsosiasiMahasiswa(guruPamong.id)"><i :class="user.role === 1 ? 'fa-solid fa-person-circle-plus fa-xl' : 'fa-solid fa-people-arrows fa-xl'"></i></DetailButton>
                         </div>
                     </td>
                 </tr>
@@ -46,21 +46,19 @@ import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 export default{
     components: { DestroyButton, UpdateButton, DetailButton },
-    setup(){
+    props: {
+        user: Object
+    },
+    setup(props){
         const guruPamongs = ref([])
 
         onMounted(() => {
-            NProgress.start()
-            axios.get('/getGuruPamongs')
-            .then((res) => {
-                guruPamongs.value = res.data.data
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                NProgress.done()
-            })
+            if(props.user.role === 2){
+                getGuruPamongByIdDpl(props.user.id_dpl)
+            }
+            else{
+                getGuruPamong()
+            }
         })
 
         const show = (id) => {
@@ -88,12 +86,42 @@ export default{
 
         }
 
+        const getGuruPamong = () => {
+            NProgress.start()
+            axios.get('/getGuruPamongs')
+            .then((res) => {
+                guruPamongs.value = res.data.data
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(() => {
+                NProgress.done()
+            })
+        }
+
+        const getGuruPamongByIdDpl = (id) => {
+            NProgress.start()
+            axios.get(`/getGuruPamongByIdDpl/${id}`)
+            .then((res) => {
+                guruPamongs.value = res.data.data
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+            .finally(()=> {
+                NProgress.done()
+            })
+        }
+
         const addAsosiasiMahasiswa = (id) => {
             router.get(`/guru-pamong/mahasiswa/${id}`)
         }
 
         return {
             guruPamongs,
+            getGuruPamong,
+            getGuruPamongByIdDpl,
             show,
             destroy,
             addAsosiasiMahasiswa

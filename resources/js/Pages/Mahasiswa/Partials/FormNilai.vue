@@ -107,7 +107,6 @@ export default {
             n_komponen_tiga: '',
             n_komponen_empat: '',
             n_komponen_lima: ''
-
         })
 
         const validation = ref([])

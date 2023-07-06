@@ -16,6 +16,15 @@ class GuruPamongService extends Controller
         return $this->responseService($data, 200, true, null, null);
     }
 
+    public function getGuruPamongByIdDpl($id){
+        try {
+            $guruPamongs = GuruPamong::where('id_dpl', $id)->get();
+            return $this->responseService($guruPamongs, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e);
+        }
+    }
+
     public function store(StoreGuruPamongRequest $request){
         GuruPamong::create($request->validated());
         return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil tambah data');

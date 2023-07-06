@@ -64,14 +64,33 @@ Route::middleware('auth')->group(function () {
         Route::get('/getDplByIdDpl/{id}', [AkunService::class, 'getDplByIdDpl'])->name('akun.getDplByIdDpl');
         Route::put('/destroyAsosiasiGuruPamong/{id}', [AkunService::class, 'destroyAsosiasiGuruPamong'])->name('akun.destroyAsosiasiGuruPamong');
         Route::put('/destroyAsosiasiDpl/{id}', [AkunService::class, 'destroyAsosiasiDpl'])->name('akun.destroyAsosiasiDpl');
+
+         //dpl
+        Route::get('/dpl', [DplController::class, 'index'])->name('dpl');
+        Route::get('/dpl/create', [DplController::class, 'create'])->name('dpl.create');
+        Route::get('/dpl/{id}', [DplController::class, 'show'])->name('dpl.show');
+        Route::get('/dpl/guru-pamong/{id}', [DplController::class, 'dplGuruPamong'])->name('dpl.dplGuruPamong');
+
+        //service dpl
+        Route::get('/getDpls', [DplService::class, 'getDpls'])->name('dpl.getDpls');
+        Route::get('/getDplById/{id}', [DplService::class, 'getDplById'])->name('dpl.getDplById');
+        Route::get('/getDplGuruPamongById/{id}', [DplService::class, 'getDplGuruPamongById'])->name('dpl.getDplGuruPamongById');
+        Route::post('/dpl', [DplService::class, 'store'])->name('dpl.store');
+        Route::delete('/dpl/{id}', [DplService::class, 'destroy'])->name('dpl.destroy');
+        Route::put('/dpl/{id}', [DplService::class, 'update'])->name('dpl.update');
+        Route::post('/dpl/import', [DplImportService::class, 'import'])->name('dpl.import');
+        Route::put('/storeGuruPamong/{id}', [DplService::class, 'storeGuruPamong'])->name('dpl.storeGuruPamong');
+        Route::get('/getGuruPamongsIsNull', [DplService::class, 'getGuruPamongsIsNull'])->name('dpl.getGuruPamongsIsNull');
+        Route::put('/destroyAssociationGuruPamong/{id}', [DplService::class, 'destroyAssociationGuruPamong'])->name('dpl.destroyAssociationGuruPamong');
+        Route::get('/getDplByProdi/{prodi}', [DplService::class, 'getDplByProdi'])->name('guru_pamong.getDplByProdi');
     });
 
     //mahasiswa
-    Route::middleware('isAdminGuruPamong')->group(function(){
+    Route::get('/mahasiswa/nilai/{id}', [MahasiswaController::class, 'nilai'])->name('mahasiswa.nilai');
+    Route::get('/getMahasiswaById/{id}', [MahasiswaService::class, 'getMahasiswaById'])->name('mahasiswa.getMahasiswaById');
 
-        //view mahasiswa
+    Route::middleware('isAdminGuruPamong')->group(function(){
         Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
-        Route::get('/mahasiswa/nilai/{id}', [MahasiswaController::class, 'nilai'])->name('mahasiswa.nilai');
 
         Route::middleware('isAdmin')->group(function(){
             Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
@@ -83,51 +102,39 @@ Route::middleware('auth')->group(function () {
             Route::delete('/mahasiswa/{id}', [MahasiswaService::class, 'destroy'])->name('mahasiswa.destroy');
             Route::put('/mahasiswa/{id}', [MahasiswaService::class, 'update'])->name('mahasiswa.update');
             Route::post('/mahasiswa/import', [MahasiswaImportService::class, 'import'])->name('mahasiswa.import');
-            
         });
 
-        Route::get('/getMahasiswaById/{id}', [MahasiswaService::class, 'getMahasiswaById'])->name('mahasiswa.getMahasiswaById');
+       
         Route::get('/getMahasiswaByIdAkun/{id}', [MahasiswaService::class, 'getMahasiswaByIdAkun'])->name('mahasiswa.getMahasiswaByIdAkun')->middleware('isGuruPamong');
         Route::put('/updateNilai/{id}', [MahasiswaService::class, 'updateNilai'])->name('mahasiswa.updateNilai');
     });
 
     
+    Route::middleware('isAdminDpl')->group(function(){
 
-    //guru pamong
-    Route::get('/guru-pamong', [GuruPamongController::class, 'index'])->name('guru_pamong');
-    Route::get('/guru-pamong/create', [GuruPamongController::class, 'create'])->name('guru_pamong.create');
-    Route::get('/guru-pamong/{id}', [GuruPamongController::class, 'show'])->name('guru_pamong.show');
-    Route::get('/guru-pamong/mahasiswa/{id}', [GuruPamongController::class, 'addAsosiasiMahasiswa'])->name('guru_pamong.addAsosiasiMahasiswa');
+        //guru pamong
+        Route::get('/guru-pamong', [GuruPamongController::class, 'index'])->name('guru_pamong');
+        Route::get('/guru-pamong/mahasiswa/{id}', [GuruPamongController::class, 'addAsosiasiMahasiswa'])->name('guru_pamong.addAsosiasiMahasiswa');
 
-    //service guru pamong
-    Route::get('/getGuruPamongs', [GuruPamongService::class, 'getGuruPamongs'])->name('guru_pamong.getGuruPamongs');
-    Route::post('/guru-pamong', [GuruPamongService::class, 'store'])->name('guru_pamong.store');
-    Route::get('/getGuruPamongById/{id}', [GuruPamongService::class, 'getGuruPamongById'])->name('guru_pamong.getGuruPamongById');
-    Route::put('/guru-pamong/{id}', [GuruPamongService::class, 'update'])->name('guru_pamong.update');
-    Route::delete('/guru-pamong/{id}', [GuruPamongService::class, 'destroy'])->name('guru_pamong.destroy');
-    Route::post('/guru-pamong/import', [GuruPamongImportService::class, 'import'])->name('guru_pamong.import');
-    Route::get('/getMahasiswaByIdGuruPamong/{id}', [GuruPamongService::class, 'getMahasiswaByIdGuruPamong'])->name('guru_pamong.getMahasiswaByIdGuruPamong');
-    Route::put('/storeAsosiasiMahasiswa/{id}', [GuruPamongService::class, 'storeAsosiasiMahasiswa'])->name('guru_pamong.storeAsosiasiMahasiswa');
-    Route::put('/destroyAsosiasiMahasiswa/{id}', [GuruPamongService::class, 'destroyAsosiasiMahasiswa'])->name('guru_pamong.destroyAsosiasiMahasiswa');
-    Route::get('/getMahasiswaIsNull', [GuruPamongService::class, 'getMahasiswaIsNull'])->name('guru_pamong.getMahasiswaIsNull');
+        Route::middleware('isAdmin')->group(function(){
+            Route::get('/guru-pamong/create', [GuruPamongController::class, 'create'])->name('guru_pamong.create');
+            Route::get('/guru-pamong/{id}', [GuruPamongController::class, 'show'])->name('guru_pamong.show');
 
-    //dpl
-    Route::get('/dpl', [DplController::class, 'index'])->name('dpl');
-    Route::get('/dpl/create', [DplController::class, 'create'])->name('dpl.create');
-    Route::get('/dpl/{id}', [DplController::class, 'show'])->name('dpl.show');
-    Route::get('/dpl/guru-pamong/{id}', [DplController::class, 'dplGuruPamong'])->name('dpl.dplGuruPamong');
-
-    //service dpl
-    Route::get('/getDpls', [DplService::class, 'getDpls'])->name('dpl.getDpls');
-    Route::get('/getDplById/{id}', [DplService::class, 'getDplById'])->name('dpl.getDplById');
-    Route::get('/getDplGuruPamongById/{id}', [DplService::class, 'getDplGuruPamongById'])->name('dpl.getDplGuruPamongById');
-    Route::post('/dpl', [DplService::class, 'store'])->name('dpl.store');
-    Route::delete('/dpl/{id}', [DplService::class, 'destroy'])->name('dpl.destroy');
-    Route::put('/dpl/{id}', [DplService::class, 'update'])->name('dpl.update');
-    Route::post('/dpl/import', [DplImportService::class, 'import'])->name('dpl.import');
-    Route::put('/storeGuruPamong/{id}', [DplService::class, 'storeGuruPamong'])->name('dpl.storeGuruPamong');
-    Route::get('/getGuruPamongsIsNull', [DplService::class, 'getGuruPamongsIsNull'])->name('dpl.getGuruPamongsIsNull');
-    Route::put('/destroyAssociationGuruPamong/{id}', [DplService::class, 'destroyAssociationGuruPamong'])->name('dpl.destroyAssociationGuruPamong');
+            //service guru pamong
+            Route::get('/getGuruPamongs', [GuruPamongService::class, 'getGuruPamongs'])->name('guru_pamong.getGuruPamongs');
+            Route::post('/guru-pamong', [GuruPamongService::class, 'store'])->name('guru_pamong.store');
+            Route::put('/guru-pamong/{id}', [GuruPamongService::class, 'update'])->name('guru_pamong.update');
+            Route::delete('/guru-pamong/{id}', [GuruPamongService::class, 'destroy'])->name('guru_pamong.destroy');
+            Route::post('/guru-pamong/import', [GuruPamongImportService::class, 'import'])->name('guru_pamong.import');
+            Route::put('/storeAsosiasiMahasiswa/{id}', [GuruPamongService::class, 'storeAsosiasiMahasiswa'])->name('guru_pamong.storeAsosiasiMahasiswa');
+            Route::put('/destroyAsosiasiMahasiswa/{id}', [GuruPamongService::class, 'destroyAsosiasiMahasiswa'])->name('guru_pamong.destroyAsosiasiMahasiswa');
+        });
+        
+        Route::get('/getGuruPamongById/{id}', [GuruPamongService::class, 'getGuruPamongById'])->name('guru_pamong.getGuruPamongById');
+        Route::get('/getGuruPamongByIdDpl/{id}', [GuruPamongService::class, 'getGuruPamongByIdDpl'])->name('guru_pamong.getGuruPamongByIdDpl');
+        Route::get('/getMahasiswaByIdGuruPamong/{id}', [GuruPamongService::class, 'getMahasiswaByIdGuruPamong'])->name('guru_pamong.getMahasiswaByIdGuruPamong');
+        Route::get('/getMahasiswaIsNull', [GuruPamongService::class, 'getMahasiswaIsNull'])->name('guru_pamong.getMahasiswaIsNull');
+    });
 });
 
 require __DIR__.'/auth.php';
