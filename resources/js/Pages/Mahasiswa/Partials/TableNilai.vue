@@ -9,6 +9,7 @@
                     <th class="pb-4 pt-6 px-6">Nilai Komponen 2</th>
                     <th class="pb-4 pt-6 px-6">Nilai Komponen 3</th>
                     <th class="pb-4 pt-6 px-6">Nilai Komponen 4</th>
+                    <th class="pb-4 pt-6 px-6">Nilai Komponen 5</th>
                     <th class="pb-4 pt-6 px-6">Nilai</th>
                 </tr>
             </thead>
@@ -31,6 +32,9 @@
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ mahasiswa.n_komponen_empat }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ mahasiswa.n_komponen_lima }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ mahasiswa.nilai }}
@@ -57,6 +61,7 @@ export default{
             n_komponen_dua: '',
             n_komponen_tiga: '',
             n_komponen_empat: '',
+            n_komponen_lima: '',
             nilai: ''
         })
 
@@ -69,6 +74,7 @@ export default{
                 mahasiswa.n_komponen_dua = res.data.data.n_komponen_dua
                 mahasiswa.n_komponen_tiga = res.data.data.n_komponen_tiga
                 mahasiswa.n_komponen_empat = res.data.data.n_komponen_empat
+                mahasiswa.n_komponen_lima = res.data.data.n_komponen_lima
                 mahasiswa.nilai = res.data.data.nilai
             })
             .catch((err) => {

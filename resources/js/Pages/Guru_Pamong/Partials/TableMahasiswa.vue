@@ -88,7 +88,7 @@ const nilaiMahasiswaById = (id) => {
                     </td>
                 </tr>
             <tr v-if="mahasiswas.length === 0">
-                <td class="px-6 py-4 text-center border-t" :colspan="user.role === 1 ? '5' : '4'">No data found.</td>
+                <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
             </tr>
             </tbody>
         </table>

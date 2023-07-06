@@ -65,7 +65,7 @@
             <InputError v-if="validation.n_komponen_empat" :message="validation.n_komponen_empat[0]" class="mt-3 ml-3" />
         </div>
         <div class="flex">
-            <InputLabel for="n_komponen_lima" class="md:basis-1/5 mt-3" value="Nilai Komponen 4" />
+            <InputLabel for="n_komponen_lima" class="md:basis-1/5 mt-3" value="Nilai Komponen 5" />
             <InputLikertScale
                 class="mt-2.5 block"
                 :name="'n_komponen_lima'"
