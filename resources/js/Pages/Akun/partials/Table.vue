@@ -1,5 +1,7 @@
 <template>
     <InputSearch v-model="search" />
+    <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
+    
     <div class="bg-white rounded-md shadow overflow-x-auto mt-5">
         <table class="w-full whitespace-nowrap">
             <thead>
@@ -51,6 +53,7 @@
 import { onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 import NProgress from 'nprogress';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
 import { router } from '@inertiajs/vue3'
@@ -59,7 +62,7 @@ import Pagination from '@/Components/Pagination.vue';
 import { TailwindPagination } from 'laravel-vue-pagination';
 import InputSearch from '@/Components/InputSearch.vue';
 export default{
-    components: { DestroyButton, UpdateButton, TailwindPagination, InputSearch },
+    components: { PrimaryButton, DestroyButton, UpdateButton, TailwindPagination, InputSearch },
     setup(){
         const akuns = ref([])
         const search = ref('')
@@ -110,6 +113,12 @@ export default{
             router.get(`/akun/${id}`)
         }
 
+        const reset = () => {
+            router.visit('/akun', {
+                method: 'get'
+            })
+        }
+
         watch(search, async (newSearch, oldSearch) => {
             if(newSearch != null){
                 getAkuns(1, newSearch)
@@ -122,7 +131,8 @@ export default{
             routeGetAkuns,
             getAkuns,
             destroy,
-            update
+            update,
+            reset
         }
     }
 }
