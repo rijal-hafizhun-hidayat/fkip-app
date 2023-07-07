@@ -12,8 +12,13 @@ use Illuminate\Support\Facades\Hash;
 
 class AkunService extends Controller
 {
-    public function getAkuns(){
-        $akuns = User::latest()->get();
+    public function getAkuns(Request $request){
+        // $akuns = User::latest()->paginate(2);
+        $queryAkun = User::latest();
+        if($request->filled('nama')){
+            $queryAkun->where('nama', 'like', '%'.$request->nama.'%');
+        }
+        $akuns = $queryAkun->paginate(2);
         return $this->responseService($akuns, 200, true, null, null);
     }
 

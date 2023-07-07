@@ -1,5 +1,6 @@
 <template>
-    <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
+    <InputSearch v-model="search" />
+    <div class="bg-white rounded-md shadow overflow-x-auto mt-5">
         <table class="w-full whitespace-nowrap">
             <thead>
                 <tr class="text-left font-bold">
@@ -11,7 +12,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="akun in akuns" :key="akun.id" class="hover:bg-gray-100">
+                <tr v-for="akun in akuns.data" :key="akun.id" class="hover:bg-gray-100">
                     <td class="border-t items-center px-6 py-4">
                         {{ akun.nama }}
                     </td>
@@ -38,29 +39,43 @@
                     
                     </td>
                 </tr>
-            <tr v-if="akuns.length === 0">
-                <td class="px-6 py-4 text-center border-t" colspan="5">No organizations found.</td>
-            </tr>
+                <tr v-if="akuns.length === 0">
+                    <td class="px-6 py-4 text-center border-t" colspan="5">No organizations found.</td>
+                </tr>
             </tbody>
         </table>
     </div>
+    <TailwindPagination class="mt-6" :data="akuns" @pagination-change-page="getAkuns" />
 </template>
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
+import Pagination from '@/Components/Pagination.vue';
+import { TailwindPagination } from 'laravel-vue-pagination';
+import InputSearch from '@/Components/InputSearch.vue';
 export default{
-    components: { DestroyButton, UpdateButton },
+    components: { DestroyButton, UpdateButton, TailwindPagination, InputSearch },
     setup(){
         const akuns = ref([])
+        const search = ref('')
+        const routeGetAkuns = ref('')
+        
         onMounted(() => {
+            getAkuns()
+        })
+
+        const getAkuns = (page = 1, nama) => {
+            routeGetAkuns.value = nama == null ? `/getAkuns?page=${page}` : `/getAkuns?page=${page}&nama=${nama}`
+
             NProgress.start()
-            axios.get('/getAkuns')
+            axios.get(routeGetAkuns.value)
             .then((res) => {
+                console.log(res)
                 akuns.value = res.data.data
             })
             .catch((err) => {
@@ -69,7 +84,7 @@ export default{
             .finally(() => {
                 NProgress.done()
             })
-        })
+        }
 
         const destroy = (id) => {
             NProgress.start()
@@ -95,8 +110,17 @@ export default{
             router.get(`/akun/${id}`)
         }
 
+        watch(search, async (newSearch, oldSearch) => {
+            if(newSearch != null){
+                getAkuns(1, newSearch)
+            }
+        })
+
         return {
             akuns,
+            search,
+            routeGetAkuns,
+            getAkuns,
             destroy,
             update
         }
