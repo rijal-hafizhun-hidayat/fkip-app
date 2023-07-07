@@ -1,3 +1,14 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { Head } from '@inertiajs/vue3';
+import Table from './partials/Table.vue';
+import { router } from '@inertiajs/vue3'
+
+const create = () => {
+    router.get('/akun/create')
+}
+</script>
 <template>
     <Head title="Akun" />
 
@@ -15,23 +26,3 @@
         </div>
     </AuthenticatedLayout>
 </template>
-<script>
-import { ref } from 'vue'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { Head } from '@inertiajs/vue3';
-import Table from './partials/Table.vue';
-import { router } from '@inertiajs/vue3'
-export default {
-    components: { AuthenticatedLayout, Head, PrimaryButton, Table },
-    setup(){
-        const create = () => {
-            router.get('/akun/create')
-        }
-
-        return {
-            create
-        }
-    }
-}
-</script>

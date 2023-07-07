@@ -1,4 +1,113 @@
+<script setup>
+import { onMounted, ref, watch } from 'vue';
+import axios from 'axios';
+import NProgress from 'nprogress';
+import DestroyButton from '@/Components/DestroyButton.vue';
+import UpdateButton from '@/Components/UpdateButton.vue';
+import DetailButton from '@/Components/DetailButton.vue';
+import { router } from '@inertiajs/vue3'
+import Swal from 'sweetalert2'
+import { TailwindPagination } from 'laravel-vue-pagination';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import InputSearch from '@/Components/InputSearch.vue';
+
+const props = defineProps({
+    user: Object
+})
+
+const mahasiswas = ref([])
+const search = ref('')
+const routeGetMahasiswa = ref('')
+
+onMounted(() => {
+    if(props.user.role == 3){
+        getMahasiswaByIdGuruPamong(props.user.id_guru_pamong)
+    }
+    else{
+        getMahasiswa()
+    } 
+})
+
+const getMahasiswa = (page = 1, nama) => {
+    routeGetMahasiswa.value = nama == null ? `/getMahasiswa?page=${page}` : `/getMahasiswa?page=${page}&nama=${nama}`
+
+    NProgress.start()
+    axios.get(routeGetMahasiswa.value)
+    .then((res) => {
+        mahasiswas.value = res.data.data
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+    .finally(() => {
+        NProgress.done()
+    })
+}
+
+const getMahasiswaByIdGuruPamong = (page = 1, nama, id) => {
+    routeGetMahasiswa.value = nama == null ? `/getMahasiswaByIdAkun/${props.user.id_guru_pamong}?page=${page}` : `/getMahasiswaByIdAkun/${props.user.id_guru_pamong}?page=${page}&nama=${nama}`
+
+    NProgress.start()
+    axios.get(routeGetMahasiswa.value)
+    .then((res) => {
+        mahasiswas.value = res.data.data
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+    .finally(() => {
+        NProgress.done()
+    })
+}
+
+const show = (id) => {
+    router.get(`/mahasiswa/${id}`)
+}
+
+const destroy = (id) => {
+    NProgress.start()
+    axios.delete(`/mahasiswa/${id}`)
+    .then((res) => {
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+        router.get('/mahasiswa')
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+    .finally(() => {
+        NProgress.done()
+    })
+}
+
+const addNilai = (id) => {
+    router.get(`/mahasiswa/nilai/${id}`)
+}
+
+const reset = () => {
+    router.visit('/mahasiswa', {
+        method: 'get'
+    })
+}
+
+watch(search, async (newSearch, oldSearch) => {
+    if(newSearch != null){
+        if(props.user.role == 1){
+            getMahasiswa(1, newSearch)
+        }
+        else{
+            getMahasiswaByIdGuruPamong(1, newSearch, props.user.id_guru_pamong)
+        }
+    }
+})
+</script>
 <template>
+    <InputSearch v-model="search" />
+    <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
+
     <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
         <table class="w-full whitespace-nowrap">
             <thead>
@@ -11,7 +120,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="mahasiswa in mahasiswas" :key="mahasiswa.id" class="hover:bg-gray-100">
+                <tr v-for="mahasiswa in mahasiswas.data" :key="mahasiswa.id" class="hover:bg-gray-100">
                     <td class="border-t items-center px-6 py-4">
                         {{ mahasiswa.nim }}
                     </td>
@@ -32,103 +141,12 @@
                         </div>
                     </td>
                 </tr>
-            <tr v-if="mahasiswas.length === 0">
-                <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
-            </tr>
+                <tr v-if="mahasiswas.length === 0">
+                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
+                </tr>
             </tbody>
         </table>
     </div>
+    <TailwindPagination v-if="user.role === 1" class="mt-6" :data="mahasiswas" @pagination-change-page="getMahasiswa" />
+    <TailwindPagination v-if="user.role === 3" class="mt-6" :data="mahasiswas" @pagination-change-page="getMahasiswaByIdGuruPamong" />
 </template>
-<script>
-import { onMounted, ref } from 'vue';
-import axios from 'axios';
-import NProgress from 'nprogress';
-import DestroyButton from '@/Components/DestroyButton.vue';
-import UpdateButton from '@/Components/UpdateButton.vue';
-import DetailButton from '@/Components/DetailButton.vue';
-import { router } from '@inertiajs/vue3'
-import Swal from 'sweetalert2'
-export default{
-    components: { DestroyButton, UpdateButton, DetailButton },
-    props: {
-        user: Object
-    },
-    setup(props){
-        const mahasiswas = ref([])
-
-        onMounted(() => {
-            if(props.user.role == 3){
-                getMahasiswaByIdGuruPamong(props.user.id_guru_pamong)
-            }
-            else{
-                getMahasiswa()
-            }
-            
-        })
-
-        const getMahasiswa = () => {
-            NProgress.start()
-            axios.get('/getMahasiswa')
-            .then((res) => {
-                mahasiswas.value = res.data.data
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                NProgress.done()
-            })
-        }
-
-        const getMahasiswaByIdGuruPamong = (id) => {
-            NProgress.start()
-            axios.get(`/getMahasiswaByIdAkun/${id}`)
-            .then((res) => {
-                mahasiswas.value = res.data.data
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                NProgress.done()
-            })
-        }
-
-        const show = (id) => {
-            router.get(`/mahasiswa/${id}`)
-        }
-
-        const destroy = (id) => {
-            NProgress.start()
-            axios.delete(`/mahasiswa/${id}`)
-            .then((res) => {
-                Swal.fire({
-                    icon: 'success',
-                    title: res.data.title,
-                    text: res.data.text
-                })
-                router.get('/mahasiswa')
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                NProgress.done()
-            })
-        }
-
-        const addNilai = (id) => {
-            router.get(`/mahasiswa/nilai/${id}`)
-        }
-
-        return {
-            mahasiswas,
-            getMahasiswa,
-            getMahasiswaByIdGuruPamong,
-            show,
-            destroy,
-            addNilai
-        }
-    }
-}
-</script>

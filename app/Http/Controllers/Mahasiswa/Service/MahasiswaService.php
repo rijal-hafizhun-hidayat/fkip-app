@@ -13,17 +13,29 @@ use Illuminate\Http\Request;
 
 class MahasiswaService extends Controller
 {
-    public function getMahasiswa(){
-        $mahasiswa = Mahasiswa::latest()->get();
-        return $this->responseService($mahasiswa, 200, true, null, null);
-    }
-
-    public function getMahasiswaByIdAkun($id){
+    public function getMahasiswa(Request $request){
         try {
-            $mahasiswa = Mahasiswa::where('id_guru_pamong', $id)->get();
+            $queryMahasiswa = Mahasiswa::latest();
+            if($request->filled('nama')){
+                $queryMahasiswa->where('nama', 'like', '%'.$request->nama.'%');
+            }
+            $mahasiswa = $queryMahasiswa->paginate(1);
             return $this->responseService($mahasiswa, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
-            return $this->responseService(null, 400, false, null, null);
+            return $this->responseService(null, 400, false, 'Gagal', $e);
+        }
+    }
+
+    public function getMahasiswaByIdAkun(Request $request, $id){
+        try {
+            $queryMahasiswa = Mahasiswa::latest()->where('id_guru_pamong', $id);
+            if($request->filled('nama')){
+                $queryMahasiswa->where('nama', 'like', '%'.$request->nama.'%');
+            }
+            $mahasiswa = $queryMahasiswa->paginate(1);
+            return $this->responseService($mahasiswa, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e);
         }
     }
 

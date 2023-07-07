@@ -1,3 +1,83 @@
+<script setup>
+import { onMounted, ref, watch } from 'vue';
+import axios from 'axios';
+import NProgress from 'nprogress';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import DestroyButton from '@/Components/DestroyButton.vue';
+import UpdateButton from '@/Components/UpdateButton.vue';
+import { router } from '@inertiajs/vue3'
+import Swal from 'sweetalert2'
+import Pagination from '@/Components/Pagination.vue';
+import { TailwindPagination } from 'laravel-vue-pagination';
+import InputSearch from '@/Components/InputSearch.vue';
+
+const akuns = ref([])
+const search = ref('')
+const routeGetAkuns = ref('')
+
+const props = defineProps({
+    test: Object
+})
+
+console.log(props.test)
+        
+onMounted(() => {
+    getAkuns()
+})
+
+const getAkuns = (page = 1, nama) => {
+    routeGetAkuns.value = nama == null ? `/getAkuns?page=${page}` : `/getAkuns?page=${page}&nama=${nama}`
+
+    NProgress.start()
+    axios.get(routeGetAkuns.value)
+    .then((res) => {
+        //console.log(res)
+        akuns.value = res.data.data
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+    .finally(() => {
+        NProgress.done()
+    })
+}
+
+const destroy = (id) => {
+    NProgress.start()
+    axios.delete(`/akun/${id}`)
+    .then((res) => {
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+
+        router.get('/akun')
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+    .finally(() => {
+        NProgress.done()
+    })
+}
+
+const update = (id) => {
+    router.get(`/akun/${id}`)
+}
+
+const reset = () => {
+    router.visit('/akun', {
+        method: 'get'
+    })
+}
+
+watch(search, async (newSearch, oldSearch) => {
+    if(newSearch != null){
+        getAkuns(1, newSearch)
+    }
+})
+</script>
 <template>
     <InputSearch v-model="search" />
     <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
@@ -49,91 +129,3 @@
     </div>
     <TailwindPagination class="mt-6" :data="akuns" @pagination-change-page="getAkuns" />
 </template>
-<script>
-import { onMounted, ref, watch } from 'vue';
-import axios from 'axios';
-import NProgress from 'nprogress';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import DestroyButton from '@/Components/DestroyButton.vue';
-import UpdateButton from '@/Components/UpdateButton.vue';
-import { router } from '@inertiajs/vue3'
-import Swal from 'sweetalert2'
-import Pagination from '@/Components/Pagination.vue';
-import { TailwindPagination } from 'laravel-vue-pagination';
-import InputSearch from '@/Components/InputSearch.vue';
-export default{
-    components: { PrimaryButton, DestroyButton, UpdateButton, TailwindPagination, InputSearch },
-    setup(){
-        const akuns = ref([])
-        const search = ref('')
-        const routeGetAkuns = ref('')
-        
-        onMounted(() => {
-            getAkuns()
-        })
-
-        const getAkuns = (page = 1, nama) => {
-            routeGetAkuns.value = nama == null ? `/getAkuns?page=${page}` : `/getAkuns?page=${page}&nama=${nama}`
-
-            NProgress.start()
-            axios.get(routeGetAkuns.value)
-            .then((res) => {
-                console.log(res)
-                akuns.value = res.data.data
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                NProgress.done()
-            })
-        }
-
-        const destroy = (id) => {
-            NProgress.start()
-            axios.delete(`/akun/${id}`)
-            .then((res) => {
-                Swal.fire({
-                    icon: 'success',
-                    title: res.data.title,
-                    text: res.data.text
-                })
-
-                router.get('/akun')
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                NProgress.done()
-            })
-        }
-
-        const update = (id) => {
-            router.get(`/akun/${id}`)
-        }
-
-        const reset = () => {
-            router.visit('/akun', {
-                method: 'get'
-            })
-        }
-
-        watch(search, async (newSearch, oldSearch) => {
-            if(newSearch != null){
-                getAkuns(1, newSearch)
-            }
-        })
-
-        return {
-            akuns,
-            search,
-            routeGetAkuns,
-            getAkuns,
-            destroy,
-            update,
-            reset
-        }
-    }
-}
-</script>
