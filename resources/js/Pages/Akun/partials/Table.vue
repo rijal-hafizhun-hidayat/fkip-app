@@ -14,6 +14,7 @@ import InputSearch from '@/Components/InputSearch.vue';
 const akuns = ref([])
 const search = ref('')
 const routeGetAkuns = ref('')
+const length = ref('')
 
 const props = defineProps({
     test: Object
@@ -31,8 +32,8 @@ const getAkuns = (page = 1, nama) => {
     NProgress.start()
     axios.get(routeGetAkuns.value)
     .then((res) => {
-        //console.log(res)
         akuns.value = res.data.data
+        length.value = res.data.data.data.length
     })
     .catch((err) => {
         console.log(err)
@@ -121,7 +122,7 @@ watch(search, async (newSearch, oldSearch) => {
                     
                     </td>
                 </tr>
-                <tr v-if="akuns.length === 0">
+                <tr v-if="length === 0">
                     <td class="px-6 py-4 text-center border-t" colspan="5">No organizations found.</td>
                 </tr>
             </tbody>

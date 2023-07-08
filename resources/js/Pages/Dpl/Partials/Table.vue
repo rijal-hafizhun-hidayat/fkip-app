@@ -14,6 +14,7 @@ import { TailwindPagination } from 'laravel-vue-pagination';
 const dpls = ref([])
 const routeGetDpl = ref('')
 const search = ref('')
+const length = ref('')
 
 const props = defineProps({
     user: Object
@@ -55,6 +56,7 @@ const getDpl = (page = 1, nama) => {
     axios.get(routeGetDpl.value)
     .then((res) => {
         dpls.value = res.data.data
+        length.value = res.data.data.data.length
     })
     .catch((err) => {
         console.log(err)
@@ -71,6 +73,7 @@ const getDplByProdi = (page = 1, nama) => {
     axios.get(routeGetDpl.value)
     .then((res) => {
         dpls.value = res.data.data
+        length.value = res.data.data.data.length
     })
     .catch((err) => {
         console.log(err)
@@ -143,7 +146,7 @@ watch(search, async (newSearch, oldSearch) => {
                         </div>
                     </td>
                 </tr>
-                <tr v-if="dpls.length === 0">
+                <tr v-if="length === 0">
                     <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
                 </tr>
             </tbody>

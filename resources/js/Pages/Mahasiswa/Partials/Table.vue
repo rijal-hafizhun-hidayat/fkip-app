@@ -18,6 +18,7 @@ const props = defineProps({
 const mahasiswas = ref([])
 const search = ref('')
 const routeGetMahasiswa = ref('')
+const length = ref('')
 
 onMounted(() => {
     if(props.user.role == 3){
@@ -35,6 +36,7 @@ const getMahasiswa = (page = 1, nama) => {
     axios.get(routeGetMahasiswa.value)
     .then((res) => {
         mahasiswas.value = res.data.data
+        length.value = res.data.data.data.length
     })
     .catch((err) => {
         console.log(err)
@@ -51,6 +53,7 @@ const getMahasiswaByIdGuruPamong = (page = 1, nama, id) => {
     axios.get(routeGetMahasiswa.value)
     .then((res) => {
         mahasiswas.value = res.data.data
+        length.value = res.data.data.data.length
     })
     .catch((err) => {
         console.log(err)
@@ -141,7 +144,7 @@ watch(search, async (newSearch, oldSearch) => {
                         </div>
                     </td>
                 </tr>
-                <tr v-if="mahasiswas.length === 0">
+                <tr v-if="length === 0">
                     <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
                 </tr>
             </tbody>
