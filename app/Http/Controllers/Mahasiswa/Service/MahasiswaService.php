@@ -19,7 +19,7 @@ class MahasiswaService extends Controller
             if($request->filled('nama')){
                 $queryMahasiswa->where('nama', 'like', '%'.$request->nama.'%');
             }
-            $mahasiswa = $queryMahasiswa->paginate(1);
+            $mahasiswa = $queryMahasiswa->paginate(10);
             return $this->responseService($mahasiswa, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e);

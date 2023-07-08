@@ -12,9 +12,17 @@ use Illuminate\Http\Request;
 
 class DplService extends Controller
 {
-    public function getDpls(){
-        $dpls = Dpl::latest()->get();
-        return $this->responseService($dpls, 200, true, null, null);
+    public function getDpls(Request $request){
+        try {
+            $queryDpl = Dpl::latest();
+            if($request->filled('nama')){
+                $queryDpl->where('nama', 'like', '%'.$request->nama.'%');
+            }
+            $dpl = $queryDpl->paginate(10);
+            return $this->responseService($dpl, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e);
+        }
     }
 
     public function getDplByProdi($prodi){

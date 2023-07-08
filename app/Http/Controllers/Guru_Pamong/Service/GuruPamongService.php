@@ -11,15 +11,27 @@ use Illuminate\Http\Request;
 
 class GuruPamongService extends Controller
 {
-    public function getGuruPamongs(){
-        $data = GuruPamong::latest()->get();
-        return $this->responseService($data, 200, true, null, null);
+    public function getGuruPamongs(Request $request){
+        try {
+            $queryGuruPamong = GuruPamong::latest();
+            if($request->filled('nama')){
+                $queryGuruPamong->where('nama', 'like', '%'.$request->nama.'%');
+            }
+            $guruPamong = $queryGuruPamong->paginate(10);
+            return $this->responseService($guruPamong, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e);
+        }
     }
 
-    public function getGuruPamongByIdDpl($id){
+    public function getGuruPamongByIdDpl(Request $request, $id){
         try {
-            $guruPamongs = GuruPamong::where('id_dpl', $id)->get();
-            return $this->responseService($guruPamongs, 200, true, null, null);
+            $queryGuruPamong = GuruPamong::where('id_dpl', $id)->latest();
+            if($request->filled('nama')){
+                $queryGuruPamong->where('nama', 'like', '%'.$request->nama.'%');
+            }
+            $guruPamong = $queryGuruPamong->paginate(10);
+            return $this->responseService($guruPamong, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e);
         }

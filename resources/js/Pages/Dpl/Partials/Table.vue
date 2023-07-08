@@ -1,4 +1,115 @@
+<script setup>
+import { onMounted, ref, watch } from 'vue';
+import axios from 'axios';
+import NProgress from 'nprogress';
+import DestroyButton from '@/Components/DestroyButton.vue';
+import UpdateButton from '@/Components/UpdateButton.vue';
+import DetailButton from '@/Components/DetailButton.vue';
+import { router, usePage } from '@inertiajs/vue3'
+import Swal from 'sweetalert2'
+import InputSearch from '@/Components/InputSearch.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { TailwindPagination } from 'laravel-vue-pagination';
+
+const dpls = ref([])
+const routeGetDpl = ref('')
+const search = ref('')
+
+const props = defineProps({
+    user: Object
+})
+
+onMounted(() => {
+    if(props.user.role === 1){
+        getDpl()
+    }
+    else{
+        getDplByProdi()
+    }       
+})
+
+const destroy = (id) => {
+    NProgress.start()
+    axios.delete(`/dpl/${id}`)
+    .then((res) => {
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+
+        router.get('/dpl')
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+    .finally(() => {
+        NProgress.done()
+    })
+}
+
+const getDpl = (page = 1, nama) => {
+    routeGetDpl.value = nama == null ? `/getDpls?page=${page}` : `/getDpls?page=${page}&nama=${nama}`
+
+    NProgress.start()
+    axios.get(routeGetDpl.value)
+    .then((res) => {
+        dpls.value = res.data.data
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+    .finally(() => {
+        NProgress.done()
+    })
+}
+
+const getDplByProdi = (page = 1, nama) => {
+    routeGetDpl.value = nama == null ? `/getDplByProdi/${props.user.prodi}?page=${page}` : `/getDplByProdi/${props.user.prodi}?page=${page}&nama=${nama}`
+
+    NProgress.start()
+    axios.get(routeGetDpl.value)
+    .then((res) => {
+        dpls.value = res.data.data
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+    .finally(() => {
+        NProgress.done()
+    })
+}
+
+const update = (id) => {
+    router.get(`/dpl/${id}`)
+}
+
+const addBimbinganGuruPamong = (id) => {
+    router.get(`/dpl/guru-pamong/${id}`)
+}
+
+const reset = () => {
+    route.visit('/dpl', {
+        method: 'get'
+    })
+}
+
+watch(search, async (newSearch, oldSearch) => {
+    if(newSearch != null){
+        if(props.user.role == 1){
+            getDpl(1, newSearch)
+        }
+        else{
+            getDplByProdi(1, newSearch)
+        }
+    }
+})
+</script>
+
 <template>
+    <InputSearch v-model="search" />
+    <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
+
     <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
         <table class="w-full whitespace-nowrap">
             <thead>
@@ -11,7 +122,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="dpl in dpls" :key="dpl.id" class="hover:bg-gray-100">
+                <tr v-for="dpl in dpls.data" :key="dpl.id" class="hover:bg-gray-100">
                     <td class="border-t items-center px-6 py-4">
                         {{ dpl.nipy }}
                     </td>
@@ -32,103 +143,11 @@
                         </div>
                     </td>
                 </tr>
-            <tr v-if="dpls.length === 0">
-                <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
-            </tr>
+                <tr v-if="dpls.length === 0">
+                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
+                </tr>
             </tbody>
         </table>
     </div>
+    <TailwindPagination class="mt-6" :data="dpls" @pagination-change-page="getDpl" />
 </template>
-<script>
-import { onMounted, ref, computed } from 'vue';
-import axios from 'axios';
-import NProgress from 'nprogress';
-import DestroyButton from '@/Components/DestroyButton.vue';
-import UpdateButton from '@/Components/UpdateButton.vue';
-import DetailButton from '@/Components/DetailButton.vue';
-import { router, usePage } from '@inertiajs/vue3'
-import Swal from 'sweetalert2'
-export default{
-    components: { DestroyButton, UpdateButton, DetailButton },
-    props: {
-        user: Object
-    },
-    setup(props){        
-        const dpls = ref([])
-        onMounted(() => {
-            if(props.user.role === 1){
-                getDpl()
-            }
-            else{
-                getDplByProdi(props.user.prodi)
-            }
-           
-        })
-
-        const destroy = (id) => {
-            NProgress.start()
-            axios.delete(`/dpl/${id}`)
-            .then((res) => {
-                Swal.fire({
-                    icon: 'success',
-                    title: res.data.title,
-                    text: res.data.text
-                })
-
-                router.get('/dpl')
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                NProgress.done()
-            })
-        }
-
-        const getDpl = () => {
-            NProgress.start()
-            axios.get('getDpls')
-            .then((res) => {
-                dpls.value = res.data.data
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                NProgress.done()
-            })
-        }
-
-        const getDplByProdi = (prodi) => {
-            NProgress.start()
-            axios.get(`/getDplByProdi/${prodi}`)
-            .then((res) => {
-                dpls.value = res.data.data
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                NProgress.done()
-            })
-        }
-
-        const update = (id) => {
-            router.get(`/dpl/${id}`)
-        }
-
-        const addBimbinganGuruPamong = (id) => {
-            router.get(`/dpl/guru-pamong/${id}`)
-        }
-
-        return {
-            dpls,
-            getDpl,
-            getDplByProdi,
-            destroy,
-            update,
-            addBimbinganGuruPamong
-        }
-    }
-}
-</script>

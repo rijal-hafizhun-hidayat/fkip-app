@@ -18,7 +18,7 @@ class AkunService extends Controller
         if($request->filled('nama')){
             $queryAkun->where('nama', 'like', '%'.$request->nama.'%');
         }
-        $akuns = $queryAkun->paginate(2);
+        $akuns = $queryAkun->paginate(10);
         return $this->responseService($akuns, 200, true, null, null);
     }
 
