@@ -48,7 +48,7 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <PrimaryButton >Save</PrimaryButton>
+                <PrimaryButton>Save</PrimaryButton>
             </div>
         </form>
 </template>
@@ -85,7 +85,6 @@ export default{
         const validation = ref([])
 
         const submit = () => {
-            // console.log(form)
             NProgress.start()
             axios.post('/mahasiswa', {
                 nama: form.nama,

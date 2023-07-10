@@ -5,6 +5,7 @@ import NProgress from 'nprogress';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
+import ResetButton from '@/Components/ResetButton.vue';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 import Pagination from '@/Components/Pagination.vue';
@@ -15,12 +16,6 @@ const akuns = ref([])
 const search = ref('')
 const routeGetAkuns = ref('')
 const length = ref('')
-
-const props = defineProps({
-    test: Object
-})
-
-console.log(props.test)
         
 onMounted(() => {
     getAkuns()
@@ -73,12 +68,18 @@ const reset = () => {
     })
 }
 
+const formResetPass = (id) => {
+    router.get(`/akun/reset-pass/${id}`)
+    //console.log(id)
+}
+
 watch(search, async (newSearch, oldSearch) => {
     if(newSearch != null){
         getAkuns(1, newSearch)
     }
 })
 </script>
+
 <template>
     <InputSearch v-model="search" />
     <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
@@ -118,6 +119,7 @@ watch(search, async (newSearch, oldSearch) => {
                     <div class="flex flex-row space-x-4">
                         <DestroyButton @click="destroy(akun.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                         <UpdateButton @click="update(akun.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
+                        <ResetButton @click="formResetPass(akun.id)"><i class="fa-solid fa-unlock text-white fa-lg"></i></ResetButton>
                     </div>
                     
                     </td>

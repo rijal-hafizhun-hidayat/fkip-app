@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/akun/create', [AkunController::class, 'create'])->name('akun.create');
         Route::get('/akun/{id}', [AkunController::class, 'show'])->name('akun.show');
         Route::get('/akun/tambah-mahasiswa/{id}', [AkunController::class, 'addMhs'])->name('akun.addMhs');
+        Route::get('/akun/reset-pass/{id}', [AkunController::class, 'formResetPass'])->name('akun.formResetPass');
 
         //service akun
         Route::get('/getAkuns', [AkunService::class, 'getAkuns'])->name('akun.getAkuns');
@@ -64,6 +65,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/getDplByIdDpl/{id}', [AkunService::class, 'getDplByIdDpl'])->name('akun.getDplByIdDpl');
         Route::put('/destroyAsosiasiGuruPamong/{id}', [AkunService::class, 'destroyAsosiasiGuruPamong'])->name('akun.destroyAsosiasiGuruPamong');
         Route::put('/destroyAsosiasiDpl/{id}', [AkunService::class, 'destroyAsosiasiDpl'])->name('akun.destroyAsosiasiDpl');
+        Route::put('/resetPass/{id}', [AkunService::class, 'resetPass'])->name('akun.resetPass');
 
          //dpl
         Route::get('/dpl', [DplController::class, 'index'])->name('dpl');

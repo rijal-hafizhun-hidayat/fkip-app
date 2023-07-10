@@ -41,4 +41,10 @@ class AkunController extends Controller
             'id' => $id
         ]);
     }
+
+    public function formResetPass($id){
+        return Inertia::render('Akun/ResetPass', [
+            'id' => $id
+        ]);
+    }
 }

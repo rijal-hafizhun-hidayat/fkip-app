@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Akun\Service;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Akun\ResetPassAkunRequest;
 use App\Http\Requests\Akun\StoreAkunRequest;
 use App\Http\Requests\Akun\UpdateAkunRequest;
 use App\Models\User;
@@ -81,6 +82,17 @@ class AkunService extends Controller
             return $this->responseService(null, 200, true, 'Berhasil', 'berhasil hapus asosiasi dpl');
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', 'gagal hapus asosiasi dpl');
+        }
+    }
+
+    public function resetPass(ResetPassAkunRequest $request, $id){
+        try {
+            $queryResetPassUser = User::find($id);
+            $queryResetPassUser->password = Hash::make($request->password);
+            $queryResetPassUser->save();
+            return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil Ubah Password');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e->getMessage());
         }
     }
 
