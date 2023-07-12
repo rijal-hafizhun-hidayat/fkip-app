@@ -1,3 +1,14 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import FormCreate from './partials/FormCreate.vue';
+
+const props = defineProps({
+    guruPamongs: Object,
+    prodis: Object,
+    dpls: Object
+})
+</script>
 <template>
     <Head title="Tambah Akun" />
 
@@ -10,25 +21,8 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
-                <FormCreate :guruPamongs="guruPamongs" :prodis="prodis" :dpls="dpls"/>
+                <FormCreate :guruPamongs="props.guruPamongs" :prodis="props.prodis" :dpls="props.dpls"/>
             </div>
         </div>
     </AuthenticatedLayout>
 </template>
-<script>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import FormCreate from './partials/FormCreate.vue';
-export default {
-    components: {
-        AuthenticatedLayout,
-        Head,
-        FormCreate
-    },
-    props: {
-        guruPamongs: Object,
-        prodis: Object,
-        dpls: Object
-    }
-}
-</script>

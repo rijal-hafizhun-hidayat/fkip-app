@@ -1,3 +1,20 @@
+<script setup>
+import { ref } from 'vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import FormUpdate from './Partials/FormUpdate.vue';
+
+const isClick= ref(false);
+const props = defineProps({
+    id: Number,
+    prodis: Object
+})
+
+const clickForm = (isBool) => {
+    isClick.value = isBool
+}
+</script>
 <template>
     <Head title="Edit Guru Pamong" />
 
@@ -10,38 +27,8 @@
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
-                <FormUpdate :id="id"/>
+                <FormUpdate :id="id" :prodis="prodis"/>
             </div>
         </div>
     </AuthenticatedLayout>
 </template>
-<script>
-import { ref } from 'vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import FormUpdate from './Partials/FormUpdate.vue';
-export default {
-    components: {
-        AuthenticatedLayout,
-        Head,
-        FormUpdate,
-        PrimaryButton
-    },
-    props: {
-        id: Number
-    },
-    setup(){
-        const isClick= ref(false);
-
-        const clickForm = (isBool) => {
-            isClick.value = isBool
-        }
-
-        return {
-            isClick,
-            clickForm
-        }
-    }
-}
-</script>

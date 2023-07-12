@@ -15,7 +15,8 @@ class GuruPamongImport implements ToModel, WithHeadingRow
         return new GuruPamong([
             'nama' => $row['nama'],
             'asal' => $row['asal'],
-            'asal_sekolah' => $row['asal_sekolah']
+            'asal_sekolah' => $row['asal_sekolah'],
+            'bidang_keahlian' => $row['bidang_keahlian']
         ]);
     }
 }

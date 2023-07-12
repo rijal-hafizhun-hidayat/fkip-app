@@ -66,6 +66,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/destroyAsosiasiGuruPamong/{id}', [AkunService::class, 'destroyAsosiasiGuruPamong'])->name('akun.destroyAsosiasiGuruPamong');
         Route::put('/destroyAsosiasiDpl/{id}', [AkunService::class, 'destroyAsosiasiDpl'])->name('akun.destroyAsosiasiDpl');
         Route::put('/resetPass/{id}', [AkunService::class, 'resetPass'])->name('akun.resetPass');
+        Route::get('/getProdi/{prodi}', [AkunService::class, 'getProdi'])->name('akun.getProdi');
 
          //dpl
         Route::get('/dpl', [DplController::class, 'index'])->name('dpl');
@@ -130,6 +131,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/guru-pamong/import', [GuruPamongImportService::class, 'import'])->name('guru_pamong.import');
             Route::put('/storeAsosiasiMahasiswa/{id}', [GuruPamongService::class, 'storeAsosiasiMahasiswa'])->name('guru_pamong.storeAsosiasiMahasiswa');
             Route::put('/destroyAsosiasiMahasiswa/{id}', [GuruPamongService::class, 'destroyAsosiasiMahasiswa'])->name('guru_pamong.destroyAsosiasiMahasiswa');
+            Route::get('/getBidangKeahlian', [GuruPamongService::class, 'getBidangKeahlian'])->name('guru_pamong.getBidangKeahlian');
         });
         
         Route::get('/getGuruPamongById/{id}', [GuruPamongService::class, 'getGuruPamongById'])->name('guru_pamong.getGuruPamongById');

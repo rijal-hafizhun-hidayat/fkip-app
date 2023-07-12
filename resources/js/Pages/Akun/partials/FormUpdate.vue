@@ -15,15 +15,6 @@
         </div>
 
         <div>
-            <InputLabel for="prodi" value="Prodi"/>
-            <SelectInput class="mt-1 w-full" v-model="form.prodi" @change="setUsername(form.nama, form.prodi)" :class="{ 'border-rose-600': validation.prodi }">
-                <option selected disabled value="">-- Pilih --</option>
-                <option v-for="prodi in prodis">{{ prodi.nama }}</option>
-            </SelectInput>
-            <InputError v-if="validation.prodi" :message="validation.prodi[0]" class="mt-2" />
-        </div>
-
-        <div>
             <InputLabel for="username" value="Username" />
             <TextInput
                 :disabled="disabled"

@@ -20,7 +20,7 @@ class ResetPassAkunRequest extends FormRequest
     {
         return [
             'required' => 'Wajib diisi',
-            'string' => 'Wajib dalam bentuk teks',
+            'string' => 'Wajib dalam bentuk teks'
         ];
     }
 

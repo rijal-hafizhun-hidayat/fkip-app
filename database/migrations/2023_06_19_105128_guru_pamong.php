@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nama');
             $table->text('asal');
             $table->string('asal_sekolah');
+            $table->string('bidang_keahlian');
             $table->bigInteger('id_dpl')->nullable();
             $table->timestamps();
         });

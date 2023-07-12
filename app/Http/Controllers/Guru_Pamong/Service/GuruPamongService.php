@@ -7,6 +7,7 @@ use App\Http\Requests\Guru_Pamong\StoreGuruPamongRequest;
 use App\Http\Requests\Guru_Pamong\UpdateGuruPamongRequest;
 use App\Models\GuruPamong;
 use App\Models\Mahasiswa;
+use App\Models\Prodi;
 use Illuminate\Http\Request;
 
 class GuruPamongService extends Controller
@@ -90,6 +91,15 @@ class GuruPamongService extends Controller
             return $this->responseService(null, 200, true, 'Berhasil', 'berhasil hapus asosiasi mahasiswa');
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', 'gagal hapus asosiasi mahasiswa');
+        }
+    }
+
+    public function getBidangKeahlian(){
+        try {
+            $bidangKeahlian = Prodi::all();
+            return $this->responseService($bidangKeahlian, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e->getMessage());
         }
     }
 

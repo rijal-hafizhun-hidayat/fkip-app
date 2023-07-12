@@ -38,7 +38,6 @@ class StoreAkunRequest extends FormRequest
             'email' => 'required|email:rfc,dns',
             'password' => 'required|string',
             'role' => 'required|numeric',
-            'prodi' => 'required|string',
             'id_dpl' => 'nullable|numeric',
             'id_guru_pamong' => 'nullable|numeric'
         ];

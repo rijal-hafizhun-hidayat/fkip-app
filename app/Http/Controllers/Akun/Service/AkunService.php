@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Akun\ResetPassAkunRequest;
 use App\Http\Requests\Akun\StoreAkunRequest;
 use App\Http\Requests\Akun\UpdateAkunRequest;
+use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -91,6 +92,15 @@ class AkunService extends Controller
             $queryResetPassUser->password = Hash::make($request->password);
             $queryResetPassUser->save();
             return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil Ubah Password');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e->getMessage());
+        }
+    }
+
+    public function getProdi($prodi){
+        try {
+            $namaProdi = Prodi::where('nama', $prodi)->orWhere('bidang_keahlian', $prodi)->first();
+            return $this->responseService($namaProdi, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e->getMessage());
         }
