@@ -1,3 +1,95 @@
+<script setup>
+import { ref, reactive, onMounted } from 'vue'
+import TextInput from '@/Components/TextInput.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import InputError from '@/Components/InputError.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SelectInput from '@/Components/SelectInput.vue';
+import { router } from '@inertiajs/vue3';
+import axios from 'axios';
+import NProgress from 'nprogress';
+import Swal from 'sweetalert2'
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.css'
+
+const props = defineProps({
+    id: Number,
+    prodis: Object,
+    guruPamongs: Object,
+    dpls: Object
+})
+
+const form = reactive({
+    nama: '',
+    username: '',
+    email: '',
+    role: '',
+    prodi: '',
+    id_guru_pamong: '',
+    id_dpl: ''
+})
+
+const disabled = ref(true)
+const value = ref('vuex')
+const validation = ref([])
+
+onMounted(() => {
+    NProgress.start()
+    axios.get(`/getAkunById/${props.id}`)
+    .then((res) => {
+        form.nama = res.data.data.nama
+        form.username = res.data.data.username
+        form.email = res.data.data.email
+        form.role = res.data.data.role
+        form.prodi = res.data.data.prodi
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+    .finally(() => {
+        NProgress.done()
+    })
+})
+
+const submit = () => {
+    NProgress.start()
+    axios.put(`/akun/${props.id}`, {
+        nama: form.nama,
+        username: form.username,
+        email: form.email,
+        role: form.role,
+        prodi: form.prodi,
+        id_dpl: form.id_dpl.id,
+        id_guru_pamong: form.id_guru_pamong.id
+    })
+    .then((res) => {
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })       
+        router.get('/akun')
+    })
+    .catch((err) => {
+        validation.value = err.response.data.errors
+    })
+    .finally(() => {
+        NProgress.done()
+    })
+}
+
+const setUsername = (nama, prodi) => {
+    form.username = nama+'-'+prodi
+}
+
+const nameWithLang = ({nama}) => {
+    return nama
+}
+
+const updateValueAction = ({ commit }, value) => {
+    commit('updateValue', value)
+}
+</script>
 <template>
     <form @submit.prevent="submit" class="mt-6 space-y-6">
         <div>
@@ -17,6 +109,7 @@
         <div>
             <InputLabel for="username" value="Username" />
             <TextInput
+                @change="setUsername(form.nama, form.prodi)"
                 :disabled="disabled"
                 id="username"
                 ref="username"
@@ -68,122 +161,3 @@
         </div>
     </form>
 </template>
-<script>
-import { ref, reactive, onMounted } from 'vue'
-import TextInput from '@/Components/TextInput.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import InputError from '@/Components/InputError.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import SelectInput from '@/Components/SelectInput.vue';
-import { router } from '@inertiajs/vue3';
-import Footer from '@/Components/Footer.vue';
-import axios from 'axios';
-import NProgress from 'nprogress';
-import Swal from 'sweetalert2'
-import Multiselect from 'vue-multiselect'
-import 'vue-multiselect/dist/vue-multiselect.css'
-export default {
-    components: {
-        PrimaryButton,
-        TextInput,
-        InputLabel,
-        InputError,
-        Dropdown,
-        SelectInput,
-        Footer,
-        Multiselect
-    },
-    props: {
-        id: Number,
-        prodis: Object,
-        guruPamongs: Object,
-        dpls: Object
-    },
-    setup(props){
-        const form = reactive({
-            nama: '',
-            username: '',
-            email: '',
-            role: '',
-            prodi: '',
-            id_guru_pamong: '',
-            id_dpl: ''
-        })
-
-        const disabled = ref(true)
-        const value = ref('vuex')
-        const validation = ref([])
-
-        onMounted(() => {
-            NProgress.start()
-            axios.get(`/getAkunById/${props.id}`)
-            .then((res) => {
-                form.nama = res.data.data.nama
-                form.username = res.data.data.username
-                form.email = res.data.data.email
-                form.role = res.data.data.role
-                form.prodi = res.data.data.prodi
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-            .finally(() => {
-                NProgress.done()
-            })
-        })
-
-        const submit = () => {
-            //console.log(form.id_guru_pamong, form.id_dpl.id)
-            NProgress.start()
-            axios.put(`/akun/${props.id}`, {
-                nama: form.nama,
-                username: form.username,
-                email: form.email,
-                role: form.role,
-                prodi: form.prodi,
-                id_dpl: form.id_dpl.id,
-                id_guru_pamong: form.id_guru_pamong.id
-            })
-            .then((res) => {
-                Swal.fire({
-                    icon: 'success',
-                    title: res.data.title,
-                    text: res.data.text
-                })
-                
-                router.get('/akun')
-            })
-            .catch((err) => {
-                validation.value = err.response.data.errors
-            })
-            .finally(() => {
-                NProgress.done()
-            })
-        }
-
-        const setUsername = (nama, prodi) => {
-            form.username = nama+'_'+prodi
-        }
-
-        const nameWithLang = ({nama}) => {
-            return nama
-        }
-
-        const updateValueAction = ({ commit }, value) => {
-            commit('updateValue', value)
-        }
-
-        return {
-            form,
-            validation,
-            disabled,
-            value,
-            submit,
-            setUsername,
-            nameWithLang,
-            updateValueAction,
-        }
-    }
-}
-</script>

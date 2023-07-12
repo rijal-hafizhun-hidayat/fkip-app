@@ -75,17 +75,6 @@ const setIdDplGuruPamong = (role, uniq) => {
     }
 }
 
-// const abbreviationProdi = (prodi) => {
-//     const myArray = prodi.split(" ")
-
-//     let firstCharProdi = ''
-//     for (let index = 0; index < myArray.length; index++) {
-//         const element = myArray[index].charAt(0).toLowerCase();
-//         firstCharProdi = firstCharProdi+element
-//     }
-//     return firstCharProdi
-// }
-
 const setUsername = (firstName, role, singkatanProdi, bidang_keahlian) => {
     if(role == 2){
         form.username = firstName.toLowerCase()+'-'+singkatanProdi
@@ -110,7 +99,6 @@ const setUsernamePasswordIdDplGuruPamong = (nama, role, uniq) => {
     let prodiBidangKeahlian = role == 2 ? uniq.prodi : uniq.bidang_keahlian
     axios.get(`/getProdi/${prodiBidangKeahlian}`)
     .then((res) => {
-        //let singkatan = res.data.data.singkatan
         setUsername(firstName, role, res.data.data.singkatan, uniq.bidang_keahlian)
         setPassword(firstName, role, uniq)
         setIdDplGuruPamong(role, uniq)
