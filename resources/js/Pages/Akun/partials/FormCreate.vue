@@ -3,11 +3,9 @@ import { ref, reactive } from 'vue'
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
-import Dropdown from '@/Components/Dropdown.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SelectInput from '@/Components/SelectInput.vue';
 import { router } from '@inertiajs/vue3';
-import Footer from '@/Components/Footer.vue';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import Swal from 'sweetalert2'
@@ -86,7 +84,6 @@ const setUsername = (firstName, role, singkatanProdi, bidang_keahlian) => {
 
 const setPassword = (firstName, role, uniq) => {
     if(role == 2){
-        //console.log(uniq.nipy)
         form.password = firstName.toLowerCase()+uniq.nipy
     }
     else if(role == 3){

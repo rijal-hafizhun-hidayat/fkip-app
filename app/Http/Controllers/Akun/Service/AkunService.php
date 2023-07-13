@@ -112,7 +112,6 @@ class AkunService extends Controller
         $user->username = $credential['username'];
         $user->email = $credential['email'];
         $user->role = $credential['role'];
-        $user->prodi = $credential['prodi'];
         $user->id_dpl = $credential['id_dpl'];
         $user->id_guru_pamong = null;
 
@@ -125,7 +124,6 @@ class AkunService extends Controller
         $user->username = $credential['username'];
         $user->email = $credential['email'];
         $user->role = $credential['role'];
-        $user->prodi = $credential['prodi'];
         $user->id_dpl = null;
         $user->id_guru_pamong = $credential['id_guru_pamong'];
 

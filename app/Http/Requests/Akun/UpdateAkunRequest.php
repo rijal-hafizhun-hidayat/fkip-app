@@ -38,7 +38,6 @@ class UpdateAkunRequest extends FormRequest
             'username' => 'required|string',
             'email' => 'required|email:rfc,dns',
             'role' => 'required|numeric',
-            'prodi' => 'required|string',
             'id_dpl' => 'nullable|numeric',
             'id_guru_pamong' => 'nullable|numeric'
         ];

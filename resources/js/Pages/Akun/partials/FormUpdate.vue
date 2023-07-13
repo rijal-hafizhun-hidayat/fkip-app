@@ -24,14 +24,13 @@ const form = reactive({
     username: '',
     email: '',
     role: '',
-    prodi: '',
     id_guru_pamong: '',
     id_dpl: ''
 })
 
 const disabled = ref(true)
-const value = ref('vuex')
 const validation = ref([])
+const asosiasi = ref([])
 
 onMounted(() => {
     NProgress.start()
@@ -41,7 +40,6 @@ onMounted(() => {
         form.username = res.data.data.username
         form.email = res.data.data.email
         form.role = res.data.data.role
-        form.prodi = res.data.data.prodi
     })
     .catch((err) => {
         console.log(err)
@@ -58,9 +56,8 @@ const submit = () => {
         username: form.username,
         email: form.email,
         role: form.role,
-        prodi: form.prodi,
-        id_dpl: form.id_dpl.id,
-        id_guru_pamong: form.id_guru_pamong.id
+        id_dpl: form.id_dpl,
+        id_guru_pamong: form.id_guru_pamong
     })
     .then((res) => {
         Swal.fire({
@@ -78,8 +75,38 @@ const submit = () => {
     })
 }
 
-const setUsername = (nama, prodi) => {
-    form.username = nama+'-'+prodi
+const setUsername = (nama, role, asosiasi) => {
+    let firstName = nama.split(" ")[0].toLowerCase()
+    let prodiBidangKeahlian = role == 2 ? asosiasi.prodi : asosiasi.bidang_keahlian
+    axios.get(`/getProdi/${prodiBidangKeahlian}`)
+    .then((res) => {
+        setUsernameToReactiveForm(firstName, role, res.data.data)
+        setIdDplGuruPamongToReactiveForm(role, asosiasi)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
+const setUsernameToReactiveForm = (firstName, role, prodiBidangKeahlian) => {
+    console.log(firstName, role, prodiBidangKeahlian.singkatan)
+    if(role == 2){
+        form.username = firstName+'-'+prodiBidangKeahlian.singkatan
+    }
+    else if(role == 3){
+        form.username = firstName+'-'+prodiBidangKeahlian.bidang_keahlian
+    }
+}
+
+const setIdDplGuruPamongToReactiveForm = (role, asosiasi) => {
+    if(role == 2){
+        form.id_dpl = asosiasi.id
+        form.id_guru_pamong = null
+    }
+    else if(role == 3){
+        form.id_dpl = null
+        form.id_guru_pamong = asosiasi.id
+    }
 }
 
 const nameWithLang = ({nama}) => {
@@ -101,24 +128,9 @@ const updateValueAction = ({ commit }, value) => {
                 class="mt-1 block w-full"
                 v-model="form.nama"
                 :class="{ 'border-rose-600': validation.nama }"
-                @change="setUsername(form.nama, form.prodi)"
+                @change="setUsername(form.nama, form.role, asosiasi)"
             />
             <InputError v-if="validation.nama" :message="validation.nama[0]" class="mt-2" />
-        </div>
-
-        <div>
-            <InputLabel for="username" value="Username" />
-            <TextInput
-                @change="setUsername(form.nama, form.prodi)"
-                :disabled="disabled"
-                id="username"
-                ref="username"
-                type="text"
-                class="mt-1 block w-full"
-                v-model="form.username"
-                :class="{ 'border-rose-600': validation.username, 'bg-slate-200': disabled }"
-            />
-            <InputError v-if="validation.username" :message="validation.username[0]" class="mt-2" />
         </div>
 
         <div>
@@ -135,7 +147,11 @@ const updateValueAction = ({ commit }, value) => {
 
         <div>
             <InputLabel for="role" value="Role"/>
-            <SelectInput class="mt-1 w-full" v-model="form.role" :class="{ 'border-rose-600': validation.role }">
+            <SelectInput
+                class="mt-1 w-full"
+                v-model="form.role"
+                :class="{ 'border-rose-600': validation.role }"
+                @select="setUsername(form.nama, form.role, asosiasi)">
                 <option selected disabled value="">-- Pilih --</option>
                 <option value="1">Admin</option>
                 <option value="2">DPL</option>
@@ -146,14 +162,43 @@ const updateValueAction = ({ commit }, value) => {
 
         <div v-if="form.role == 3">
             <InputLabel for="id_guru_pamong" value="Guru Pamong"/>
-            <Multiselect :class="{ 'border-rose-600': validation.id_guru_pamong }" v-model="form.id_guru_pamong" :custom-label="nameWithLang" label="nama" :options="guruPamongs"></Multiselect>
+            <Multiselect
+                :class="{ 'border-rose-600': validation.id_guru_pamong }"
+                v-model="asosiasi"
+                :custom-label="nameWithLang"
+                label="nama"
+                :options="guruPamongs"
+                @select="setUsername(form.nama, form.role, asosiasi)">
+            </Multiselect>
             <InputError v-if="validation.id_guru_pamong" :message="validation.id_guru_pamong[0]" class="mt-2" />
         </div>
         
         <div v-if="form.role == 2">
             <InputLabel for="id_dpl" value="Dpl"/>
-            <Multiselect :class="{ 'border-rose-600': validation.id_dpl }" v-model="form.id_dpl" :custom-label="nameWithLang" label="nama" :options="dpls"></Multiselect>
+            <Multiselect
+                :class="{ 'border-rose-600': validation.id_dpl }"
+                v-model="asosiasi"
+                :custom-label="nameWithLang"
+                label="nama"
+                :options="dpls"
+                @select="setUsername(form.nama, form.role, asosiasi)">
+            </Multiselect>
             <InputError v-if="validation.id_dpl" :message="validation.id_dpl[0]" class="mt-2" />
+        </div>
+
+        <div>
+            <InputLabel for="username" value="Username" />
+            <TextInput
+                @change="setUsername(form.nama, form.role, asosiasi)"
+                :disabled="disabled"
+                id="username"
+                ref="username"
+                type="text"
+                class="mt-1 block w-full"
+                v-model="form.username"
+                :class="{ 'border-rose-600': validation.username, 'bg-slate-200': disabled }"
+            />
+            <InputError v-if="validation.username" :message="validation.username[0]" class="mt-2" />
         </div>
 
         <div class="flex items-center gap-4">
