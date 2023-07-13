@@ -1,3 +1,45 @@
+<script setup>
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
+import DestroyButton from '@/Components/DestroyButton.vue';
+import { router } from '@inertiajs/vue3'
+import Swal from 'sweetalert2'
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+
+const dplGuruPamongById = ref([])
+const props = defineProps({
+    id: Number
+})
+
+onMounted(() => {
+    axios.get(`/getDplGuruPamongById/${props.id}`)
+    .then((res) => {
+        dplGuruPamongById.value = res.data.data
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+})
+
+const destroy = (id) => {
+    axios.put(`/destroyAssociationGuruPamong/${id}`)
+    .then((res) => {
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+        router.get(`/dpl/guru-pamong/${props.id}`)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
+const goToRouteGuruPamongById = (id) => {
+    router.get(`/guru-pamong/mahasiswa/${id}`)
+}
+</script>
 <template>
     <div class="bg-white rounded-md shadow-md overflow-x-auto mt-10">
         <table class="w-full whitespace-nowrap">
@@ -23,6 +65,7 @@
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
                             <DestroyButton @click="destroy(dplGuruPamong.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
+                            <PrimaryButton @click="goToRouteGuruPamongById(dplGuruPamong.id)"><i class="fa-solid fa-circle-info"></i></PrimaryButton>
                         </div>
                     </td>
                 </tr>
@@ -33,52 +76,3 @@
         </table>
     </div>
 </template>
-<script>
-import { onMounted, ref } from 'vue';
-import axios from 'axios';
-import NProgress from 'nprogress';
-import DestroyButton from '@/Components/DestroyButton.vue';
-import UpdateButton from '@/Components/UpdateButton.vue';
-import { router } from '@inertiajs/vue3'
-import Swal from 'sweetalert2'
-export default{
-    components: { DestroyButton, UpdateButton },
-    props: {
-        id: Number
-    },
-    setup(props){
-        const dplGuruPamongById = ref([])
-
-        onMounted(() => {
-            axios.get(`/getDplGuruPamongById/${props.id}`)
-            .then((res) => {
-                dplGuruPamongById.value = res.data.data
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        })
-
-        const destroy = (id) => {
-            //console.log(id)
-            axios.put(`/destroyAssociationGuruPamong/${id}`)
-            .then((res) => {
-                Swal.fire({
-                    icon: 'success',
-                    title: res.data.title,
-                    text: res.data.text
-                })
-                router.get(`/dpl/guru-pamong/${props.id}`)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        }
-
-        return {
-            dplGuruPamongById,
-            destroy
-        }
-    }
-}
-</script>

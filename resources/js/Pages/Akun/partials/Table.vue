@@ -125,7 +125,7 @@ watch(search, async (newSearch, oldSearch) => {
                     </td>
                 </tr>
                 <tr v-if="length === 0">
-                    <td class="px-6 py-4 text-center border-t" colspan="5">No organizations found.</td>
+                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
                 </tr>
             </tbody>
         </table>

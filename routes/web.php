@@ -89,11 +89,9 @@ Route::middleware('auth')->group(function () {
     });
 
     //mahasiswa
-    Route::get('/mahasiswa/nilai/{id}', [MahasiswaController::class, 'nilai'])->name('mahasiswa.nilai');
-    Route::get('/getMahasiswaById/{id}', [MahasiswaService::class, 'getMahasiswaById'])->name('mahasiswa.getMahasiswaById');
-
     Route::middleware('isAdminGuruPamong')->group(function(){
         Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
+        Route::get('/mahasiswa/nilai/{id}', [MahasiswaController::class, 'nilai'])->name('mahasiswa.nilai');
 
         Route::middleware('isAdmin')->group(function(){
             Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
@@ -106,8 +104,8 @@ Route::middleware('auth')->group(function () {
             Route::put('/mahasiswa/{id}', [MahasiswaService::class, 'update'])->name('mahasiswa.update');
             Route::post('/mahasiswa/import', [MahasiswaImportService::class, 'import'])->name('mahasiswa.import');
         });
-
        
+        Route::get('/getMahasiswaById/{id}', [MahasiswaService::class, 'getMahasiswaById'])->name('mahasiswa.getMahasiswaById');
         Route::get('/getMahasiswaByIdAkun/{id}', [MahasiswaService::class, 'getMahasiswaByIdAkun'])->name('mahasiswa.getMahasiswaByIdAkun')->middleware('isGuruPamong');
         Route::put('/updateNilai/{id}', [MahasiswaService::class, 'updateNilai'])->name('mahasiswa.updateNilai');
     });
@@ -117,7 +115,7 @@ Route::middleware('auth')->group(function () {
 
         //guru pamong
         Route::get('/guru-pamong', [GuruPamongController::class, 'index'])->name('guru_pamong');
-        Route::get('/guru-pamong/mahasiswa/{id}', [GuruPamongController::class, 'addAsosiasiMahasiswa'])->name('guru_pamong.addAsosiasiMahasiswa');
+        Route::get('/guru-pamong/mahasiswa/{id}', [GuruPamongController::class, 'createAsosiasiMahasiswa'])->name('guru_pamong.addAsosiasiMahasiswa');
 
         Route::middleware('isAdmin')->group(function(){
             Route::get('/guru-pamong/create', [GuruPamongController::class, 'create'])->name('guru_pamong.create');

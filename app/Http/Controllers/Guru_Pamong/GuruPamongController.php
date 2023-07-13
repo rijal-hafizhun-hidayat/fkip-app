@@ -25,7 +25,7 @@ class GuruPamongController extends Controller
         ]);
     }
 
-    public function addAsosiasiMahasiswa($id){
+    public function createAsosiasiMahasiswa($id){
         return Inertia::render('Guru_Pamong/AddMahasiswa', [
             'id' => $id
         ]);
