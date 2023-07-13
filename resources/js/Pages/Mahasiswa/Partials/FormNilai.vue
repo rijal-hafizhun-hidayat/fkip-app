@@ -41,7 +41,7 @@ const submit = () => {
         n_komponen_dua: form.n_komponen_dua,
         n_komponen_tiga: form.n_komponen_tiga,
         n_komponen_empat: form.n_komponen_empat,
-        n_komponen_lima: form.n_komponen_lima,
+        n_komponen_lima: form.n_komponen_lima
     })
     .then((res) => {
         Swal.fire({

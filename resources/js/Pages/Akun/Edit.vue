@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import FormUpdate from './partials/FormUpdate.vue';
-import TableDpl from './partials/TableDpl.vue'
+import TableDpl from './partials/TableDpl.vue';
 import TableGuruPamong from './partials/TableGuruPamong.vue';
 
 defineProps({

@@ -78,14 +78,19 @@ const submit = () => {
 const setUsername = (nama, role, asosiasi) => {
     let firstName = nama.split(" ")[0].toLowerCase()
     let prodiBidangKeahlian = role == 2 ? asosiasi.prodi : asosiasi.bidang_keahlian
-    axios.get(`/getProdi/${prodiBidangKeahlian}`)
-    .then((res) => {
-        setUsernameToReactiveForm(firstName, role, res.data.data)
-        setIdDplGuruPamongToReactiveForm(role, asosiasi)
-    })
-    .catch((err) => {
-        console.log(err)
-    })
+    if(role != 1){
+        axios.get(`/getProdi/${prodiBidangKeahlian}`)
+        .then((res) => {
+            setUsernameToReactiveForm(firstName, role, res.data.data)
+            setIdDplGuruPamongToReactiveForm(role, asosiasi)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+    else{
+        form.username = firstName.toLowerCase()+Math.floor(Math.random()*(999-100+1)+100)+'@admin'
+    }
 }
 
 const setUsernameToReactiveForm = (firstName, role, prodiBidangKeahlian) => {
@@ -95,6 +100,9 @@ const setUsernameToReactiveForm = (firstName, role, prodiBidangKeahlian) => {
     }
     else if(role == 3){
         form.username = firstName+'-'+prodiBidangKeahlian.bidang_keahlian
+    }
+    else{
+        form.username = firstName+Math.floor((Math.random() * 1000) + 1)+'@admin'
     }
 }
 
@@ -106,6 +114,10 @@ const setIdDplGuruPamongToReactiveForm = (role, asosiasi) => {
     else if(role == 3){
         form.id_dpl = null
         form.id_guru_pamong = asosiasi.id
+    }
+    else{
+        form.id_dpl = null
+        form.id_guru_pamong = null
     }
 }
 
@@ -151,7 +163,7 @@ const updateValueAction = ({ commit }, value) => {
                 class="mt-1 w-full"
                 v-model="form.role"
                 :class="{ 'border-rose-600': validation.role }"
-                @select="setUsername(form.nama, form.role, asosiasi)">
+                @change="setUsername(form.nama, form.role, asosiasi)">
                 <option selected disabled value="">-- Pilih --</option>
                 <option value="1">Admin</option>
                 <option value="2">DPL</option>

@@ -35,7 +35,6 @@ const props = defineProps({
 })
 
 const submit = () => {
-    //console.log(form)
     NProgress.start()
     axios.post('/akun', {
         nama: form.nama,
@@ -71,6 +70,10 @@ const setIdDplGuruPamong = (role, uniq) => {
         form.id_dpl = ''
         form.id_guru_pamong = uniq.id
     }
+    else{
+        form.id_dpl = null
+        form.id_guru_pamong = null
+    }
 }
 
 const setUsername = (firstName, role, singkatanProdi, bidang_keahlian) => {
@@ -80,6 +83,9 @@ const setUsername = (firstName, role, singkatanProdi, bidang_keahlian) => {
     else if(role == 3){
         form.username = firstName.toLowerCase()+'-'+bidang_keahlian.toLowerCase()
     }
+    else{
+        form.username = firstName+Math.floor(Math.random()*(999-100+1)+100)+'@admin'
+    }
 }
 
 const setPassword = (firstName, role, uniq) => {
@@ -87,22 +93,31 @@ const setPassword = (firstName, role, uniq) => {
         form.password = firstName.toLowerCase()+uniq.nipy
     }
     else if(role == 3){
-        form.password = firstName.toLowerCase()+uniq.bidang_keahlian.toLowerCase()+Math.floor((Math.random() * 1000) + 1)
+        form.password = firstName.toLowerCase()+uniq.bidang_keahlian.toLowerCase()+Math.floor(Math.random()*(999-100+1)+100)
+    }
+    else{
+        form.password = Math.floor(Math.random()*(999-100+1)+100)+'@admin'
     }
 }
 
 const setUsernamePasswordIdDplGuruPamong = (nama, role, uniq) => {
     let firstName = nama.split(" ")[0]
     let prodiBidangKeahlian = role == 2 ? uniq.prodi : uniq.bidang_keahlian
-    axios.get(`/getProdi/${prodiBidangKeahlian}`)
-    .then((res) => {
-        setUsername(firstName, role, res.data.data.singkatan, uniq.bidang_keahlian)
-        setPassword(firstName, role, uniq)
-        setIdDplGuruPamong(role, uniq)
-    })
-    .catch((err) => {
-        console.log(err)
-    })
+    if(role != 1){
+        axios.get(`/getProdi/${prodiBidangKeahlian}`)
+        .then((res) => {
+            setUsername(firstName, role, res.data.data.singkatan, uniq.bidang_keahlian)
+            setPassword(firstName, role, uniq)
+            setIdDplGuruPamong(role, uniq)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    }
+    else{
+        form.username = firstName.toLowerCase()+Math.floor(Math.random()*(999-100+1)+100)+'@admin'
+        form.password = Math.floor(Math.random()*(999-100+1)+100)+'@admin'
+    }
 }
 
 const nameWithLang = ({nama}) => {
@@ -137,7 +152,7 @@ const nameWithLang = ({nama}) => {
         <div>
             <InputLabel for="role" value="Role" />
             <SelectInput
-                @select="setUsernamePasswordIdDplGuruPamong(form.nama, form.role, asosiasi)"
+                @change="setUsernamePasswordIdDplGuruPamong(form.nama, form.role, asosiasi)"
                 class="mt-1 blobk w-full"
                 v-model="form.role"
                 :class="{ 'border-rose-600': validation.role }">
@@ -199,7 +214,6 @@ const nameWithLang = ({nama}) => {
                 <div class="ml-3">
                     <PrimaryButton v-if="isSeePass == true" class="mt-1 py-3.5" @click="isSeePass = !isSeePass"><i class="fa-solid fa-eye-slash"></i></PrimaryButton>
                     <PrimaryButton v-if="isSeePass == false" class="mt-1 py-3.5" @click="isSeePass = !isSeePass"><i class="fa-solid fa-eye"></i></PrimaryButton>
-
                 </div>
             </div>
             

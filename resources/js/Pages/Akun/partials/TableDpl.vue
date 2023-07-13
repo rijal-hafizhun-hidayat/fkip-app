@@ -1,8 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import NProgress from 'nprogress';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DestroyButton from '@/Components/DestroyButton.vue';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
@@ -69,11 +67,10 @@ const destroyAsosiasiDpl = () => {
                         </div>
                     </td>
                 </tr>
-            <tr v-if="dplByIdDpl.length == 0">
-                <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
-            </tr>
+                <tr v-if="dplByIdDpl.length == 0">
+                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
+                </tr>
             </tbody>
         </table>
     </div>
 </template>
-<script>
