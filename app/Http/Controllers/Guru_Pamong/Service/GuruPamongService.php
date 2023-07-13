@@ -49,8 +49,13 @@ class GuruPamongService extends Controller
     }
 
     public function update(UpdateGuruPamongRequest $request, $id){
-        GuruPamong::where('id', $id)->update($request->validated());
-        return $this->responseService(null, 200, true, 'Berhasil', 'Berhasul Ubah Data');
+        try {
+            GuruPamong::where('id', $id)->update($request->validated());
+            return $this->responseService(null, 200, true, 'Berhasil', 'Berhasul Ubah Data');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e->getMessage());
+        }
+       
     }
 
     public function destroy($id){

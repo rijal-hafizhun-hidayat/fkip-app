@@ -3,10 +3,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import FormNilai from './Partials/FormNilai.vue';
 import TableNilai from './Partials/TableNilai.vue';
-import DetailNilai from './Partials/DetailNilai.vue';
+import DetailMahasiswa from './Partials/DetailMahasiswa.vue';
 import { computed } from 'vue'
 
-const props = defineProps({
+defineProps({
     id: Number
 })
 
@@ -25,10 +25,10 @@ const user = computed(() => page.props.auth.user)
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
-                <FormNilai v-if="user.role === 3" :id="props.id"/>
-                <DetailNilai v-if="user.role === 2 || user.role === 1" :id="props.id"/>
+                <DetailMahasiswa v-if="user.role === 2 || user.role === 1" :id="id"/>
+                <FormNilai class="mt-10" v-if="user.role === 3 || user.role === 1" :id="id"/>
             </div>
-            <TableNilai :id="props.id"/>
+            <TableNilai :id="id"/>
         </div>
     </AuthenticatedLayout>
 </template>

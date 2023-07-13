@@ -1,3 +1,18 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import FormUpdate from './partials/FormUpdate.vue';
+import TableDpl from './partials/TableDpl.vue'
+import TableGuruPamong from './partials/TableGuruPamong.vue';
+
+defineProps({
+    id: Number,
+    prodis: Object,
+    guruPamongs: Object,
+    dpls: Object,
+    roleAkun: Number
+})
+</script>
 <template>
     <Head title="Edit Akun" />
 
@@ -17,26 +32,3 @@
         </div>
     </AuthenticatedLayout>
 </template>
-<script>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import FormUpdate from './partials/FormUpdate.vue';
-import TableDpl from './partials/TableDpl.vue'
-import TableGuruPamong from './partials/TableGuruPamong.vue';
-export default {
-    components: {
-        AuthenticatedLayout,
-        Head,
-        FormUpdate,
-        TableDpl,
-        TableGuruPamong
-    },
-    props: {
-        id: Number,
-        prodis: Object,
-        guruPamongs: Object,
-        dpls: Object,
-        roleAkun: Number
-    }
-}
-</script>

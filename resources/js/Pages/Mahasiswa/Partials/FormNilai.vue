@@ -1,29 +1,63 @@
+<script setup>
+import { reactive, onMounted, ref } from 'vue'
+import InputLabel from '@/Components/InputLabel.vue';
+import InputError from '@/Components/InputError.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import InputLikertScale from '@/Components/InputLikertScale.vue'
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { router } from '@inertiajs/vue3'
+
+const validation = ref([])
+const props = defineProps({
+    id: Number
+})
+const form = reactive({
+    n_komponen_satu: '',
+    n_komponen_dua: '',
+    n_komponen_tiga: '',
+    n_komponen_empat: '',
+    n_komponen_lima: ''
+})
+
+onMounted(() => {
+    axios.get(`/getMahasiswaById/${props.id}`)
+    .then((res) => {
+        //console.log(res)
+        form.n_komponen_satu = res.data.data.n_komponen_satu
+        form.n_komponen_dua = res.data.data.n_komponen_dua
+        form.n_komponen_tiga = res.data.data.n_komponen_tiga
+        form.n_komponen_empat = res.data.data.n_komponen_empat
+        form.n_komponen_lima = res.data.data.n_komponen_lima
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+})
+
+const submit = () => {
+    axios.put(`/updateNilai/${props.id}`, {
+        n_komponen_satu: form.n_komponen_satu,
+        n_komponen_dua: form.n_komponen_dua,
+        n_komponen_tiga: form.n_komponen_tiga,
+        n_komponen_empat: form.n_komponen_empat,
+        n_komponen_lima: form.n_komponen_lima,
+    })
+    .then((res) => {
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+        router.get(`/mahasiswa/nilai/${props.id}`)
+    })
+    .catch((err) => {
+        validation.value = err.response.data.errors
+    })
+}
+</script>
 <template>
     <form @submit.prevent="submit" class="space-y-6">
-        <div class="flex">
-            <InputLabel for="nama" class="basis-1/4 mt-3" value="Nama" />
-            <TextInput
-                disabled
-                id="nama"
-                type="text"
-                class="mt-1 block w-full bg-slate-200"
-                v-model="form.nama"
-                :class="{ 'border-rose-600': validation.nama }"
-            />
-            <InputError v-if="validation.nama" :message="validation.nama[0]" class="mt-2" />
-        </div>
-        <div class="flex">
-            <InputLabel for="nim" class="basis-1/4 mt-3" value="Nim" />
-            <TextInput
-                disabled
-                id="nim"
-                type="text"
-                class="mt-1 block w-full bg-slate-200"
-                v-model="form.nim"
-                :class="{ 'border-rose-600': validation.nim }"
-            />
-            <InputError v-if="validation.nim" :message="validation.nim[0]" class="mt-2" />
-        </div>
         <div class="flex">
             <InputLabel for="n_komponen_satu" class="basis-1/5 mt-3" value="Nilai Komponen 1" />
             <InputLikertScale
@@ -77,86 +111,3 @@
         <PrimaryButton>Submit</PrimaryButton>
     </form>
 </template>
-<script>
-import { reactive, onMounted, ref } from 'vue'
-import TextInput from '@/Components/TextInput.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import InputError from '@/Components/InputError.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import InputLikertScale from '@/Components/InputLikertScale.vue'
-import axios from 'axios';
-import Swal from 'sweetalert2';
-import { router } from '@inertiajs/vue3'
-export default {
-    components: {
-        TextInput,
-        InputLabel,
-        InputError,
-        PrimaryButton,
-        InputLikertScale
-    },
-    props: {
-        id: Number
-    },
-    setup(props){
-        const form = reactive({
-            nama: '',
-            nim: '',
-            n_komponen_satu: '',
-            n_komponen_dua: '',
-            n_komponen_tiga: '',
-            n_komponen_empat: '',
-            n_komponen_lima: ''
-        })
-
-        const validation = ref([])
-
-        onMounted(() => {
-            axios.get(`/getMahasiswaById/${props.id}`)
-            .then((res) => {
-                console.log(res)
-                form.nama = res.data.data.nama
-                form.nim = res.data.data.nim
-                form.n_komponen_satu = res.data.data.n_komponen_satu
-                form.n_komponen_dua = res.data.data.n_komponen_dua
-                form.n_komponen_tiga = res.data.data.n_komponen_tiga
-                form.n_komponen_empat = res.data.data.n_komponen_empat
-                form.n_komponen_lima = res.data.data.n_komponen_lima
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        })
-
-        const submit = () => {
-            axios.put(`/updateNilai/${props.id}`, {
-                nama: form.nama,
-                nim: form.nim,
-                n_komponen_satu: form.n_komponen_satu,
-                n_komponen_dua: form.n_komponen_dua,
-                n_komponen_tiga: form.n_komponen_tiga,
-                n_komponen_empat: form.n_komponen_empat,
-                n_komponen_lima: form.n_komponen_lima,
-            })
-            .then((res) => {
-                Swal.fire({
-                    icon: 'success',
-                    title: res.data.title,
-                    text: res.data.text
-                })
-
-                router.get(`/mahasiswa/nilai/${props.id}`)
-            })
-            .catch((err) => {
-                validation.value = err.response.data.errors
-            })
-        }
-
-        return {
-            form,
-            validation,
-            submit
-        }
-    }
-}
-</script>
