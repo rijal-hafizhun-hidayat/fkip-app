@@ -30,4 +30,10 @@ class GuruPamongController extends Controller
             'id' => $id
         ]);
     }
+
+    public function showNilaiMahasiswa($id){{
+        return Inertia::render('Mahasiswa/Nilai', [
+            'id' => $id
+        ]);
+      }}
 }

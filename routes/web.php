@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('isAdmin')->group(function (){
 
-        //akun
+        //route akun
         Route::get('/akun', [AkunController::class, 'index'])->name('akun');
         Route::get('/akun/create', [AkunController::class, 'create'])->name('akun.create');
         Route::get('/akun/{id}', [AkunController::class, 'show'])->name('akun.show');
@@ -68,7 +68,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/resetPass/{id}', [AkunService::class, 'resetPass'])->name('akun.resetPass');
         Route::get('/getProdi/{prodi}', [AkunService::class, 'getProdi'])->name('akun.getProdi');
 
-         //dpl
+        //route dpl
         Route::get('/dpl', [DplController::class, 'index'])->name('dpl');
         Route::get('/dpl/create', [DplController::class, 'create'])->name('dpl.create');
         Route::get('/dpl/{id}', [DplController::class, 'show'])->name('dpl.show');
@@ -88,7 +88,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/getDplByProdi/{prodi}', [DplService::class, 'getDplByProdi'])->name('guru_pamong.getDplByProdi');
     });
 
-    //mahasiswa
+    //route mahasiswa
     Route::middleware('isAdminGuruPamong')->group(function(){
         Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
         Route::get('/mahasiswa/nilai/{id}', [MahasiswaController::class, 'nilai'])->name('mahasiswa.nilai');
@@ -105,17 +105,17 @@ Route::middleware('auth')->group(function () {
             Route::post('/mahasiswa/import', [MahasiswaImportService::class, 'import'])->name('mahasiswa.import');
         });
        
-        Route::get('/getMahasiswaById/{id}', [MahasiswaService::class, 'getMahasiswaById'])->name('mahasiswa.getMahasiswaById');
         Route::get('/getMahasiswaByIdAkun/{id}', [MahasiswaService::class, 'getMahasiswaByIdAkun'])->name('mahasiswa.getMahasiswaByIdAkun')->middleware('isGuruPamong');
         Route::put('/updateNilai/{id}', [MahasiswaService::class, 'updateNilai'])->name('mahasiswa.updateNilai');
     });
+    Route::get('/getMahasiswaById/{id}', [MahasiswaService::class, 'getMahasiswaById'])->name('mahasiswa.getMahasiswaById');
 
-    
+    //route guru pamong
     Route::middleware('isAdminDpl')->group(function(){
 
-        //guru pamong
         Route::get('/guru-pamong', [GuruPamongController::class, 'index'])->name('guru_pamong');
         Route::get('/guru-pamong/mahasiswa/{id}', [GuruPamongController::class, 'createAsosiasiMahasiswa'])->name('guru_pamong.addAsosiasiMahasiswa');
+        Route::get('/guru-pamong/mahasiswa/nilai/{id}', [GuruPamongController::class, 'showNilaiMahasiswa'])->name('guru_pamong.showNilaiMahasiswa');
 
         Route::middleware('isAdmin')->group(function(){
             Route::get('/guru-pamong/create', [GuruPamongController::class, 'create'])->name('guru_pamong.create');

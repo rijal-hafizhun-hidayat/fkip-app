@@ -1,3 +1,63 @@
+<script setup>
+import { ref, reactive } from 'vue'
+import axios from 'axios';
+import NProgress from 'nprogress';
+import Swal from 'sweetalert2'
+import TextInput from '@/Components/TextInput.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import InputError from '@/Components/InputError.vue';
+import SelectInput from '@/Components/SelectInput.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { router } from '@inertiajs/vue3'
+
+const validation = ref([])
+const form = reactive({
+    nama: '',
+    nim: '',
+    email: '',
+    prodi: '',
+    jenis_plp: ''
+})
+const props = defineProps({
+    prodis: Object
+})
+
+const submit = () => {
+    //console.log(form)
+    NProgress.start()
+    axios.post('/mahasiswa', {
+        nama: form.nama,
+        nim: form.nim,
+        email: form.email,
+        prodi: form.prodi,
+        jenis_plp: form.jenis_plp
+    })
+    .then((res) => {
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+        router.get('/mahasiswa')
+    })
+    .catch((err) => {
+        validation.value = err.response.data.errors
+    })
+    .finally(() => {
+        NProgress.done()
+    })
+}
+
+const numOnly = (evt) => {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+        evt.preventDefault();
+    } else {
+        return true;
+    }
+}
+</script>
 <template>
      <form @submit.prevent="submit" class="mt-6 space-y-6">
         <div>
@@ -34,6 +94,16 @@
                 </SelectInput>
                 <InputError v-if="validation.prodi" :message="validation.prodi[0]" class="mt-2" />
             </div>
+
+            <div>
+                <InputLabel for="jenis_plp" value="PLP"/>
+                <SelectInput class="mt-1 blobk w-full" v-model="form.jenis_plp" :class="{ 'border-rose-600': validation.jenis_plp }">
+                    <option selected disabled value="">-- Pilih --</option>
+                    <option value="plp_1">PLP 1</option>
+                    <option value="plp_2">PLP 2</option>
+                </SelectInput>
+                <InputError v-if="validation.jenis_plp" :message="validation.jenis_plp[0]" class="mt-2" />
+            </div>
                     
             <div>
                 <InputLabel for="email" value="Email" />
@@ -52,79 +122,3 @@
             </div>
         </form>
 </template>
-<script>
-import { ref, reactive } from 'vue'
-import axios from 'axios';
-import NProgress from 'nprogress';
-import Swal from 'sweetalert2'
-import TextInput from '@/Components/TextInput.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import InputError from '@/Components/InputError.vue';
-import SelectInput from '@/Components/SelectInput.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { router } from '@inertiajs/vue3'
-export default{
-    components: {
-        TextInput,
-        InputLabel,
-        InputError,
-        SelectInput,
-        PrimaryButton
-    },
-    props: {
-        prodis: Object
-    },
-    setup(){
-        const form = reactive({
-            nama: '',
-            nim: '',
-            email: '',
-            prodi: ''
-        })
-
-        const validation = ref([])
-
-        const submit = () => {
-            NProgress.start()
-            axios.post('/mahasiswa', {
-                nama: form.nama,
-                nim: form.nim,
-                email: form.email,
-                prodi: form.prodi
-            })
-            .then((res) => {
-                Swal.fire({
-                    icon: 'success',
-                    title: res.data.title,
-                    text: res.data.text
-                })
-
-                router.get('/mahasiswa')
-            })
-            .catch((err) => {
-                validation.value = err.response.data.errors
-            })
-            .finally(() => {
-                NProgress.done()
-            })
-        }
-
-        const numOnly = (evt) => {
-            evt = (evt) ? evt : window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-                evt.preventDefault();
-            } else {
-                return true;
-            }
-        }
-
-        return {
-            form,
-            validation,
-            submit,
-            numOnly
-        }
-    }
-}
-</script>

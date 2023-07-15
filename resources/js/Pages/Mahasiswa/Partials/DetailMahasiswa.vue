@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, onMounted, ref } from 'vue'
+import { reactive, onMounted } from 'vue'
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputLikertScale from '@/Components/InputLikertScale.vue'
@@ -7,9 +7,9 @@ import axios from 'axios';
 import nprogress from 'nprogress';
 
 const props = defineProps({
-    id: Number
-})
+    id: Number,
 
+})
 const form = reactive({
     nama: '',
     nim: '',
@@ -21,6 +21,10 @@ const form = reactive({
 })
 
 onMounted(() => {
+    getMahasiswaById()
+})
+
+const getMahasiswaById = () => {
     nprogress.start()
     axios.get(`/getMahasiswaById/${props.id}`)
     .then((res) => {
@@ -34,7 +38,7 @@ onMounted(() => {
     .finally(() => {
         nprogress.done()
     })
-})
+}
 
 </script>
 <template>

@@ -36,7 +36,8 @@ class UpdateMahasiswaRequest extends FormRequest
             'nama' => 'required|string',
             'nim' => 'required|numeric|min_digits:10|max_digits:10',
             'prodi' => 'required|string',
-            'email' => 'required|email:rfc,dns'
+            'email' => 'required|email:rfc,dns',
+            'jenis_plp' => 'required|string'
         ];
     }
 }

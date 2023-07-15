@@ -59,7 +59,7 @@ const submit = () => {
 <template>
     <form @submit.prevent="submit" class="space-y-6">
         <div class="flex">
-            <InputLabel for="n_komponen_satu" class="basis-1/5 mt-3" value="Nilai Komponen 1" />
+            <InputLabel for="n_komponen_satu" class="basis-1/5 mt-3" value="Nilai Kompeten 1" />
             <InputLikertScale
                 class="mt-2.5 block"
                 :name="'n_komponen_satu'"
@@ -69,7 +69,7 @@ const submit = () => {
             <InputError v-if="validation.n_komponen_satu" :message="validation.n_komponen_satu[0]" class="mt-3 ml-3" />
         </div>
         <div class="flex">
-            <InputLabel for="n_komponen_dua" class="basis-1/5 mt-3" value="Nilai Komponen 2" />
+            <InputLabel for="n_komponen_dua" class="basis-1/5 mt-3" value="Nilai Kompeten 2" />
             <InputLikertScale
                 class="mt-2.5 block"
                 :name="'n_komponen_dua'"
@@ -79,7 +79,7 @@ const submit = () => {
             <InputError v-if="validation.n_komponen_dua" :message="validation.n_komponen_dua[0]" class="mt-3 ml-3" />
         </div>
         <div class="flex">
-            <InputLabel for="n_komponen_tiga" class="basis-1/5 mt-3" value="Nilai Komponen 3" />
+            <InputLabel for="n_komponen_tiga" class="basis-1/5 mt-3" value="Nilai Kompeten 3" />
             <InputLikertScale
                 class="mt-2.5 block"
                 :name="'n_komponen_tiga'"
@@ -89,7 +89,7 @@ const submit = () => {
             <InputError v-if="validation.n_komponen_tiga" :message="validation.n_komponen_tiga[0]" class="mt-3 ml-3" />
         </div>
         <div class="flex">
-            <InputLabel for="n_komponen_empat" class="md:basis-1/5 mt-3" value="Nilai Komponen 4" />
+            <InputLabel for="n_komponen_empat" class="md:basis-1/5 mt-3" value="Nilai Kompeten 4" />
             <InputLikertScale
                 class="mt-2.5 block"
                 :name="'n_komponen_empat'"
@@ -99,7 +99,7 @@ const submit = () => {
             <InputError v-if="validation.n_komponen_empat" :message="validation.n_komponen_empat[0]" class="mt-3 ml-3" />
         </div>
         <div class="flex">
-            <InputLabel for="n_komponen_lima" class="md:basis-1/5 mt-3" value="Nilai Komponen 5" />
+            <InputLabel for="n_komponen_lima" class="md:basis-1/5 mt-3" value="Nilai Kompeten 5" />
             <InputLikertScale
                 class="mt-2.5 block"
                 :name="'n_komponen_lima'"

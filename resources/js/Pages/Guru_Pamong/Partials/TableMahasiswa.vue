@@ -50,7 +50,7 @@ const nilaiMahasiswaById = (id) => {
 }
 
 const goToRouteNilaiMahasiswa = (id) => {
-    router.get()
+    router.get(`/guru-pamong/mahasiswa/nilai/${id}`)
 }
 </script>
 <template>
@@ -87,7 +87,7 @@ const goToRouteNilaiMahasiswa = (id) => {
                     </td>
                     <td v-if="user.role === 2" class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
-                            <DetailButton @click="nilaiMahasiswaById(mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
+                            <DetailButton @click="goToRouteNilaiMahasiswa(mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
                         </div>
                     </td>
                 </tr>
