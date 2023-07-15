@@ -9,39 +9,27 @@ import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3'
 
 const validation = ref([])
+const getMessageValidation = ref([])
 const props = defineProps({
     id: Number
 })
 const form = reactive({
-    n_komponen_satu: '',
-    n_komponen_dua: '',
-    n_komponen_tiga: '',
-    n_komponen_empat: '',
-    n_komponen_lima: ''
+    nilai_kompeten: [],
 })
 
-onMounted(() => {
-    axios.get(`/getMahasiswaById/${props.id}`)
-    .then((res) => {
-        //console.log(res)
-        form.n_komponen_satu = res.data.data.n_komponen_satu
-        form.n_komponen_dua = res.data.data.n_komponen_dua
-        form.n_komponen_tiga = res.data.data.n_komponen_tiga
-        form.n_komponen_empat = res.data.data.n_komponen_empat
-        form.n_komponen_lima = res.data.data.n_komponen_lima
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-})
+// onMounted(() => {
+//     axios.get(`/getMahasiswaById/${props.id}`)
+//     .then((res) => {
+//         form.nilai_kompeten = res.data.data.nilai_kompeten
+//     })
+//     .catch((err) => {
+//         console.log(err)
+//     })
+// })
 
 const submit = () => {
     axios.put(`/updateNilai/${props.id}`, {
-        n_komponen_satu: form.n_komponen_satu,
-        n_komponen_dua: form.n_komponen_dua,
-        n_komponen_tiga: form.n_komponen_tiga,
-        n_komponen_empat: form.n_komponen_empat,
-        n_komponen_lima: form.n_komponen_lima
+        nilai_kompeten: form.nilai_kompeten,
     })
     .then((res) => {
         Swal.fire({
@@ -52,6 +40,7 @@ const submit = () => {
         router.get(`/mahasiswa/nilai/${props.id}`)
     })
     .catch((err) => {
+        console.log(err)
         validation.value = err.response.data.errors
     })
 }
@@ -59,54 +48,49 @@ const submit = () => {
 <template>
     <form @submit.prevent="submit" class="space-y-6">
         <div class="flex">
-            <InputLabel for="n_komponen_satu" class="basis-1/5 mt-3" value="Nilai Kompeten 1" />
+            <InputLabel for="n_kompeten_satu" class="basis-1/5 mt-3" value="Nilai Kompeten 1" />
             <InputLikertScale
                 class="mt-2.5 block"
-                :name="'n_komponen_satu'"
-                v-model="form.n_komponen_satu"
-                :class="{ 'border-rose-600': validation.n_komponen_satu }"
-            />
-            <InputError v-if="validation.n_komponen_satu" :message="validation.n_komponen_satu[0]" class="mt-3 ml-3" />
+                :name="'n_kompeten_satu'"
+                v-model="form.nilai_kompeten[0]"
+                :class="{ 'border-rose-600': validation.nilai_kompeten }" />
+            <InputError v-if="validation.nilai_kompeten" :message="validation.nilai_kompeten[0]" class="mt-3 ml-3" />
         </div>
         <div class="flex">
-            <InputLabel for="n_komponen_dua" class="basis-1/5 mt-3" value="Nilai Kompeten 2" />
+            <InputLabel for="n_kompeten_dua" class="basis-1/5 mt-3" value="Nilai Kompeten 2" />
             <InputLikertScale
                 class="mt-2.5 block"
-                :name="'n_komponen_dua'"
-                v-model="form.n_komponen_dua"
-                :class="{ 'border-rose-600': validation.n_komponen_dua }"
-            />
-            <InputError v-if="validation.n_komponen_dua" :message="validation.n_komponen_dua[0]" class="mt-3 ml-3" />
+                :name="'n_kompeten_dua'"
+                v-model="form.nilai_kompeten[1]"
+                :class="{ 'border-rose-600': validation.nilai_kompeten }" />
+            <InputError v-if="validation.nilai_kompeten" :message="validation.nilai_kompeten[0]" class="mt-3 ml-3" />
         </div>
         <div class="flex">
-            <InputLabel for="n_komponen_tiga" class="basis-1/5 mt-3" value="Nilai Kompeten 3" />
+            <InputLabel for="n_kompeten_tiga" class="basis-1/5 mt-3" value="Nilai Kompeten 3" />
             <InputLikertScale
                 class="mt-2.5 block"
-                :name="'n_komponen_tiga'"
-                v-model="form.n_komponen_tiga"
-                :class="{ 'border-rose-600': validation.n_komponen_tiga }"
-            />
-            <InputError v-if="validation.n_komponen_tiga" :message="validation.n_komponen_tiga[0]" class="mt-3 ml-3" />
+                :name="'n_kompeten_tiga'"
+                v-model="form.nilai_kompeten[2]"
+                :class="{ 'border-rose-600': validation.nilai_kompeten }" />
+            <InputError v-if="validation.nilai_kompeten" :message="validation.nilai_kompeten[0]" class="mt-3 ml-3" />
         </div>
         <div class="flex">
-            <InputLabel for="n_komponen_empat" class="md:basis-1/5 mt-3" value="Nilai Kompeten 4" />
+            <InputLabel for="n_kompeten_empat" class="basis-1/5 mt-3" value="Nilai Kompeten 4" />
             <InputLikertScale
                 class="mt-2.5 block"
-                :name="'n_komponen_empat'"
-                v-model="form.n_komponen_empat"
-                :class="{ 'border-rose-600': validation.n_komponen_empat }"
-            />
-            <InputError v-if="validation.n_komponen_empat" :message="validation.n_komponen_empat[0]" class="mt-3 ml-3" />
+                :name="'n_kompeten_empat'"
+                v-model="form.nilai_kompeten[3]"
+                :class="{ 'border-rose-600': validation.nilai_kompeten }" />
+            <InputError v-if="validation.nilai_kompeten" :message="validation.nilai_kompeten[0]" class="mt-3 ml-3" />
         </div>
         <div class="flex">
-            <InputLabel for="n_komponen_lima" class="md:basis-1/5 mt-3" value="Nilai Kompeten 5" />
+            <InputLabel for="n_kompeten_lima" class="basis-1/5 mt-3" value="Nilai Kompeten 5" />
             <InputLikertScale
                 class="mt-2.5 block"
-                :name="'n_komponen_lima'"
-                v-model="form.n_komponen_lima"
-                :class="{ 'border-rose-600': validation.n_komponen_lima }"
-            />
-            <InputError v-if="validation.n_komponen_lima" :message="validation.n_komponen_lima[0]" class="mt-3 ml-3" />
+                :name="'n_kompeten_lima'"
+                v-model="form.nilai_kompeten[4]"
+                :class="{ 'border-rose-600': validation.nilai_kompeten }" />
+            <InputError v-if="validation.nilai_kompeten" :message="validation.nilai_kompeten[0]" class="mt-3 ml-3" />
         </div>
         <PrimaryButton>Submit</PrimaryButton>
     </form>

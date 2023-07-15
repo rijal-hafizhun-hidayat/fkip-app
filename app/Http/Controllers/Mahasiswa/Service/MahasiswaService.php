@@ -64,7 +64,8 @@ class MahasiswaService extends Controller
     }
 
     public function updateNilai(UpdateNilaiMahasiswa $request, $id){
-        $data = $this->setNilai($request->validated());
+        //dd(, $id);
+        $data = $this->setNilai($request->all());
         try {
             Mahasiswa::where('id', $id)->update($data);
             return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil Update Nilai');
@@ -74,9 +75,17 @@ class MahasiswaService extends Controller
     }
 
     private function setNilai($credential){
-        $nilai = ($credential['n_komponen_satu'] + $credential['n_komponen_dua'] + $credential['n_komponen_tiga'] + $credential['n_komponen_empat'] + $credential['n_komponen_lima']) / 5;
-        $credential['nilai'] = $nilai;
-
+        //dd(count($credential['nilai_kompeten']));
+        $totalPoint = null;
+        for ($i=0; $i <count($credential['nilai_kompeten']); $i++) { 
+            $totalPoint = $totalPoint+$credential['nilai_kompeten'][$i];
+        }
+        //dd($totalPoint);
+        $credential['nilai'] = $totalPoint / 5;
+        dd($credential);
+        // $nilai = ($credential['n_komponen_satu'] + $credential['n_komponen_dua'] + $credential['n_komponen_tiga'] + $credential['n_komponen_empat'] + $credential['n_komponen_lima']) / 5;
+        // $credential['nilai'] = $nilai;
+        //dd($credential);
         return $credential;
     }
 

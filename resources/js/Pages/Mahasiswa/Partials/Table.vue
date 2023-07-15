@@ -96,6 +96,17 @@ const reset = () => {
     })
 }
 
+const setJenisPlp = (jenisPlp) => {
+    let setPlp = ''
+    if(jenisPlp == 'plp_2'){
+        setPlp = 'PLP 2'
+    }
+    else{
+        setPlp = 'PLP 1'
+    }
+    return setPlp
+}
+
 watch(search, async (newSearch, oldSearch) => {
     if(newSearch != null){
         if(props.user.role == 1){
@@ -117,6 +128,7 @@ watch(search, async (newSearch, oldSearch) => {
                 <tr class="text-left font-bold">
                     <th class="pb-4 pt-6 px-6">Nim</th>
                     <th class="pb-4 pt-6 px-6">Nama</th>
+                    <th class="pb-4 pt-6 px-6">Jenis PLP</th>
                     <th class="pb-4 pt-6 px-6">Prodi</th>
                     <th class="pb-4 pt-6 px-6">Email</th>
                     <th class="pb-4 pt-6 px-6">Action</th>
@@ -129,6 +141,9 @@ watch(search, async (newSearch, oldSearch) => {
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ mahasiswa.nama }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ setJenisPlp(mahasiswa.jenis_plp) }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ mahasiswa.prodi }}

@@ -33,11 +33,8 @@ class UpdateNilaiMahasiswa extends FormRequest
     public function rules(): array
     {
         return [
-            'n_komponen_satu' => 'required|numeric',
-            'n_komponen_dua' => 'required|numeric',
-            'n_komponen_tiga' => 'required|numeric',
-            'n_komponen_empat' => 'required|numeric',
-            'n_komponen_lima' => 'required|numeric',
+            'nilai_kompeten' => 'required|array',
+            'nilai_kompeten.*' => 'required|numeric'
         ];
     }
 }
