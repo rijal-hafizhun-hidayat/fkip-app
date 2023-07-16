@@ -28,7 +28,10 @@ class User extends Authenticatable
         'id_guru_pamong'
     ];
 
+    public const ROLE_ID_ADMIN = 1;
     public const ROLE_DPL_ID = 2;
+    public const ROLE_ID_GURU_PAMONG = 3;
+
     /**
      * The attributes that should be hidden for serialization.
      *
