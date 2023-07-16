@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class IsAdminDpl
+class IsAdminGuruPamongResolve
 {
     /**
      * Handle an incoming request.
@@ -17,11 +17,9 @@ class IsAdminDpl
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //3
-        if(Auth::user()->role === User::ROLE_ID_GURU_PAMONG){
+        if(Auth::user()->role == User::ROLE_DPL_ID){
             return redirect()->route('dashboard');
         }
-        
         return $next($request);
     }
 }
