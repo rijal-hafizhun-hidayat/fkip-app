@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Guru_Pamong\service;
+namespace App\Http\Controllers\Guru_Pamong\Service;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Guru_Pamong\ImportGuruPamongRequest;

@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Mahasiswa\StoreMahasiswaRequest;
 use App\Http\Requests\Mahasiswa\UpdateMahasiswaRequest;
 use App\Http\Requests\Mahasiswa\UpdateNilaiMahasiswa;
-use Illuminate\Support\Facades\DB;
-use App\Models\GuruPamong;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
