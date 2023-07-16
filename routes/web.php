@@ -109,6 +109,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/updateNilai/{id}', [MahasiswaService::class, 'updateNilai'])->name('mahasiswa.updateNilai');
     });
     Route::get('/getMahasiswaById/{id}', [MahasiswaService::class, 'getMahasiswaById'])->name('mahasiswa.getMahasiswaById');
+    Route::get('/getNilaiMahasiswaByIdMahasiswa/{id}', [MahasiswaService::class, 'getNilaiMahasiswaByIdMahasiswa'])->name('mahasiswa.getNilaiMahasiswaByIdMahasiswa');
 
     //route guru pamong
     Route::middleware('isAdminDpl')->group(function(){

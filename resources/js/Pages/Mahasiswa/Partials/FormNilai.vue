@@ -17,17 +17,21 @@ const form = reactive({
     nilai_kompeten: [],
 })
 
-// onMounted(() => {
-//     axios.get(`/getMahasiswaById/${props.id}`)
-//     .then((res) => {
-//         form.nilai_kompeten = res.data.data.nilai_kompeten
-//     })
-//     .catch((err) => {
-//         console.log(err)
-//     })
-// })
+onMounted(() => {
+    axios.get(`/getNilaiMahasiswaByIdMahasiswa/${props.id}`)
+    .then((res) => {
+        form.nilai_kompeten = JSON.parse(res.data.data.nilai_kompeten)
+        // console.log(form.nilai_kompeten)
+        // console.log(form.nilai_kompeten[2])
+        //console.log(console.log(form.nilai_kompeten), form.nilai_kompeten[4])
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+})
 
 const submit = () => {
+    //console.log(form.nilai_kompeten)
     axios.put(`/updateNilai/${props.id}`, {
         nilai_kompeten: form.nilai_kompeten,
     })

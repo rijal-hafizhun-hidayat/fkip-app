@@ -12,12 +12,7 @@ const props = defineProps({
 })
 const form = reactive({
     nama: '',
-    nim: '',
-    n_komponen_satu: '',
-    n_komponen_dua: '',
-    n_komponen_tiga: '',
-    n_komponen_empat: '',
-    n_komponen_lima: ''
+    nim: ''
 })
 
 onMounted(() => {
@@ -28,7 +23,6 @@ const getMahasiswaById = () => {
     nprogress.start()
     axios.get(`/getMahasiswaById/${props.id}`)
     .then((res) => {
-        console.log(res)
         form.nama = res.data.data.nama
         form.nim = res.data.data.nim
     })

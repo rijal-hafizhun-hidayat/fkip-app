@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAkunsRequest;
 use App\Models\Dpl;
 use App\Models\GuruPamong;
+use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,7 +22,8 @@ class AkunController extends Controller
         return Inertia::render('Akun/Create', [
             'guruPamongs' => GuruPamong::all(),
             'dpls' => Dpl::all(),
-            'prodis' => Prodi::all()
+            'prodis' => Prodi::all(),
+            'mahasiswas' => Mahasiswa::all()
         ]);
     }
 
@@ -32,6 +34,7 @@ class AkunController extends Controller
             'prodis' => Prodi::all(),
             'guruPamongs' => GuruPamong::all(),
             'dpls' => Dpl::all(),
+            'mahasiswas' => Mahasiswa::all(),
             'roleAkun' => $role->role
         ]);
     }

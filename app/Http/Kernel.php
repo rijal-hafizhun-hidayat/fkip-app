@@ -66,9 +66,9 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         //'isAdmin' => \App\Http\Middleware\IsAdmin::class,
-        'isAdmin' => \App\Http\Middleware\IsAdminResolve::class,
+        'isAdmin' => \App\Http\Middleware\IsAdminResolve::class,//resolve
         // 'isAdminGuruPamong' => \App\Http\Middleware\IsAdminGuruPamong::class,
-        'isAdminGuruPamong' => \App\Http\Middleware\IsAdminGuruPamongResolve::class,
+        'isAdminGuruPamong' => \App\Http\Middleware\IsAdminGuruPamongResolve::class,//resolve
         'isAdminDpl' => \App\Http\Middleware\IsAdminDpl::class,
         'isGuruPamong' => \App\Http\Middleware\IsGuruPamong::class,
     ];

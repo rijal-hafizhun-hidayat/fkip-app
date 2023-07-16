@@ -7,6 +7,8 @@ use App\Http\Requests\Mahasiswa\StoreMahasiswaRequest;
 use App\Http\Requests\Mahasiswa\UpdateMahasiswaRequest;
 use App\Http\Requests\Mahasiswa\UpdateNilaiMahasiswa;
 use App\Models\Mahasiswa;
+use App\Models\Nilai;
+use App\Models\Nilai_nb;
 use Illuminate\Http\Request;
 
 class MahasiswaService extends Controller
@@ -46,9 +48,27 @@ class MahasiswaService extends Controller
         }
     }
 
+    public function getNilaiMahasiswaByIdMahasiswa($id){
+        try {
+            $nilai = Nilai::where('id_mahasiswa', $id)->first();
+            return $this->responseService($nilai, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, $e->getMessage());
+        }
+    }
+
     public function store(StoreMahasiswaRequest $request){
-        Mahasiswa::create($request->validated());
-        return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil Tambah Mahasiswa');
+        try {
+            $mahasiswa = Mahasiswa::create($request->validated());
+            //dd($mahasiswa->id);
+            Nilai::create([
+                'id_mahasiswa' => $mahasiswa->id,
+                'jenis_plp' => $mahasiswa->jenis_plp,
+            ]);
+            return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil Tambah Mahasiswa');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, $e->getMessage());
+        }
     }
 
     public function update(UpdateMahasiswaRequest $request, $id){
@@ -65,12 +85,23 @@ class MahasiswaService extends Controller
         //dd(, $id);
         $data = $this->setNilai($request->all());
         try {
-            Mahasiswa::where('id', $id)->update($data);
+            Nilai::where('id', $id)->update($data);
             return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil Update Nilai');
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, $e);
         }
     }
+
+    // private function storeIdMahasiswaJenisPlpToNilai($id, $valueJenisPlp){
+    //     try {
+    //         Nilai::create([
+    //             'id_mahasiswa' => $id,
+    //             'jenis_plp' => $valueJenisPlp,
+    //         ]);
+    //     } catch (\Illuminate\Database\QueryException $e) {
+    //         dd($e->getMessage());
+    //     }
+    // }
 
     private function setNilai($credential){
         //dd(count($credential['nilai_kompeten']));
@@ -79,8 +110,8 @@ class MahasiswaService extends Controller
             $totalPoint = $totalPoint+$credential['nilai_kompeten'][$i];
         }
         //dd($totalPoint);
-        $credential['nilai'] = $totalPoint / 5;
-        dd($credential);
+        $credential['nilai_nb'] = $totalPoint / 5;
+        //dd($credential);
         // $nilai = ($credential['n_komponen_satu'] + $credential['n_komponen_dua'] + $credential['n_komponen_tiga'] + $credential['n_komponen_empat'] + $credential['n_komponen_lima']) / 5;
         // $credential['nilai'] = $nilai;
         //dd($credential);

@@ -16,7 +16,8 @@ const props = defineProps({
     id: Number,
     prodis: Object,
     guruPamongs: Object,
-    dpls: Object
+    dpls: Object,
+    mahasiswas: Object
 })
 
 const form = reactive({
@@ -25,7 +26,8 @@ const form = reactive({
     email: '',
     role: '',
     id_guru_pamong: '',
-    id_dpl: ''
+    id_dpl: '',
+    id_mahasiswa: ''
 })
 
 const disabled = ref(true)
@@ -50,6 +52,7 @@ onMounted(() => {
 })
 
 const submit = () => {
+    //console.log(form)
     NProgress.start()
     axios.put(`/akun/${props.id}`, {
         nama: form.nama,
@@ -57,7 +60,8 @@ const submit = () => {
         email: form.email,
         role: form.role,
         id_dpl: form.id_dpl,
-        id_guru_pamong: form.id_guru_pamong
+        id_guru_pamong: form.id_guru_pamong,
+        id_mahasiswa: form.id_mahasiswa
     })
     .then((res) => {
         Swal.fire({
@@ -78,31 +82,38 @@ const submit = () => {
 const setUsername = (nama, role, asosiasi) => {
     let firstName = nama.split(" ")[0].toLowerCase()
     let prodiBidangKeahlian = role == 2 ? asosiasi.prodi : asosiasi.bidang_keahlian
-    if(role != 1){
+    if(role == 2 || role == 3){
         axios.get(`/getProdi/${prodiBidangKeahlian}`)
         .then((res) => {
-            setUsernameToReactiveForm(firstName, role, res.data.data)
+            setUsernameToReactiveForm(firstName, role, res.data.data, asosiasi.nim)
             setIdDplGuruPamongToReactiveForm(role, asosiasi)
         })
         .catch((err) => {
             console.log(err)
         })
     }
+    else if(role == 1){
+        setUsernameToReactiveForm(firstName, role, null, asosiasi.nim)
+    }
     else{
-        form.username = firstName.toLowerCase()+Math.floor(Math.random()*(999-100+1)+100)+'@admin'
+        setUsernameToReactiveForm(firstName, role, null, asosiasi.nim)
+        setIdDplGuruPamongToReactiveForm(role, asosiasi)
     }
 }
 
-const setUsernameToReactiveForm = (firstName, role, prodiBidangKeahlian) => {
-    console.log(firstName, role, prodiBidangKeahlian.singkatan)
+const setUsernameToReactiveForm = (firstName, role, prodiBidangKeahlian, nim) => {
+    //console.log(firstName, role, asosiasi.singkatan)
     if(role == 2){
         form.username = firstName+'-'+prodiBidangKeahlian.singkatan
     }
     else if(role == 3){
         form.username = firstName+'-'+prodiBidangKeahlian.bidang_keahlian
     }
+    else if(role == 1){
+        form.username = firstName+Math.floor(Math.random()*(999-100+1)+100)+'@admin'
+    }
     else{
-        form.username = firstName+Math.floor((Math.random() * 1000) + 1)+'@admin'
+        form.username = firstName+nim
     }
 }
 
@@ -110,14 +121,22 @@ const setIdDplGuruPamongToReactiveForm = (role, asosiasi) => {
     if(role == 2){
         form.id_dpl = asosiasi.id
         form.id_guru_pamong = null
+        form.id_mahasiswa = null
     }
     else if(role == 3){
         form.id_dpl = null
         form.id_guru_pamong = asosiasi.id
+        form.id_mahasiswa = null
+    }
+    else if(role == 1){
+        form.id_dpl = null
+        form.id_guru_pamong = null
+        form.id_mahasiswa = null
     }
     else{
         form.id_dpl = null
         form.id_guru_pamong = null
+        form.id_mahasiswa = asosiasi.id
     }
 }
 
@@ -168,8 +187,22 @@ const updateValueAction = ({ commit }, value) => {
                 <option value="1">Admin</option>
                 <option value="2">DPL</option>
                 <option value="3">Guru Pamong</option>
+                <option value="4">Mahasiswa</option>
             </SelectInput>
             <InputError v-if="validation.role" :message="validation.role[0]" class="mt-2" />
+        </div>
+
+        <div v-if="form.role == 4">
+            <InputLabel for="id_mahasiswa" value="Mahasiswa"/>
+            <Multiselect
+                :class="{ 'border-rose-600': validation.id_mahasiswa }"
+                v-model="asosiasi"
+                :custom-label="nameWithLang"
+                label="nama"
+                :options="mahasiswas"
+                @select="setUsername(form.nama, form.role, asosiasi)">
+            </Multiselect>
+            <InputError v-if="validation.id_mahasiswa" :message="validation.id_mahasiswa[0]" class="mt-2" />
         </div>
 
         <div v-if="form.role == 3">

@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nilai_nd', function (Blueprint $table) {
+        Schema::create('nilai', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_mahasiswa')->nullable();
             $table->json('nilai_kompeten')->nullable();
+            $table->string('jenis_plp')->nullable();
+            $table->decimal('nilai_nb', $precision = 8, $scale = 1)->nullable();
+            $table->decimal('nilai_nc', $precision = 8, $scale = 1)->nullable();
+            $table->decimal('nilai_nd', $precision = 8, $scale = 1)->nullable();
             $table->decimal('nilai', $precision = 8, $scale = 1)->nullable();
             $table->timestamps();
         });
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nilai_nd');
+        Schema::dropIfExists('nilai');
     }
 };

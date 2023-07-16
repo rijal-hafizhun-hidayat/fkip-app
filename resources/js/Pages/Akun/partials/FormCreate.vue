@@ -18,8 +18,10 @@ const form = reactive({
     email: '',
     password: '',
     role: '',
+    nim: '',
     id_guru_pamong: '',
-    id_dpl: ''
+    id_dpl: '',
+    id_mahasiswa: ''
 })
 
 const disabled = ref(true)
@@ -31,10 +33,12 @@ const asosiasi = ref([])
 const props = defineProps({
     guruPamongs: Object,
     prodis: Object,
-    dpls: Object
+    dpls: Object,
+    mahasiswas: Object
 })
 
 const submit = () => {
+    //console.log(form)
     NProgress.start()
     axios.post('/akun', {
         nama: form.nama,
@@ -43,7 +47,8 @@ const submit = () => {
         password: form.password,
         role: form.role,
         id_guru_pamong: form.id_guru_pamong,
-        id_dpl: form.id_dpl
+        id_dpl: form.id_dpl,
+        id_mahasiswa: form.id_mahasiswa
     })
     .then((res) => {
         Swal.fire({
@@ -62,17 +67,26 @@ const submit = () => {
 }
 
 const setIdDplGuruPamong = (role, uniq) => {
+    console.log(uniq.idq)
     if(role == 2){
         form.id_dpl = uniq.id
-        form.id_guru_pamong = ''
+        form.id_guru_pamong = null
+        form.id_mahasiswa = null
     }
     else if(role == 3){
-        form.id_dpl = ''
+        form.id_dpl = null
         form.id_guru_pamong = uniq.id
+        form.id_mahasiswa = null
+    }
+    else if(role == 4){
+        form.id_dpl = null
+        form.id_guru_pamong = null
+        form.id_mahasiswa = uniq.id
     }
     else{
         form.id_dpl = null
         form.id_guru_pamong = null
+        form.id_mahasiswa = null
     }
 }
 
@@ -103,7 +117,7 @@ const setPassword = (firstName, role, uniq) => {
 const setUsernamePasswordIdDplGuruPamong = (nama, role, uniq) => {
     let firstName = nama.split(" ")[0]
     let prodiBidangKeahlian = role == 2 ? uniq.prodi : uniq.bidang_keahlian
-    if(role != 1){
+    if(role == 2 || role == 3){
         axios.get(`/getProdi/${prodiBidangKeahlian}`)
         .then((res) => {
             setUsername(firstName, role, res.data.data.singkatan, uniq.bidang_keahlian)
@@ -114,9 +128,14 @@ const setUsernamePasswordIdDplGuruPamong = (nama, role, uniq) => {
             console.log(err)
         })
     }
-    else{
+    else if(role == 1){
         form.username = firstName.toLowerCase()+Math.floor(Math.random()*(999-100+1)+100)+'@admin'
         form.password = Math.floor(Math.random()*(999-100+1)+100)+'@admin'
+    }
+    else{
+        form.username = firstName.toLowerCase()+uniq.nim
+        form.password = Math.floor(100000 + Math.random() * 900000)+'@mahasiswa'
+        setIdDplGuruPamong(role, uniq)
     }
 }
 
@@ -160,8 +179,20 @@ const nameWithLang = ({nama}) => {
                 <option value="1">Admin</option>
                 <option value="2">DPL</option>
                 <option value="3">Guru Pamong</option>
+                <option value="4">Mahasiswa</option>
             </SelectInput>
             <InputError v-if="validation.role" :message="validation.role[0]" class="mt-2" />
+        </div>
+
+        <div v-if="form.role == 4">
+            <InputLabel for="id_mahasiswa" value="Mahasiswa"/>
+            <Multiselect
+                @select="setUsernamePasswordIdDplGuruPamong(form.nama, form.role, asosiasi)"
+                v-model="asosiasi"
+                :custom-label="nameWithLang"
+                :options="mahasiswas">
+            </Multiselect>
+            <InputError v-if="validation.id_guru_pamong" :message="validation.id_guru_pamong[0]" class="mt-2" />
         </div>
 
         <div v-if="form.role == 3">

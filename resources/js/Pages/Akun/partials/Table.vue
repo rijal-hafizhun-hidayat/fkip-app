@@ -112,8 +112,11 @@ watch(search, async (newSearch, oldSearch) => {
                     <td v-else-if="akun.role == 2" class="border-t items-center px-6 py-4">
                         DPL
                     </td>
-                    <td v-else class="border-t items-center px-6 py-4">
+                    <td v-else-if="akun.role == 3" class="border-t items-center px-6 py-4">
                         Guru Pamong
+                    </td>
+                    <td v-else class="border-t items-center px-6 py-4">
+                        Mahasiswa
                     </td>
                     <td class="border-t items-center px-6 py-4">
                     <div class="flex flex-row space-x-4">

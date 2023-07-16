@@ -10,6 +10,7 @@ defineProps({
     prodis: Object,
     guruPamongs: Object,
     dpls: Object,
+    mahasiswas: Object,
     roleAkun: Number
 })
 </script>
@@ -25,7 +26,7 @@ defineProps({
 
         <div class="max-w-7xl mx-auto px-4 pb-10 sm:px-6 lg:px-8">
             <div class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
-                <FormUpdate :id="id" :prodis="prodis" :guruPamongs="guruPamongs" :dpls="dpls"/>
+                <FormUpdate :id="id" :prodis="prodis" :guruPamongs="guruPamongs" :dpls="dpls" :mahasiswas="mahasiswas"/>
             </div>
             <TableDpl v-if="roleAkun == 2" :id="id"/>
             <TableGuruPamong v-if="roleAkun == 3" :id="id"/>

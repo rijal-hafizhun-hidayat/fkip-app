@@ -1,90 +1,75 @@
+<script setup>
+import { onMounted, reactive } from 'vue'
+import axios from 'axios';
+import UpdateButton from '@/Components/UpdateButton.vue';
+
+const mahasiswa = reactive({
+    nilai_kompeten_satu: '',
+    nilai_kompeten_dua: '',
+    nilai_kompeten_tiga: '',
+    nilai_kompeten_empat: '',
+    nilai_kompeten_lima: '',
+    nilai_nb: ''
+})
+const props = defineProps({
+    id: Number
+})
+
+onMounted(() => {
+    let nilai_kompeten = ''
+    axios.get(`/getNilaiMahasiswaByIdMahasiswa/${props.id}`)
+    .then((res) => {
+        console.log(res)
+        nilai_kompeten = JSON.parse(res.data.data.nilai_kompeten)
+        mahasiswa.nilai_kompeten_satu = nilai_kompeten[0]
+        mahasiswa.nilai_kompeten_dua = nilai_kompeten[1]
+        mahasiswa.nilai_kompeten_tiga = nilai_kompeten[2]
+        mahasiswa.nilai_kompeten_empat = nilai_kompeten[3]
+        mahasiswa.nilai_kompeten_lima = nilai_kompeten[4]
+        mahasiswa.nilai_nb = res.data.data.nilai_nb
+        // console.log(nilai_kompeten)
+        // console.log(nilai_kompeten[1])
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+})
+</script>
 <template>
     <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
         <table class="w-full whitespace-nowrap">
             <thead>
                 <tr class="text-left font-bold">
-                    <th class="pb-4 pt-6 px-6">Nim</th>
-                    <th class="pb-4 pt-6 px-6">Nama</th>
-                    <th class="pb-4 pt-6 px-6">Nilai Komponen 1</th>
-                    <th class="pb-4 pt-6 px-6">Nilai Komponen 2</th>
-                    <th class="pb-4 pt-6 px-6">Nilai Komponen 3</th>
-                    <th class="pb-4 pt-6 px-6">Nilai Komponen 4</th>
-                    <th class="pb-4 pt-6 px-6">Nilai Komponen 5</th>
+                    <th class="pb-4 pt-6 px-6">Nilai Kompeten 1</th>
+                    <th class="pb-4 pt-6 px-6">Nilai Kompeten 2</th>
+                    <th class="pb-4 pt-6 px-6">Nilai Kompeten 3</th>
+                    <th class="pb-4 pt-6 px-6">Nilai Kompeten 4</th>
+                    <th class="pb-4 pt-6 px-6">Nilai Kompeten 5</th>
                     <th class="pb-4 pt-6 px-6">Nilai</th>
                 </tr>
             </thead>
             <tbody>
                 <tr class="hover:bg-gray-100">
                     <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.nim }}
+                        {{ mahasiswa.nilai_kompeten_satu }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.nama }}
+                        {{ mahasiswa.nilai_kompeten_dua }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.n_komponen_satu }}
+                        {{ mahasiswa.nilai_kompeten_tiga }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.n_komponen_dua }}
+                        {{ mahasiswa.nilai_kompeten_empat }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.n_komponen_tiga }}
+                        {{ mahasiswa.nilai_kompeten_lima }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.n_komponen_empat }}
-                    </td>
-                    <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.n_komponen_lima }}
-                    </td>
-                    <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.nilai }}
+                        {{ mahasiswa.nilai_nb }}
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </template>
-<script>
-import { onMounted, reactive } from 'vue'
-import axios from 'axios';
-import UpdateButton from '@/Components/UpdateButton.vue';
-export default{
-    components: { UpdateButton },
-    props: {
-        id: Number
-    },
-    setup(props){
-        const mahasiswa = reactive({
-            nim: '',
-            nama: '',
-            n_komponen_satu: '',
-            n_komponen_dua: '',
-            n_komponen_tiga: '',
-            n_komponen_empat: '',
-            n_komponen_lima: '',
-            nilai: ''
-        })
-
-        onMounted(() => {
-            axios.get(`/getMahasiswaById/${props.id}`)
-            .then((res) => {
-                mahasiswa.nim = res.data.data.nim
-                mahasiswa.nama = res.data.data.nama
-                mahasiswa.n_komponen_satu = res.data.data.n_komponen_satu
-                mahasiswa.n_komponen_dua = res.data.data.n_komponen_dua
-                mahasiswa.n_komponen_tiga = res.data.data.n_komponen_tiga
-                mahasiswa.n_komponen_empat = res.data.data.n_komponen_empat
-                mahasiswa.n_komponen_lima = res.data.data.n_komponen_lima
-                mahasiswa.nilai = res.data.data.nilai
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        })
-
-        return {
-            mahasiswa
-        }
-    }
-}
-</script>
