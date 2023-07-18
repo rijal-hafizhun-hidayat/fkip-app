@@ -16,7 +16,8 @@ class MahasiswaImport implements ToModel, WithUpserts, WithHeadingRow
             'nim' => $row['nim'],
             'nama' => $row['nama'],
             'email' => $row['email'],
-            'prodi' => $row['prodi']
+            'prodi' => $row['prodi'],
+            'jenis_plp' => 'plp_1'
         ]);
     }
 

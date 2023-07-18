@@ -15,7 +15,7 @@ class DplImport implements ToModel, WithUpserts, WithHeadingRow
     {
         return new Dpl([
             'nama' => $row['nama'],
-            'nipy' => $row['nip_niy'],
+            'nipy' => $row['nipy'],
             'email' => $row['email'],
             'prodi' => $row['prodi']
         ]);

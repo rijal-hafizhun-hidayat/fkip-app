@@ -5,16 +5,19 @@ import InputLabel from '@/Components/InputLabel.vue';
 import InputLikertScale from '@/Components/InputLikertScale.vue'
 import axios from 'axios';
 import nprogress from 'nprogress';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { router } from '@inertiajs/vue3';
 
 const props = defineProps({
     id: Number,
-
+    jenis_plp: String,
+    prodi: String
 })
 const form = reactive({
     nama: '',
     nim: ''
 })
-
+//console.log(props.id, props.jenis_plp, props.prodi)
 onMounted(() => {
     getMahasiswaById()
 })
@@ -23,6 +26,7 @@ const getMahasiswaById = () => {
     nprogress.start()
     axios.get(`/getMahasiswaById/${props.id}`)
     .then((res) => {
+        console.log(res)
         form.nama = res.data.data.nama
         form.nim = res.data.data.nim
     })
@@ -46,6 +50,7 @@ const getMahasiswaById = () => {
             v-model="form.nama"
         />
     </div>
+
     <div class="flex">
         <InputLabel for="nim" class="basis-1/4 mt-5" value="Nim" />
         <TextInput

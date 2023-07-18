@@ -59,7 +59,7 @@ class DplService extends Controller
     }
 
     public function getDplGuruPamongById($id){
-        $dplGuruPamongById = DB::table('dpl')->join('guru_pamong', 'dpl.id', '=', 'guru_pamong.id_dpl')->select('guru_pamong.id', 'guru_pamong.nama', 'guru_pamong.asal', 'guru_pamong.asal_sekolah')->where('guru_pamong.id_dpl', $id)->get();
+        $dplGuruPamongById = DB::table('dpl')->join('guru_pamong', 'dpl.id', '=', 'guru_pamong.id_dpl')->select('guru_pamong.id', 'guru_pamong.nama', 'guru_pamong.asal', 'guru_pamong.asal_sekolah', 'guru_pamong.bidang_keahlian')->where('guru_pamong.id_dpl', $id)->get();
         return $this->responseService($dplGuruPamongById, 200, true, null, null);
     }
 

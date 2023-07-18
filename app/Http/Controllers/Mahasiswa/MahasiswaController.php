@@ -26,8 +26,11 @@ class MahasiswaController extends Controller
         ]);
     }
 
-    public function nilai($id){
+    public function nilai($jenisPlp, $jenisBidang, $id){
+        //dd($jenisPlp, $prodi, $id);
         return Inertia::render('Mahasiswa/Nilai', [
+            'jenis_plp' => $jenisPlp,
+            'jenis_bidang' => $jenisBidang,
             'id' => $id
         ]);
     }

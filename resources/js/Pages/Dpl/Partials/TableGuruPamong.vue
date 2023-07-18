@@ -48,6 +48,7 @@ const goToRouteGuruPamongById = (id) => {
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th class="pb-4 pt-6 px-6">Asal</th>
                     <th class="pb-4 pt-6 px-6">Sekolah</th>
+                    <th class="pb-4 pt-6 px-6">Bidang Studi</th>
                     <th class="pb-4 pt-6 px-6">Action</th>
                 </tr>
             </thead>
@@ -61,6 +62,9 @@ const goToRouteGuruPamongById = (id) => {
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ dplGuruPamong.asal_sekolah }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ dplGuruPamong.bidang_keahlian }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">

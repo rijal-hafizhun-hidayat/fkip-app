@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dpl', function (Blueprint $table) {
+        Schema::create('bimbingan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->bigInteger('nipy')->unique();
-            $table->string('email')->nullable();
-            $table->string('prodi');
+            $table->bigInteger('id_mahasiswa')->nullable();
+            $table->bigInteger('id_dpl')->nullable();
+            $table->string('pertanyaan');
+            $table->text('link');
+            $table->string('jawab')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dpl');
+        Schema::dropIfExists('bimbingan');
     }
 };

@@ -45,6 +45,16 @@ const destroyAsosiasiMahasiswa = (id) => {
     })
 }
 
+const setJenisPlp = (jenis_plp) => {
+    if(jenis_plp == 'plp_1'){
+        jenis_plp = 'PLP 1'
+    }
+    else{
+        jenis_plp = 'PLP 2'
+    }
+    return jenis_plp
+}
+
 const nilaiMahasiswaById = (id) => {
     router.get(`/mahasiswa/nilai/${id}`)
 }
@@ -62,6 +72,7 @@ const goToRouteNilaiMahasiswa = (id) => {
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th class="pb-4 pt-6 px-6">Prodi</th>
                     <th class="pb-4 pt-6 px-6">Email</th>
+                    <th class="pb-4 pt-6 px-6">Jenis PLP</th>
                     <th class="pb-4 pt-6 px-6">Action</th>
                 </tr>
             </thead>
@@ -79,6 +90,9 @@ const goToRouteNilaiMahasiswa = (id) => {
                     <td class="border-t items-center px-6 py-4">
                         {{ mahasiswa.email }}
                     </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ setJenisPlp(mahasiswa.jenis_plp) }}
+                    </td>
                     <td v-if="user.role === 1" class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
                             <DestroyButton @click="destroyAsosiasiMahasiswa(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
@@ -92,7 +106,7 @@ const goToRouteNilaiMahasiswa = (id) => {
                     </td>
                 </tr>
             <tr v-if="mahasiswas.length === 0">
-                <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
+                <td class="px-6 py-4 text-center border-t" colspan="6">No data found.</td>
             </tr>
             </tbody>
         </table>

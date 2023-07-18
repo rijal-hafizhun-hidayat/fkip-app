@@ -1,72 +1,83 @@
 <script setup>
 import { onMounted, reactive } from 'vue'
 import axios from 'axios';
-import UpdateButton from '@/Components/UpdateButton.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const mahasiswa = reactive({
-    nilai_kompeten_satu: '',
-    nilai_kompeten_dua: '',
-    nilai_kompeten_tiga: '',
-    nilai_kompeten_empat: '',
-    nilai_kompeten_lima: '',
-    nilai_nb: ''
+    nama: '',
+    nim: '',
+    nilai_nb: '',
+    nilai_nc: '',
+    nilai_nd: '',
+    nilai_ne: ''
 })
 const props = defineProps({
-    id: Number
+    id: Number,
+    jenis_plp: String,
+    jenis_bidang: String
 })
 
+console.log(props.jenis_plp, props.jenis_bidang, props.id)
+
 onMounted(() => {
-    let nilai_kompeten = ''
-    axios.get(`/getNilaiMahasiswaByIdMahasiswa/${props.id}`)
+    getMahasiswaById()
+})
+
+const getMahasiswaById = () => {
+    axios.get(`/getMahasiswaById/${props.id}`)
     .then((res) => {
         console.log(res)
-        nilai_kompeten = JSON.parse(res.data.data.nilai_kompeten)
-        mahasiswa.nilai_kompeten_satu = nilai_kompeten[0]
-        mahasiswa.nilai_kompeten_dua = nilai_kompeten[1]
-        mahasiswa.nilai_kompeten_tiga = nilai_kompeten[2]
-        mahasiswa.nilai_kompeten_empat = nilai_kompeten[3]
-        mahasiswa.nilai_kompeten_lima = nilai_kompeten[4]
+        mahasiswa.nim = res.data.data.nim
+        mahasiswa.nama = res.data.data.nama
         mahasiswa.nilai_nb = res.data.data.nilai_nb
-        // console.log(nilai_kompeten)
-        // console.log(nilai_kompeten[1])
+        mahasiswa.nilai_nc = res.data.data.nilai_nc
+        mahasiswa.nilai_nd = res.data.data.nilai_nd
+        mahasiswa.nilai_ne = res.data.data.nilai_ne
+        mahasiswa.nilai = res.data.data.nilai
+        console.log(mahasiswa)
     })
     .catch((err) => {
         console.log(err)
     })
-})
+}
 </script>
 <template>
-    <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
+    <div class="bg-white rounded-md shadow overflow-x-auto mt-3">
+        <!-- <div><h2 class="font-semibold text-xl text-gray-800 ml-6">Detail Nilai Mahasiswa</h2></div> -->
         <table class="w-full whitespace-nowrap">
             <thead>
                 <tr class="text-left font-bold">
-                    <th class="pb-4 pt-6 px-6">Nilai Kompeten 1</th>
-                    <th class="pb-4 pt-6 px-6">Nilai Kompeten 2</th>
-                    <th class="pb-4 pt-6 px-6">Nilai Kompeten 3</th>
-                    <th class="pb-4 pt-6 px-6">Nilai Kompeten 4</th>
-                    <th class="pb-4 pt-6 px-6">Nilai Kompeten 5</th>
-                    <th class="pb-4 pt-6 px-6">Nilai</th>
+                    <th class="pb-4 pt-6 px-6">Nim</th>
+                    <th class="pb-4 pt-6 px-6">Nama</th>
+                    <th class="pb-4 pt-6 px-6">Nb</th>
+                    <th class="pb-4 pt-6 px-6">Nc</th>
+                    <th class="pb-4 pt-6 px-6">Nd</th>
+                    <th class="pb-4 pt-6 px-6">Ne</th>
+                    <th class="pb-4 pt-6 px-6">Nilai Total</th>
                 </tr>
             </thead>
             <tbody>
                 <tr class="hover:bg-gray-100">
                     <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.nilai_kompeten_satu }}
+                        {{ mahasiswa.nim }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.nilai_kompeten_dua }}
-                    </td>
-                    <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.nilai_kompeten_tiga }}
-                    </td>
-                    <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.nilai_kompeten_empat }}
-                    </td>
-                    <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.nilai_kompeten_lima }}
+                        {{ mahasiswa.nama }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ mahasiswa.nilai_nb }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ mahasiswa.nilai_nc }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ mahasiswa.nilai_nd }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ mahasiswa.nilai_ne }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ mahasiswa.nilai }}
                     </td>
                 </tr>
             </tbody>

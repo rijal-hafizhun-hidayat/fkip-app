@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, reactive } from 'vue';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import DestroyButton from '@/Components/DestroyButton.vue';
@@ -10,27 +10,38 @@ import Swal from 'sweetalert2'
 import { TailwindPagination } from 'laravel-vue-pagination';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputSearch from '@/Components/InputSearch.vue';
+import SelectInput from '@/Components/SelectInput.vue';
 
 const props = defineProps({
     user: Object
 })
 
 const mahasiswas = ref([])
-const search = ref('')
 const routeGetMahasiswa = ref('')
 const length = ref('')
+const filter = reactive({
+    search: '',
+    jenis_plp: ''
+})
 
 onMounted(() => {
     if(props.user.role == 3){
         getMahasiswaByIdGuruPamong(props.user.id_guru_pamong)
     }
     else{
-        getMahasiswa()
+        getMahasiswa(filter)
     } 
 })
 
-const getMahasiswa = (page = 1, nama) => {
-    routeGetMahasiswa.value = nama == null ? `/getMahasiswa?page=${page}` : `/getMahasiswa?page=${page}&nama=${nama}`
+const getMahasiswa = (page = 1, newFilter) => {
+    if(newFilter == null){
+        console.log(true)
+    }
+    else{
+        console.log(false)
+    }
+    //console.log(filter.search, filter.jenis_plp)
+    routeGetMahasiswa.value = newFilter == null ? `/getMahasiswa?page=${page}` : `/getMahasiswa?page=${page}&nama=${newFilter.search}&jenis_plp=${newFilter.jenis_plp}`
 
     NProgress.start()
     axios.get(routeGetMahasiswa.value)
@@ -46,8 +57,9 @@ const getMahasiswa = (page = 1, nama) => {
     })
 }
 
-const getMahasiswaByIdGuruPamong = (page = 1, nama, id) => {
-    routeGetMahasiswa.value = nama == null ? `/getMahasiswaByIdAkun/${props.user.id_guru_pamong}?page=${page}` : `/getMahasiswaByIdAkun/${props.user.id_guru_pamong}?page=${page}&nama=${nama}`
+const getMahasiswaByIdGuruPamong = (page = 1, newFilter, id) => {
+    //console.log(filter.search, filter.jenis_plp)
+    routeGetMahasiswa.value = newFilter == null ? `/getMahasiswaByIdAkun/${props.user.id_guru_pamong}?page=${page}` : `/getMahasiswaByIdAkun/${props.user.id_guru_pamong}?page=${page}&nama=${newFilter.search}&jenis_plp=${newFilter.jenis_plp}`
 
     NProgress.start()
     axios.get(routeGetMahasiswa.value)
@@ -86,8 +98,22 @@ const destroy = (id) => {
     })
 }
 
-const addNilai = (id) => {
-    router.get(`/mahasiswa/nilai/${id}`)
+const addNilai = (jenisPlp, jenisBidang, id) => {
+    jenisBidang = setJenisBidang(jenisBidang)
+    router.get(`/mahasiswa/nilai/${jenisPlp}/${jenisBidang}/${id}`)
+}
+
+const setJenisBidang = (prodi) => {
+    if(prodi == 'Bimbingan dan Konseling'){
+        prodi = 'bk'
+    }
+    else if(prodi == 'Pendidikan Guru Pendidikan Anak Usia Dini'){
+        prodi = 'pgpaud'
+    }
+    else{
+        prodi = 'teaching'
+    }
+    return prodi
 }
 
 const reset = () => {
@@ -107,20 +133,30 @@ const setJenisPlp = (jenisPlp) => {
     return setPlp
 }
 
-watch(search, async (newSearch, oldSearch) => {
-    if(newSearch != null){
-        if(props.user.role == 1){
-            getMahasiswa(1, newSearch)
-        }
-        else{
-            getMahasiswaByIdGuruPamong(1, newSearch, props.user.id_guru_pamong)
-        }
+const goToRouteBimbingan = (id) => {
+    router.get(`/bimbingan/${id}`)
+}
+
+watch(filter, async (newFilter, oldSearch) => {
+    //console.log(newSearch)
+    if(props.user.role == 1){
+        getMahasiswa(1, newFilter)
+    }
+    else{
+        getMahasiswaByIdGuruPamong(1, newFilter, props.user.id_guru_pamong)
     }
 })
 </script>
 <template>
-    <InputSearch v-model="search" />
-    <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
+    <div class="space-x-4">
+        <InputSearch v-model="filter.search" />
+        <SelectInput v-model="filter.jenis_plp">
+            <option disabled value=""> -- Pilih --</option>
+            <option value="plp_1">PLP 1</option>
+            <option value="plp_2">PLP 2</option>
+        </SelectInput>
+        <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
+    </div>
 
     <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
         <table class="w-full whitespace-nowrap">
@@ -155,16 +191,17 @@ watch(search, async (newSearch, oldSearch) => {
                         <div class="flex flex-row space-x-4">
                             <DestroyButton v-if="user.role == 1" @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
-                            <DetailButton @click="addNilai(mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
+                            <DetailButton @click="addNilai(mahasiswa.jenis_plp, mahasiswa.prodi, mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
+                            <PrimaryButton @click="goToRouteBimbingan(mahasiswa.id)"><i class="fa-solid fa-person-chalkboard fa-lg"></i></PrimaryButton>
                         </div>
                     </td>
                 </tr>
                 <tr v-if="length === 0">
-                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
+                    <td class="px-6 py-4 text-center border-t" colspan="6">No data found.</td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <TailwindPagination v-if="user.role === 1" class="mt-6" :data="mahasiswas" @pagination-change-page="getMahasiswa" />
+    <TailwindPagination :keepLength="true" :limit="3" v-if="user.role === 1" class="mt-6" :data="mahasiswas" @pagination-change-page="getMahasiswa" />
     <TailwindPagination v-if="user.role === 3" class="mt-6" :data="mahasiswas" @pagination-change-page="getMahasiswaByIdGuruPamong" />
 </template>
