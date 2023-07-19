@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('id_mahasiswa')->nullable();
             $table->bigInteger('id_dpl')->nullable();
-            $table->string('pertanyaan');
+            $table->string('keterangan_bimbingan');
             $table->text('link');
-            $table->string('jawab')->nullable();
+            $table->string('catatan_pembimbing')->nullable();
             $table->timestamps();
         });
     }

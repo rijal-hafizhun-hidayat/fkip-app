@@ -13,4 +13,10 @@ class BimbinganController extends Controller
             'id' => $id
         ]);
     }
+
+    public function create($id){
+        return Inertia::render('Bimbingan/Create', [
+            'id' => $id
+        ]);
+    }
 }

@@ -14,6 +14,7 @@ use App\Http\Controllers\Dpl\DplController;
 use App\Http\Controllers\Dpl\Service\DplService;
 use App\Http\Controllers\Dpl\Service\DplImportService;
 use App\Http\Controllers\Bimbingan\BimbinganController;
+use App\Http\Controllers\Bimbingan\Service\BimbinganService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -147,6 +148,10 @@ Route::middleware('auth')->group(function () {
     //route bimbingan
     Route::middleware('isAdminDplMahasiswa')->group(function(){
         Route::get('/bimbingan/{id}', [BimbinganController::class, 'index'])->name('bimbingan');
+        Route::get('/bimbingan/create/{id}', [BimbinganController::class, 'create'])->name('bimbingan.create');
+
+        //service
+        Route::put('/bimbingan/{id}', [BimbinganService::class, 'store'])->name('bimbingan.store');
     });
 });
 

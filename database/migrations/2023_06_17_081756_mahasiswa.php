@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('nim')->unique();
             $table->bigInteger('id_guru_pamong')->nullable();
+            $table->bigInteger('id_dpl')->nullable();
             $table->string('nama');
             $table->string('email')->nullable();
             $table->string('prodi');

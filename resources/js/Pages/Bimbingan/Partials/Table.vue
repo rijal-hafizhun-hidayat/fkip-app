@@ -1,7 +1,8 @@
 <script setup>
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 </script>
 <template>
-    <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
+    <div class="bg-white rounded-md shadow overflow-x-auto mt-3">
         <table class="w-full whitespace-nowrap">
             <thead>
                 <tr class="text-left font-bold">
