@@ -28,10 +28,10 @@ const submit = () => {
     .catch((err) => {
         if(err.response.data.text){
             Swal.fire({
-                    icon: 'error',
-                    title: err.response.data.title,
-                    text: err.response.data.text
-                })
+                icon: 'error',
+                title: err.response.data.title,
+                text: err.response.data.text
+            })
         }
         else{
             validation.value = err.response.data.errors

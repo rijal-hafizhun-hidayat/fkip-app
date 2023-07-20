@@ -11,6 +11,7 @@ import { TailwindPagination } from 'laravel-vue-pagination';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputSearch from '@/Components/InputSearch.vue';
 import SelectInput from '@/Components/SelectInput.vue';
+import AsosiasiButton from '@/Components/AsosiasiButton.vue';
 
 const props = defineProps({
     user: Object
@@ -34,13 +35,6 @@ onMounted(() => {
 })
 
 const getMahasiswa = (page = 1, newFilter) => {
-    if(newFilter == null){
-        console.log(true)
-    }
-    else{
-        console.log(false)
-    }
-    //console.log(filter.search, filter.jenis_plp)
     routeGetMahasiswa.value = newFilter == null ? `/getMahasiswa?page=${page}` : `/getMahasiswa?page=${page}&nama=${newFilter.search}&jenis_plp=${newFilter.jenis_plp}`
 
     NProgress.start()
@@ -137,8 +131,11 @@ const goToRouteBimbingan = (id) => {
     router.get(`/bimbingan/${id}`)
 }
 
+const addAsosiasiDpl = (id) => {
+    router.get(`/mahasiswa/dpl/${id}`);
+}
+
 watch(filter, async (newFilter, oldSearch) => {
-    //console.log(newSearch)
     if(props.user.role == 1){
         getMahasiswa(1, newFilter)
     }
@@ -192,7 +189,8 @@ watch(filter, async (newFilter, oldSearch) => {
                             <DestroyButton v-if="user.role == 1" @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
                             <DetailButton @click="addNilai(mahasiswa.jenis_plp, mahasiswa.prodi, mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
-                            <PrimaryButton @click="goToRouteBimbingan(mahasiswa.id)"><i class="fa-solid fa-person-chalkboard fa-lg"></i></PrimaryButton>
+                            <AsosiasiButton v-if="user.role == 1" @click="addAsosiasiDpl(mahasiswa.id)"><i class="fa-solid fa-person-circle-plus fa-xl"></i></AsosiasiButton>
+                            <PrimaryButton v-if="user.role == 1" @click="goToRouteBimbingan(mahasiswa.id)"><i class="fa-solid fa-person-chalkboard fa-lg"></i></PrimaryButton>
                         </div>
                     </td>
                 </tr>

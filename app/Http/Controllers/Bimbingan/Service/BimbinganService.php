@@ -11,12 +11,34 @@ use Illuminate\Http\Request;
 class BimbinganService extends Controller
 {
     public function store(StoreBimbinganRequest $request, $id){
+        //dd($request->all(), $id);
         $isIdDplNull = $this->isIdDplNull($id);
         if($isIdDplNull){
             return $this->sendResponse(false, 404, false, 'Gagal', 'mahasiswa belum diasosiakan dengan dpl');
         }
         else{
-            dd(false);
+            return $this->storeBimbingan($request->all(), $id);  
+        }
+    }
+
+    public function getBimbinganByIdMahasiswa($id){
+        try {
+            $bimbingan = Bimbingan::where('id_mahasiswa', $id)->get();
+            return $this->sendResponse($bimbingan, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->sendResponse(null, 400, false, 'gagal', $e->getMessage());
+        }
+    }
+
+    private function storeBimbingan($credential, $id){
+        try {
+            Bimbingan::where('id', $id)->update([
+                'keterangan_bimbingan' => $credential['keterangan_bimbingan'],
+                'link' => $credential['link']
+            ]);
+            return $this->sendResponse(null, 200, true, 'berhasil', 'berhasil tambah bimbingan');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->sendResponse(null, 400, false, 'gagal', $e->getMessage());
         }
     }
 

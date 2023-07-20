@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mahasiswa;
 
 use App\Http\Controllers\Controller;
+use App\Models\Dpl;
 use App\Models\Prodi;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -32,6 +33,13 @@ class MahasiswaController extends Controller
             'jenis_plp' => $jenisPlp,
             'jenis_bidang' => $jenisBidang,
             'id' => $id
+        ]);
+    }
+
+    public function addAsosiasiDpl($id){
+        return Inertia::render('Mahasiswa/AsosiasiDpl', [
+            'id' => $id,
+            'dpls' => Dpl::all()
         ]);
     }
 }

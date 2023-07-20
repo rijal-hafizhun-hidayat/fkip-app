@@ -1,5 +1,30 @@
 <script setup>
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import axios from 'axios';
+import { onMounted, ref } from 'vue'
+import DestroyButton from '@/Components/DestroyButton.vue';
+import UpdateButton from '@/Components/UpdateButton.vue';
+import moment from 'moment';
+
+const bimbingans = ref([])
+const props = defineProps({
+    id: Number
+})
+
+onMounted(() => {
+    getBimbinganByIdMahasiswa()
+})
+
+const getBimbinganByIdMahasiswa = () => {
+    axios.get(`/getBimbinganByIdMahasiswa/${props.id}`)
+    .then((res) => {
+        bimbingans.value = res.data.data
+        console.log(bimbingans.value)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
 </script>
 <template>
     <div class="bg-white rounded-md shadow overflow-x-auto mt-3">
@@ -13,30 +38,26 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
                 </tr>
             </thead>
             <tbody>
-                    <!-- <tr v-for="guruPamong in guruPamongs.data" :key="guruPamong.id" class="hover:bg-gray-100">
-                        <td class="border-t items-center px-6 py-4">
-                            {{ guruPamong.nama }}
-                        </td>
-                        <td class="border-t items-center px-6 py-4">
-                            {{ guruPamong.asal }}
-                        </td>
-                        <td class="border-t items-center px-6 py-4">
-                            {{ guruPamong.asal_sekolah }}
-                        </td>
-                        <td class="border-t items-center px-6 py-4">
-                            {{ guruPamong.bidang_keahlian }}
-                        </td>
-                        <td class="border-t items-center px-6 py-4">
-                            <div class="flex flex-row space-x-4">
-                                <DestroyButton v-if="user.role === 1" @click="destroy(guruPamong.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                                <UpdateButton v-if="user.role === 1" @click="show(guruPamong.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
-                                <DetailButton v-if="user.role === 1 || user.role === 2" @click="addAsosiasiMahasiswa(guruPamong.id)"><i :class="user.role === 1 ? 'fa-solid fa-person-circle-plus fa-xl' : 'fa-solid fa-people-arrows fa-xl'"></i></DetailButton>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr v-if="length === 0">
-                        <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
-                    </tr> -->
+                <tr v-for="bimbingan in bimbingans" :key="bimbingan.id" class="hover:bg-gray-100">
+                    <td class="border-t items-center px-6 py-4">
+                        {{ bimbingan.created_at }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ bimbingan.keterangan_bimbingan }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ bimbingan.catatan_pembimbing }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        <div class="flex flex-row space-x-4">
+                            <DestroyButton><i class="fa-solid fa-trash text-white"></i></DestroyButton>
+                            <UpdateButton><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
+                        </div>
+                    </td>
+                </tr>
+                <tr v-if="length === 0">
+                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
+                </tr>
             </tbody>
         </table>
     </div>

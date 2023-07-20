@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Mahasiswa\Service;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Mahasiswa\StoreMahasiswaRequest;
+use App\Http\Requests\Mahasiswa\UpdateIdDplRequest;
 use App\Http\Requests\Mahasiswa\UpdateMahasiswaRequest;
 use App\Http\Requests\Mahasiswa\UpdateNilaiMahasiswa;
+use App\Models\Bimbingan;
+use App\Models\Dpl;
 use App\Models\Mahasiswa;
 use App\Models\Nilai;
 use App\Models\Nilai_nb;
@@ -140,6 +143,73 @@ class MahasiswaService extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, $e->getMessage());
         }
+    }
+    
+    public function getDplMahasiswaById($id){
+        try {
+            $dpl = Dpl::join('mahasiswa', 'dpl.id', '=', 'mahasiswa.id_dpl')->select('dpl.*')->where('mahasiswa.id', $id)->get();
+            return $this->responseService($dpl, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, $e->getMessage());
+        }
+    }
+
+    public function updateIdDpl(UpdateIdDplRequest $request, $id){
+        try {
+            Mahasiswa::where('id', $id)->update($request->all());
+            $this->setIdDplInBimbingan($id);
+            return $this->responseService(null, 200, true, 'berhasil', 'update dpl berhasil');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, $e->getMessage());
+        }
+    }
+
+    public function destroyAsosiasiDpl($id){
+        try {
+            Mahasiswa::where('id', $id)->update(['id_dpl' => null]);
+            return $this->responseService(null, 200, true, 'berhasil', 'berhasil hapus asosiasi dpl');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, $e->getMessage());
+        }
+    }
+
+    private function setIdDplInBimbingan($id){
+        $queryBimbingan = $this->isBimbinganNotNull($id);
+
+        if($queryBimbingan != true){
+            //dd(true);
+            $bimbingan = Bimbingan::where('id_mahasiswa', $id)->first();
+ 
+            $bimbingan->id_mahasiswa = $id;
+            $bimbingan->id_dpl = request()->id_dpl;
+            
+            $bimbingan->save();
+        }
+        else{
+            //dd(false);
+            $bimbingan = new Bimbingan;
+
+            $bimbingan->keterangan_bimbingan = '';
+            $bimbingan->link = '';
+            $bimbingan->id_mahasiswa = $id;
+            $bimbingan->id_dpl = request()->id_dpl;
+            
+            return $bimbingan->save();
+        }
+
+        
+    }
+
+    private function isBimbinganNotNull($id){
+        $queryBimbingan = Bimbingan::where('id', $id)->whereNotNull('created_at')->first();
+        if($queryBimbingan == null){
+            $result = true;
+        }
+        else{
+            $result = false;
+        }
+
+        return $result;
     }
 
     private function setJenisPlpNilaiMahasiswa($jenis_plp, $id){

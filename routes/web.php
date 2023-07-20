@@ -98,6 +98,7 @@ Route::middleware('auth')->group(function () {
         Route::middleware('isAdmin')->group(function(){
             Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
             Route::get('/mahasiswa/{id}', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
+            Route::get('/mahasiswa/dpl/{id}', [MahasiswaController::class, 'addAsosiasiDpl'])->name('mahasiswa.addAsosiasiDpl');
 
             //service mahasiswa
             Route::get('/getMahasiswa', [MahasiswaService::class, 'getMahasiswa'])->name('mahasiswa.getMahasiswa');
@@ -105,6 +106,9 @@ Route::middleware('auth')->group(function () {
             Route::delete('/mahasiswa/{id}', [MahasiswaService::class, 'destroy'])->name('mahasiswa.destroy');
             Route::put('/mahasiswa/{id}', [MahasiswaService::class, 'update'])->name('mahasiswa.update');
             Route::post('/mahasiswa/import', [MahasiswaImportService::class, 'import'])->name('mahasiswa.import');
+            Route::put('/updateIdDpl/{id}', [MahasiswaService::class, 'updateIdDpl'])->name('mahasiswa.updateIdDpl');
+            Route::delete('/destroyAsosiasiDpl/{id}', [MahasiswaService::class, 'destroyAsosiasiDpl'])->name('mahasiswa.destroyAsosiasiDpl');
+            Route::get('/getDplMahasiswaById/{id}', [MahasiswaService::class, 'getDplMahasiswaById'])->name('mahasiswa.getDplMahasiswaById');
         });
        
         Route::get('/getNilaiKomponenByIdMahasiswa/{jenis_plp}/{id}', [MahasiswaService::class, 'getNilaiKomponenByIdMahasiswa'])->name('mahasiswa.getNilaiKomponenByIdMahasiswa');
@@ -151,6 +155,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/bimbingan/create/{id}', [BimbinganController::class, 'create'])->name('bimbingan.create');
 
         //service
+        Route::get('/getBimbinganByIdMahasiswa/{id}', [BimbinganService::class, 'getBimbinganByIdMahasiswa'])->name('bimbingan.getBimbinganByIdMahasiswa');
         Route::put('/bimbingan/{id}', [BimbinganService::class, 'store'])->name('bimbingan.store');
     });
 });

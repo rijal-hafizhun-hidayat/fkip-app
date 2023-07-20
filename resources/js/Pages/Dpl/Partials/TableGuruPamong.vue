@@ -46,7 +46,6 @@ const goToRouteGuruPamongById = (id) => {
             <thead>
                 <tr class="text-left font-bold">
                     <th class="pb-4 pt-6 px-6">Nama</th>
-                    <th class="pb-4 pt-6 px-6">Asal</th>
                     <th class="pb-4 pt-6 px-6">Sekolah</th>
                     <th class="pb-4 pt-6 px-6">Bidang Studi</th>
                     <th class="pb-4 pt-6 px-6">Action</th>
@@ -56,9 +55,6 @@ const goToRouteGuruPamongById = (id) => {
                 <tr v-for="dplGuruPamong in dplGuruPamongById" :key="dplGuruPamong.id" class="hover:bg-gray-100">
                     <td class="border-t items-center px-6 py-4">
                         {{ dplGuruPamong.nama }}
-                    </td>
-                    <td class="border-t items-center px-6 py-4">
-                        {{ dplGuruPamong.asal }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ dplGuruPamong.asal_sekolah }}

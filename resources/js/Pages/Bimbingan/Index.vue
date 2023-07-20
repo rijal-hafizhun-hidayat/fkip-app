@@ -29,7 +29,7 @@ const create = () => {
         </template>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <DetailMahasiswa :id="id"/>
-            <Table />
+            <Table :id="id"/>
         </div>
     </AuthenticatedLayout>
 </template>
