@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Bimbingan\Service;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Bimbingan\StoreBimbinganRequest;
+use App\Http\Requests\Bimbingan\StoreCatatanPembimbingRequest;
 use App\Models\Bimbingan;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
@@ -18,6 +19,17 @@ class BimbinganService extends Controller
         }
         else{
             return $this->storeBimbingan($request->all(), $id);  
+        }
+    }
+
+    public function storeCatatanPembimbing(StoreCatatanPembimbingRequest $request, $id){
+        try {
+            Bimbingan::where('id', $id)->update([
+                'catatan_pembimbing' => $request->catatan_pembimbing
+            ]);
+            return $this->sendResponse(null, 200, true, 'berhasil', 'berhasil tambah catatan pembimbing');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->sendResponse(null, 400, false, 'gagal', $e->getMessage());
         }
     }
 

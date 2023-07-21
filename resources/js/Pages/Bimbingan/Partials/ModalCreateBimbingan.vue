@@ -6,6 +6,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { reactive, ref } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { router } from '@inertiajs/vue3'
 
 const isHidden = ref(true)
 const validation = ref([])
@@ -23,7 +24,13 @@ const submit = () => {
         link: form.link
     })
     .then((res) => {
-        console.log(res)
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+
+        router.get(`/bimbingan/${props.id}`)
     })
     .catch((err) => {
         if(err.response.data.text){

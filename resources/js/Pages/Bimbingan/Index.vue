@@ -4,7 +4,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DetailMahasiswa from './Partials/DetailMahasiswa.vue'
 import { Head, router } from '@inertiajs/vue3';
 import Table from './Partials/Table.vue';
-import ModalCreate from './Partials/ModalCreate.vue'
+import ModalCreateBimbingan from './Partials/ModalCreateBimbingan.vue'
 import { ref, onMounted, reactive } from 'vue';
 import axios from 'axios';
 
@@ -24,7 +24,7 @@ const create = () => {
             <div class="flex justify-between">
                 <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Bimbingan Mahasiswa</h2></div>
                 <!-- <div><PrimaryButton class="order-1 mt-[-10px]">Tambah Kelas</PrimaryButton></div> -->
-                <div class="order-1"><ModalCreate :id="id" /></div>
+                <div class="order-1"><ModalCreateBimbingan :id="id" /></div>
             </div>
         </template>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

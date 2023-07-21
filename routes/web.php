@@ -157,6 +157,7 @@ Route::middleware('auth')->group(function () {
         //service
         Route::get('/getBimbinganByIdMahasiswa/{id}', [BimbinganService::class, 'getBimbinganByIdMahasiswa'])->name('bimbingan.getBimbinganByIdMahasiswa');
         Route::put('/bimbingan/{id}', [BimbinganService::class, 'store'])->name('bimbingan.store');
+        Route::put('/bimbingan/catatan-pemimbing/{id}', [BimbinganService::class, 'storeCatatanPembimbing'])->name('bimbingan.storeCatatanPembimbing');
     });
 });
 

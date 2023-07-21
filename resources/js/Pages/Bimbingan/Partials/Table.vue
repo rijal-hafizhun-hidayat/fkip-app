@@ -1,9 +1,10 @@
 <script setup>
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import axios from 'axios';
 import { onMounted, ref } from 'vue'
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import ModalCreateCatatanPembimbing from './ModalCreateCatatanPembimbing.vue';
 import moment from 'moment';
 
 const bimbingans = ref([])
@@ -25,6 +26,10 @@ const getBimbinganByIdMahasiswa = () => {
         console.log(err)
     })
 }
+
+const AddCatatanBimbingan = () => {
+
+}
 </script>
 <template>
     <div class="bg-white rounded-md shadow overflow-x-auto mt-3">
@@ -45,8 +50,11 @@ const getBimbinganByIdMahasiswa = () => {
                     <td class="border-t items-center px-6 py-4">
                         {{ bimbingan.keterangan_bimbingan }}
                     </td>
-                    <td class="border-t items-center px-6 py-4">
+                    <td v-if="bimbingan.catatan_pembimbing" class="border-t items-center px-6 py-4">
                         {{ bimbingan.catatan_pembimbing }}
+                    </td>
+                    <td v-else class="border-t items-center px-6 py-4">
+                        <ModalCreateCatatanPembimbing :id="id"/>
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
