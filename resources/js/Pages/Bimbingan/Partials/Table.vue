@@ -3,7 +3,7 @@ import axios from 'axios';
 import { onMounted, ref } from 'vue'
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import GoogleDriveButton from '@/Components/GoogleDriveButton.vue';
 import ModalCreateCatatanPembimbing from './ModalCreateCatatanPembimbing.vue';
 import moment from 'moment';
 
@@ -60,6 +60,7 @@ const AddCatatanBimbingan = () => {
                         <div class="flex flex-row space-x-4">
                             <DestroyButton><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
+                            <GoogleDriveButton><i class="fa-brands fa-google-drive text-white fa-lg"></i></GoogleDriveButton>
                         </div>
                     </td>
                 </tr>
