@@ -57,7 +57,13 @@ const submit = () => {
         jenis_plp: props.jenis_plp
     })
     .then((res) => {
-        console.log(res)
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+
+        router.get(`/mahasiswa/nilai/${props.jenis_plp}/${props.jenis_bidang}/${props.id}`)
     })
     .catch((err) => {
         console.log(err)
