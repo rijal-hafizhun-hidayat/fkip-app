@@ -111,13 +111,13 @@ class MahasiswaService extends Controller
     }
 
     public function getPertanyaanByJenisPlpJenisBidangJenisPertanyaan($jenisPlp, $jenisBidang, $jenisPertanyaan){
-        //dd($jenisPlp, $jenisBidang, $jenisPertanyaan);
         try {
-            $pertanyaan = Pertanyaan::where([
-                ['jenis_plp', $jenisPlp],
-                ['jenis_studi', $jenisBidang],
-                ['jenis_kalimat', $jenisPertanyaan]
-            ])->get();
+            if($jenisPlp == 'plp_1'){
+                $pertanyaan = $this->getPertanyaanByPlpOne();
+            }
+            else{
+                $pertanyaan = $this->getPertanyaanByPlpTwo($jenisPlp, $jenisBidang, $jenisPertanyaan);
+            }
             return $this->responseService($pertanyaan, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, $e->getMessage());
@@ -173,6 +173,28 @@ class MahasiswaService extends Controller
         }
     }
 
+    private function getPertanyaanByPlpOne(){
+        try {
+            $pertanyaan = Pertanyaan::where('jenis_plp', 'plp_1')->get();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $pertanyaan = false;
+        }
+        return $pertanyaan;
+    }
+
+    private function getPertanyaanByPlpTwo($jenisPlp, $jenisBidang, $jenisPertanyaan){
+        try {
+            $pertanyaan = Pertanyaan::where([
+                ['jenis_plp', $jenisPlp],
+                ['jenis_studi', $jenisBidang],
+                ['jenis_kalimat', $jenisPertanyaan]
+            ])->get();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $pertanyaan = false;
+        }
+        return $pertanyaan;
+    }
+
     private function setIdDplInBimbingan($id){
         $queryBimbingan = $this->isBimbinganNotNull($id);
 
@@ -224,6 +246,7 @@ class MahasiswaService extends Controller
     }
 
     private function setNilai($credential, $id){
+        //dd($credential);
         $resultCredential = $this->setJenisNilai($credential);
         $resultCredential['total_nilai'] = $this->setTotalNilai($resultCredential, $id);
         return $resultCredential;
@@ -233,7 +256,7 @@ class MahasiswaService extends Controller
         $totalNilai = null;
         $nilaiKompeten = $this->getNilai($resultCredential, $id);
         //dd($resultCredential, $nilaiKompeten);
-        if($resultCredential['jenis_bidang'] == 'bk'){
+        if($resultCredential['jenis_bidang'] == 'bk' && $resultCredential['jenis_plp'] == 'plp_2'){
             //dd('bk');
             if($resultCredential['jenis_nilai'] == 'nilai_ne' && $nilaiKompeten['nilai_ne'] == null){
                 $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $resultCredential['nilai_ne']) / 4;
@@ -260,7 +283,7 @@ class MahasiswaService extends Controller
                 $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne']) / 4;
             }
         }
-        else if($resultCredential['jenis_bidang'] == 'pgpaud'){
+        else if($resultCredential['jenis_bidang'] == 'pgpaud' && $resultCredential['jenis_plp'] == 'plp_2'){
             //dd($nilaiKompeten);
             if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] == null){
                 $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nd']) / 2;
@@ -275,7 +298,7 @@ class MahasiswaService extends Controller
                 $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nd']) / 2;
             }
         }
-        else if($resultCredential['jenis_bidang'] == 'teaching'){
+        else if($resultCredential['jenis_bidang'] == 'teaching' && $resultCredential['jenis_plp'] == 'plp_2'){
             //dd('teaching');
             if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] == null){
                 $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nc']) / 2;
@@ -290,8 +313,10 @@ class MahasiswaService extends Controller
                 $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nc']) / 2;
             }
         }
+        else if($resultCredential['jenis_plp'] == 'plp_1'){
+            $totalNilai = $resultCredential['nilai_nb'];   
+        }
         
-
         return $totalNilai;
     }
 
@@ -311,35 +336,36 @@ class MahasiswaService extends Controller
     private function setJenisNilai($credential){
         $jenisNilai = $credential['jenis_nilai'];
 
-        if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'teaching'){
+        if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'teaching' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNbTeaching($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nc' && $credential['jenis_bidang'] == 'teaching'){
+        else if($credential['jenis_nilai'] == 'nilai_nc' && $credential['jenis_bidang'] == 'teaching' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNcTeaching($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'teaching'){
+        else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'teaching' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNdTeaching($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'bk'){
+        else if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'bk' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNbBk($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nc' && $credential['jenis_bidang'] == 'bk'){
+        else if($credential['jenis_nilai'] == 'nilai_nc' && $credential['jenis_bidang'] == 'bk' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNcBk($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'bk'){
+        else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'bk' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNdBk($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_ne' && $credential['jenis_bidang'] == 'bk'){
+        else if($credential['jenis_nilai'] == 'nilai_ne' && $credential['jenis_bidang'] == 'bk' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNeBk($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'pgpaud'){
+        else if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'pgpaud' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNbPgpaud($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'pgpaud'){
+        else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'pgpaud' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNdPgpaud($credential);
         }
-
-        //dd($credential);
+        else if($credential['jenis_plp'] == 'plp_1'){
+            $credential[$jenisNilai] = $this->setNilaiNbPlpOne($credential);
+        }
 
         return $credential;
     }
@@ -450,6 +476,18 @@ class MahasiswaService extends Controller
         }
 
         $hasil = ($totalPoint / 52) * 100;
+
+        return round($hasil, 2);
+    }
+
+    private function setNilaiNbPlpOne($credential){
+        $totalPoint = null;
+
+        for ($i=0; $i < count($credential['nilai_kompeten']); $i++) { 
+            $totalPoint = $totalPoint+$credential['nilai_kompeten'][$i];
+        }
+
+        $hasil = ($totalPoint / 40) * 100;
 
         return round($hasil, 2);
     }

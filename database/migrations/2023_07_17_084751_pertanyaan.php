@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('kalimat');
             $table->string('jenis_kalimat');
             $table->string('jenis_plp');
-            $table->string('jenis_studi');
+            $table->string('jenis_studi')->nullable();
             $table->timestamps();
         });
     }

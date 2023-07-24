@@ -52,7 +52,6 @@ const getMahasiswa = (page = 1, newFilter) => {
 }
 
 const getMahasiswaByIdGuruPamong = (page = 1, newFilter, id) => {
-    //console.log(filter.search, filter.jenis_plp)
     routeGetMahasiswa.value = newFilter == null ? `/getMahasiswaByIdAkun/${props.user.id_guru_pamong}?page=${page}` : `/getMahasiswaByIdAkun/${props.user.id_guru_pamong}?page=${page}&nama=${newFilter.search}&jenis_plp=${newFilter.jenis_plp}`
 
     NProgress.start()
