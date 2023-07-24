@@ -2,10 +2,12 @@
 import axios from 'axios';
 import { onMounted, ref } from 'vue'
 import DestroyButton from '@/Components/DestroyButton.vue';
-import UpdateButton from '@/Components/UpdateButton.vue';
+import ModalUpdateBimbingan from './ModalUpdateBimbingan.vue';
 import GoogleDriveButton from '@/Components/GoogleDriveButton.vue';
 import ModalCreateCatatanPembimbing from './ModalCreateCatatanPembimbing.vue';
 import moment from 'moment';
+import Swal from 'sweetalert2';
+import { router } from '@inertiajs/vue3'
 
 const bimbingans = ref([])
 const props = defineProps({
@@ -13,6 +15,7 @@ const props = defineProps({
 })
 
 onMounted(() => {
+    moment.locale('id')
     getBimbinganByIdMahasiswa()
 })
 
@@ -20,15 +23,40 @@ const getBimbinganByIdMahasiswa = () => {
     axios.get(`/getBimbinganByIdMahasiswa/${props.id}`)
     .then((res) => {
         bimbingans.value = res.data.data
-        console.log(bimbingans.value)
+        //console.log(bimbingans.value)
     })
     .catch((err) => {
         console.log(err)
     })
 }
 
-const AddCatatanBimbingan = () => {
+const destroy = (id) => {
+    axios.delete(`/bimbingan/${id}`)
+    .then((res) => {
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+        router.get(`/bimbingan/${props.id}`)
+    })
+    .catch((err) => {
+        Swal.fire({
+            icon: 'error',
+            title: err.response.data.title,
+            text: err.response.data.text
+        })
+        router.get(`/bimbingan/${props.id}`)
+    })
+}
 
+const setDateToIndo = (date) => {
+    return moment(date).format('LL');
+}
+
+const goToGoggleDrive = (link) => {
+    //console.log(link);
+    return window.open(link, '_blank')
 }
 </script>
 <template>
@@ -45,7 +73,7 @@ const AddCatatanBimbingan = () => {
             <tbody>
                 <tr v-for="bimbingan in bimbingans" :key="bimbingan.id" class="hover:bg-gray-100">
                     <td class="border-t items-center px-6 py-4">
-                        {{ bimbingan.created_at }}
+                        {{ setDateToIndo(bimbingan.created_at) }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ bimbingan.keterangan_bimbingan }}
@@ -54,13 +82,13 @@ const AddCatatanBimbingan = () => {
                         {{ bimbingan.catatan_pembimbing }}
                     </td>
                     <td v-else class="border-t items-center px-6 py-4">
-                        <ModalCreateCatatanPembimbing :id="id"/>
+                        <ModalCreateCatatanPembimbing :id="bimbingan.id" :id_mahasiswa="id"/>
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
-                            <DestroyButton><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                            <UpdateButton><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
-                            <GoogleDriveButton><i class="fa-brands fa-google-drive text-white fa-lg"></i></GoogleDriveButton>
+                            <DestroyButton @click="destroy(bimbingan.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
+                            <ModalUpdateBimbingan :id="bimbingan.id" :id_mahasiswa="id"/>
+                            <GoogleDriveButton @click="goToGoggleDrive(bimbingan.link)"><i class="fa-brands fa-google-drive text-white fa-lg"></i></GoogleDriveButton>
                         </div>
                     </td>
                 </tr>

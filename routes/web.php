@@ -151,12 +151,15 @@ Route::middleware('auth')->group(function () {
 
     //route bimbingan
     Route::middleware('isAdminDplMahasiswa')->group(function(){
-        Route::get('/bimbingan/{id}', [BimbinganController::class, 'index'])->name('bimbingan');
+        Route::get('/bimbingans/{id}', [BimbinganController::class, 'index'])->name('bimbingan');
         Route::get('/bimbingan/create/{id}', [BimbinganController::class, 'create'])->name('bimbingan.create');
 
         //service
+        Route::put('/bimbingan/{id}', [BimbinganService::class, 'update'])->name('bimbingan.update');
+        Route::get('/bimbingan/{id}', [BimbinganService::class, 'getBimbinganById'])->name('bimbingan.getBimbinganById');
+        Route::delete('/bimbingan/{id}', [BimbinganService::class, 'destroy'])->name('bimbingan.destroy');
         Route::get('/getBimbinganByIdMahasiswa/{id}', [BimbinganService::class, 'getBimbinganByIdMahasiswa'])->name('bimbingan.getBimbinganByIdMahasiswa');
-        Route::put('/bimbingan/{id}', [BimbinganService::class, 'store'])->name('bimbingan.store');
+        Route::post('/bimbingan/{id}', [BimbinganService::class, 'store'])->name('bimbingan.store');
         Route::put('/bimbingan/catatan-pemimbing/{id}', [BimbinganService::class, 'storeCatatanPembimbing'])->name('bimbingan.storeCatatanPembimbing');
     });
 });

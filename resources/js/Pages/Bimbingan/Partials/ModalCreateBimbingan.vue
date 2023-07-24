@@ -3,7 +3,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { reactive, ref } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3'
@@ -13,15 +13,19 @@ const validation = ref([])
 const props = defineProps({
     id: Number
 })
+
+//console.log(props.id, props.idDpl)
+
 const form = reactive({
     keterangan_bimbingan: '',
     link: ''
 })
 
 const submit = () => {
-    axios.put(`/bimbingan/${props.id}`, {
+    axios.post(`/bimbingan/${props.id}`, {
         keterangan_bimbingan: form.keterangan_bimbingan,
-        link: form.link
+        link: form.link,
+        id_dpl: props.idDpl
     })
     .then((res) => {
         Swal.fire({
@@ -29,8 +33,7 @@ const submit = () => {
             title: res.data.title,
             text: res.data.text
         })
-
-        router.get(`/bimbingan/${props.id}`)
+        router.get(`/bimbingans/${props.id}`)
     })
     .catch((err) => {
         if(err.response.data.text){
@@ -39,6 +42,7 @@ const submit = () => {
                 title: err.response.data.title,
                 text: err.response.data.text
             })
+            router.get(`/bimbingans/${props.id}`)
         }
         else{
             validation.value = err.response.data.errors

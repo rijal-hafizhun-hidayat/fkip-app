@@ -9,6 +9,7 @@ use Inertia\Inertia;
 class BimbinganController extends Controller
 {
     public function index($id){
+        //dd($id, $idDpl);
         return Inertia::render('Bimbingan/Index', [
             'id' => $id
         ]);
@@ -16,7 +17,7 @@ class BimbinganController extends Controller
 
     public function create($id){
         return Inertia::render('Bimbingan/Create', [
-            'id' => $id
+            'id' => $id,
         ]);
     }
 }

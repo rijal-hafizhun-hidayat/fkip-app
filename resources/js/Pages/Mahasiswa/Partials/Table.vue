@@ -128,7 +128,7 @@ const setJenisPlp = (jenisPlp) => {
 }
 
 const goToRouteBimbingan = (id) => {
-    router.get(`/bimbingan/${id}`)
+    router.get(`/bimbingans/${id}`)
 }
 
 const addAsosiasiDpl = (id) => {

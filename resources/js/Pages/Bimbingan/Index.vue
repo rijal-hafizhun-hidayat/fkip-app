@@ -12,9 +12,7 @@ const props = defineProps({
     id: Number
 })
 
-const create = () => {
-    router.get(`/bimbingan/create/${props.id}`);
-}
+console.log(props.id)
 </script>
 <template>
     <Head title="Dpl" />
@@ -24,7 +22,7 @@ const create = () => {
             <div class="flex justify-between">
                 <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Bimbingan Mahasiswa</h2></div>
                 <!-- <div><PrimaryButton class="order-1 mt-[-10px]">Tambah Kelas</PrimaryButton></div> -->
-                <div class="order-1"><ModalCreateBimbingan :id="id" /></div>
+                <div class="order-1"><ModalCreateBimbingan :id="id"/></div>
             </div>
         </template>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

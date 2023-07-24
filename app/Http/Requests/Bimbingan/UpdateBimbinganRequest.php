@@ -5,7 +5,7 @@ namespace App\Http\Requests\Bimbingan;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreBimbinganRequest extends FormRequest
+class UpdateBimbinganRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -32,7 +32,8 @@ class StoreBimbinganRequest extends FormRequest
     {
         return [
             'keterangan_bimbingan' => 'required|string',
-            'link' => 'required|string'
+            'link' => 'required|string',
+            'catatan_pembimbing' => 'required|string'
         ];
     }
 }

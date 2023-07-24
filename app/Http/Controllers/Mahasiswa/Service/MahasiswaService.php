@@ -157,7 +157,7 @@ class MahasiswaService extends Controller
     public function updateIdDpl(UpdateIdDplRequest $request, $id){
         try {
             Mahasiswa::where('id', $id)->update($request->all());
-            $this->setIdDplInBimbingan($id);
+            //$this->setIdDplInBimbingan($id);
             return $this->responseService(null, 200, true, 'berhasil', 'update dpl berhasil');
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, $e->getMessage());

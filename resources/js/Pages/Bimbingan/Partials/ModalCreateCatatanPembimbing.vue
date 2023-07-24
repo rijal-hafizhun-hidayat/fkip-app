@@ -11,13 +11,12 @@ import { router } from '@inertiajs/vue3'
 const isHidden = ref(true)
 const validation = ref([])
 const props = defineProps({
-    id: Number
+    id: Number,
+    id_mahasiswa: Number
 })
 const form = reactive({
     catatan_pembimbing: ''
 })
-
-console.log(props.id)
 
 const submit = () => {
     axios.put(`/bimbingan/catatan-pemimbing/${props.id}`, {
@@ -30,7 +29,7 @@ const submit = () => {
             text: res.data.text
         })
 
-        router.get(`/bimbingan/${props.id}`)
+        router.get(`/bimbingans/${props.id_mahasiswa}`)
     })
     .catch((err) => {
         if(err.response.data.text){
@@ -39,6 +38,7 @@ const submit = () => {
                 title: err.response.data.title,
                 text: err.response.data.text
             })
+            router.get(`/bimbingans/${props.id_mahasiswa}`)
         }
         else{
             validation.value = err.response.data.errors
