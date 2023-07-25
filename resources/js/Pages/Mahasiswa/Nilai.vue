@@ -6,7 +6,6 @@ import FormNilaiNc from './Partials/FormNilaiNc.vue';
 import FormNilaiNd from './Partials/FormNilaiNd.vue';
 import FormNilaiNe from './Partials/FormNilaiNe.vue';
 import TableNilai from './Partials/TableNilai.vue';
-import DetailMahasiswa from './Partials/DetailMahasiswa.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { computed, ref } from 'vue'
 
@@ -66,21 +65,7 @@ const setIsClick = (isClick) => {
         </template>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- <div class="bg-white py-8 px-10 mt-10 rounded-md shadow-md"> -->
-                
-                <!-- <DetailMahasiswa v-if="user.role === 2 || user.role === 1" :id="id" :jenis_plp="jenis_plp" :prodi="prodi"/> -->
-                <!-- <FormNilai class="mt-10" v-if="user.role === 3 || user.role === 1" :id="id" :jenis_plp="jenis_plp" :prodi="prodi"/> -->
-                <!-- <div class="flex mt-7" v-if="jenis_plp == 'plp_1'">
-                    <PrimaryButton @click="!isClickNb; setJenisPertanyaan('nb')">Tambah Nilai Nb</PrimaryButton>
-                </div>
-
-                <div class="flex mt-7 space-x-4" v-if="jenis_plp == 'plp_2'">
-                    <PrimaryButton @click="!isClickNb; setJenisPertanyaan('nb')">Tambah Nilai Nb</PrimaryButton>
-                    <PrimaryButton @click="!isClickNc; setJenisPertanyaan('nc')">Tambah Nilai Nc</PrimaryButton>
-                    <PrimaryButton @click="!isClickNd; setJenisPertanyaan('nd')">Tambah Nilai Nd</PrimaryButton>
-                </div> -->
-            <!-- </div> -->
-            <div class="flex mt-8 space-x-4">
+            <div v-if="user.role === 3" class="flex mt-8 space-x-4">
                 <div><PrimaryButton @click="setIsClick('nb')">+ Nilai Nb</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'teaching'" @click="setIsClick('nc')">+ Nilai Nc</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" @click="setIsClick('nc')">+ Nilai Nc</PrimaryButton></div>
@@ -88,19 +73,22 @@ const setIsClick = (isClick) => {
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" @click="setIsClick('nd')">+ Nilai Nd</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" @click="setIsClick('ne')">+ Nilai Ne</PrimaryButton></div>
             </div>
+
             <TableNilai :id="id" :prodi="prodi" :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang"/>
-            <!-- <p>{{ valueJenisPertanyaan }}</p> -->
-            <div v-if="isClickNb == true" class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
-                <FormNilaiNb :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang" :jenis_pertanyaan="'nb'" :id="id"/>
-            </div>
-            <div v-if="isClickNc == true" class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
-                <FormNilaiNc :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang" :jenis_pertanyaan="'nc'" :id="id"/>
-            </div>
-            <div v-if="isClickNd == true" class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
-                <FormNilaiNd :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang" :jenis_pertanyaan="'nd'" :id="id"/>
-            </div>
-            <div v-if="isClickNe == true" class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
-                <FormNilaiNe :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang" :jenis_pertanyaan="'ne'" :id="id"/>
+
+            <div v-if="user.role === 3">
+                <div v-if="isClickNb == true" class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
+                    <FormNilaiNb :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang" :jenis_pertanyaan="'nb'" :id="id"/>
+                </div>
+                <div v-if="isClickNc == true" class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
+                    <FormNilaiNc :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang" :jenis_pertanyaan="'nc'" :id="id"/>
+                </div>
+                <div v-if="isClickNd == true" class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
+                    <FormNilaiNd :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang" :jenis_pertanyaan="'nd'" :id="id"/>
+                </div>
+                <div v-if="isClickNe == true" class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
+                    <FormNilaiNe :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang" :jenis_pertanyaan="'ne'" :id="id"/>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>

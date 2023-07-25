@@ -12,7 +12,6 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { TailwindPagination } from 'laravel-vue-pagination';
 
 const dpls = ref([])
-const routeGetDpl = ref('')
 const search = ref('')
 const length = ref('')
 
@@ -49,11 +48,13 @@ const destroy = (id) => {
     })
 }
 
-const getDpl = (page = 1, nama) => {
-    routeGetDpl.value = nama == null ? `/getDpls?page=${page}` : `/getDpls?page=${page}&nama=${nama}`
-
+const getDpl = (page = 1, nama = search.value) => {
     NProgress.start()
-    axios.get(routeGetDpl.value)
+    axios.get(`/getDpls?page=${page}`, {
+        params: {
+            nama: nama
+        }
+    })
     .then((res) => {
         dpls.value = res.data.data
         length.value = res.data.data.data.length
@@ -67,10 +68,12 @@ const getDpl = (page = 1, nama) => {
 }
 
 const getDplByProdi = (page = 1, nama) => {
-    routeGetDpl.value = nama == null ? `/getDplByProdi/${props.user.prodi}?page=${page}` : `/getDplByProdi/${props.user.prodi}?page=${page}&nama=${nama}`
-
     NProgress.start()
-    axios.get(routeGetDpl.value)
+    axios.get(`/getDplByProdi/${props.user.prodi}?page=${page}`, {
+        params: {
+            nama: nama
+        }
+    })
     .then((res) => {
         dpls.value = res.data.data
         length.value = res.data.data.data.length
@@ -100,10 +103,10 @@ const reset = () => {
 watch(search, async (newSearch, oldSearch) => {
     if(newSearch != null){
         if(props.user.role == 1){
-            getDpl(1, newSearch)
+            getDpl()
         }
         else{
-            getDplByProdi(1, newSearch)
+            getDplByProdi()
         }
     }
 })

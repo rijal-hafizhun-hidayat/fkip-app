@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 class MahasiswaService extends Controller
 {
     public function getMahasiswa(Request $request){
+        //dd($request->all());
         try {
             $queryMahasiswa = Mahasiswa::latest();
             if($request->filled('nama')){

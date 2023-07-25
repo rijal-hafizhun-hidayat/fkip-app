@@ -91,7 +91,7 @@ Route::middleware('auth')->group(function () {
     });
 
     //route mahasiswa
-    Route::middleware('isAdminGuruPamong')->group(function(){
+    Route::middleware('isAdminDplGuruPamong')->group(function(){
         Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
         Route::get('/mahasiswa/nilai/{jenisPlp}/{prodi}/{id}', [MahasiswaController::class, 'nilai'])->name('mahasiswa.nilai');
 
@@ -118,7 +118,7 @@ Route::middleware('auth')->group(function () {
     });
     
     Route::get('/getMahasiswaById/{id}', [MahasiswaService::class, 'getMahasiswaById'])->name('mahasiswa.getMahasiswaById');
-    Route::get('/getNilaiMahasiswaByIdMahasiswa/{id}', [MahasiswaService::class, 'getNilaiMahasiswaByIdMahasiswa'])->name('mahasiswa.getNilaiMahasiswaByIdMahasiswa');
+    //Route::get('/getNilaiMahasiswaByIdMahasiswa/{id}', [MahasiswaService::class, 'getNilaiMahasiswaByIdMahasiswa'])->name('mahasiswa.getNilaiMahasiswaByIdMahasiswa');
     Route::get('/getMahasiswaNilaiById/{id}', [MahasiswaService::class, 'getMahasiswaNilaiById'])->name('mahasiswa.getMahasiswaNilaiById');
 
     //route guru pamong

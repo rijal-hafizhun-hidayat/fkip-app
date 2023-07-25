@@ -8,13 +8,11 @@ import UpdateButton from '@/Components/UpdateButton.vue';
 import ResetButton from '@/Components/ResetButton.vue';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
-import Pagination from '@/Components/Pagination.vue';
 import { TailwindPagination } from 'laravel-vue-pagination';
 import InputSearch from '@/Components/InputSearch.vue';
 
 const akuns = ref([])
 const search = ref('')
-const routeGetAkuns = ref('')
 const length = ref('')
         
 onMounted(() => {
@@ -22,10 +20,12 @@ onMounted(() => {
 })
 
 const getAkuns = (page = 1, nama) => {
-    routeGetAkuns.value = nama == null ? `/getAkuns?page=${page}` : `/getAkuns?page=${page}&nama=${nama}`
-
     NProgress.start()
-    axios.get(routeGetAkuns.value)
+    axios.get(`/getAkuns?page=${page}`, {
+        params: {
+            nama: nama
+        }
+    })
     .then((res) => {
         akuns.value = res.data.data
         length.value = res.data.data.data.length
@@ -70,7 +70,6 @@ const reset = () => {
 
 const formResetPass = (id) => {
     router.get(`/akun/reset-pass/${id}`)
-    //console.log(id)
 }
 
 watch(search, async (newSearch, oldSearch) => {

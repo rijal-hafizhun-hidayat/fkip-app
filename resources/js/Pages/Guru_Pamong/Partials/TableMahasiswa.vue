@@ -20,6 +20,7 @@ onMounted(() => {
     nprogress.start()
     axios.get(`/getMahasiswaByIdGuruPamong/${props.id}`)
     .then((res) => {
+        console.log(res)
         mahasiswas.value = res.data.data
     })
     .catch((err) => {
@@ -55,12 +56,24 @@ const setJenisPlp = (jenis_plp) => {
     return jenis_plp
 }
 
-const nilaiMahasiswaById = (id) => {
-    router.get(`/mahasiswa/nilai/${id}`)
+const setJenisBidang = (prodi) => {
+    if(prodi == 'Bimbingan dan Konseling'){
+        prodi = 'bk'
+    }
+    else if(prodi == 'Pendidikan Guru Pendidikan Anak Usia Dini'){
+        prodi = 'pgpaud'
+    }
+    else{
+        prodi = 'teaching'
+    }
+    return prodi
 }
 
-const goToRouteNilaiMahasiswa = (id) => {
-    router.get(`/guru-pamong/mahasiswa/nilai/${id}`)
+
+const nilaiMahasiswa = (jenisPlp, prodi, id) => {
+    prodi = setJenisBidang(prodi)
+    //console.log(jenisPlp, prodi, id)
+    router.get(`/mahasiswa/nilai/${jenisPlp}/${prodi}/${id}`)
 }
 </script>
 <template>
@@ -96,18 +109,18 @@ const goToRouteNilaiMahasiswa = (id) => {
                     <td v-if="user.role === 1" class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
                             <DestroyButton @click="destroyAsosiasiMahasiswa(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                            <DetailButton @click="nilaiMahasiswaById(mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
+                            <DetailButton @click="nilaiMahasiswa(mahasiswa.jenis_plp, mahasiswa.prodi, mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
                         </div>
                     </td>
                     <td v-if="user.role === 2" class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
-                            <DetailButton @click="goToRouteNilaiMahasiswa(mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
+                            <DetailButton @click="nilaiMahasiswa(mahasiswa.jenis_plp, mahasiswa.prodi, mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
                         </div>
                     </td>
                 </tr>
-            <tr v-if="mahasiswas.length === 0">
-                <td class="px-6 py-4 text-center border-t" colspan="6">No data found.</td>
-            </tr>
+                <tr v-if="mahasiswas.length === 0">
+                    <td class="px-6 py-4 text-center border-t" colspan="6">No data found.</td>
+                </tr>
             </tbody>
         </table>
     </div>

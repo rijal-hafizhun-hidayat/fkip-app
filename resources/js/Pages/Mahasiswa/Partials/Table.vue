@@ -18,10 +18,9 @@ const props = defineProps({
 })
 
 const mahasiswas = ref([])
-const routeGetMahasiswa = ref('')
 const length = ref('')
 const filter = reactive({
-    search: '',
+    nama: '',
     jenis_plp: ''
 })
 
@@ -34,12 +33,16 @@ onMounted(() => {
     } 
 })
 
-const getMahasiswa = (page = 1, newFilter) => {
-    routeGetMahasiswa.value = newFilter == null ? `/getMahasiswa?page=${page}` : `/getMahasiswa?page=${page}&nama=${newFilter.search}&jenis_plp=${newFilter.jenis_plp}`
-
+const getMahasiswa = (page = 1, newFilter = filter) => {
     NProgress.start()
-    axios.get(routeGetMahasiswa.value)
+    axios.get(`/getMahasiswa?page=${page}`, {
+        params: {
+            nama: newFilter.nama,
+            jenis_plp: newFilter.jenis_plp
+        }
+    })
     .then((res) => {
+        console.log(res)
         mahasiswas.value = res.data.data
         length.value = res.data.data.data.length
     })
@@ -51,11 +54,14 @@ const getMahasiswa = (page = 1, newFilter) => {
     })
 }
 
-const getMahasiswaByIdGuruPamong = (page = 1, newFilter, id) => {
-    routeGetMahasiswa.value = newFilter == null ? `/getMahasiswaByIdAkun/${props.user.id_guru_pamong}?page=${page}` : `/getMahasiswaByIdAkun/${props.user.id_guru_pamong}?page=${page}&nama=${newFilter.search}&jenis_plp=${newFilter.jenis_plp}`
-
+const getMahasiswaByIdGuruPamong = (page = 1, newFilter = filter) => {
     NProgress.start()
-    axios.get(routeGetMahasiswa.value)
+    axios.get(`/getMahasiswaByIdAkun/${props.user.id_guru_pamong}?page=${page}`, {
+        params: {
+            nama: newFilter.nama,
+            jenis_plp: newFilter.jenis_plp
+        }
+    })
     .then((res) => {
         mahasiswas.value = res.data.data
         length.value = res.data.data.data.length
@@ -136,16 +142,16 @@ const addAsosiasiDpl = (id) => {
 
 watch(filter, async (newFilter, oldSearch) => {
     if(props.user.role == 1){
-        getMahasiswa(1, newFilter)
+        getMahasiswa()
     }
     else{
-        getMahasiswaByIdGuruPamong(1, newFilter, props.user.id_guru_pamong)
+        getMahasiswaByIdGuruPamong()
     }
 })
 </script>
 <template>
     <div class="space-x-4">
-        <InputSearch v-model="filter.search" />
+        <InputSearch v-model="filter.nama" />
         <SelectInput v-model="filter.jenis_plp">
             <option disabled value=""> -- Pilih --</option>
             <option value="plp_1">PLP 1</option>
@@ -199,6 +205,7 @@ watch(filter, async (newFilter, oldSearch) => {
             </tbody>
         </table>
     </div>
+    <!-- <Pagination :links="mahasiswas.links"/> -->
     <TailwindPagination :keepLength="true" :limit="3" v-if="user.role === 1" class="mt-6" :data="mahasiswas" @pagination-change-page="getMahasiswa" />
     <TailwindPagination v-if="user.role === 3" class="mt-6" :data="mahasiswas" @pagination-change-page="getMahasiswaByIdGuruPamong" />
 </template>
