@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('dpl', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('dkl')->nullable();
             $table->string('nama');
             $table->bigInteger('nipy')->unique();
             $table->string('email')->nullable();

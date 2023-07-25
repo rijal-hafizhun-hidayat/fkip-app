@@ -18,6 +18,9 @@ class DplService extends Controller
             if($request->filled('nama')){
                 $queryDpl->where('nama', 'like', '%'.$request->nama.'%');
             }
+            if($request->filled('dkl')){
+                $queryDpl->where('dkl', $request->dkl);
+            }
             $dpl = $queryDpl->paginate(10);
             return $this->responseService($dpl, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {

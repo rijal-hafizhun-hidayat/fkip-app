@@ -205,7 +205,6 @@ watch(filter, async (newFilter, oldSearch) => {
             </tbody>
         </table>
     </div>
-    <!-- <Pagination :links="mahasiswas.links"/> -->
-    <TailwindPagination :keepLength="true" :limit="3" v-if="user.role === 1" class="mt-6" :data="mahasiswas" @pagination-change-page="getMahasiswa" />
-    <TailwindPagination v-if="user.role === 3" class="mt-6" :data="mahasiswas" @pagination-change-page="getMahasiswaByIdGuruPamong" />
+    <TailwindPagination v-if="user.role === 1" class="mt-6" :keepLength="true" :limit="1" :data="mahasiswas" @pagination-change-page="getMahasiswa" />
+    <TailwindPagination v-if="user.role === 3" class="mt-6" :keepLength="true" :limit="1" :data="mahasiswas" @pagination-change-page="getMahasiswaByIdGuruPamong" />
 </template>

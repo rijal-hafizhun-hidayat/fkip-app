@@ -132,5 +132,5 @@ watch(search, async (newSearch, oldSearch) => {
             </tbody>
         </table>
     </div>
-    <TailwindPagination class="mt-6" :data="akuns" @pagination-change-page="getAkuns" />
+    <TailwindPagination :keepLength="true" :limit="1" class="mt-6" :data="akuns" @pagination-change-page="getAkuns" />
 </template>

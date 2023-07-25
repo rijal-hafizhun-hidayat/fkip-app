@@ -1,3 +1,81 @@
+<script setup>
+import { ref, reactive } from 'vue'
+import TextInput from '@/Components/TextInput.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import InputError from '@/Components/InputError.vue';
+import SelectInput from '@/Components/SelectInput.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { router } from '@inertiajs/vue3';
+import axios from 'axios';
+import NProgress from 'nprogress';
+import Swal from 'sweetalert2'
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.css'
+
+const form = reactive({
+    dkl: '',
+    nipy: '',
+    nama: '',
+    prodi: '',
+    email: ''
+})
+const props = defineProps({
+    prodis: Object,
+    dpls: Object
+})
+
+const validation = ref([])
+
+const submit = () => {
+    NProgress.start()
+    axios.post('/dpl', {
+        dkl: form.dkl.id,
+        nipy: form.nipy,
+        nama: form.nama,
+        prodi: form.prodi,
+        email: form.email,
+        asal: form.asal
+    })
+    .then((res) => {
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+        router.get('/dpl')
+    })
+    .catch((err) => {
+        if(err.response.data.errors){
+            validation.value = err.response.data.errors
+        }
+        else{
+            Swal.fire({
+                icon: 'error',
+                title: err.response.data.title,
+                text: err.response.data.text
+            })
+        }
+    })
+    .finally(() => {
+        NProgress.done()
+    })
+}
+
+const numOnly = (evt) => {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+        evt.preventDefault();
+    }
+    else {
+        return true;
+    }
+}
+
+const nameWithLang = ({nama}) => {
+    return nama
+}
+</script>
 <template>
     <form @submit.prevent="submit" class="mt-6 space-y-6">
         <div>
@@ -46,96 +124,17 @@
             <InputError v-if="validation.email" :message="validation.email[0]" class="mt-2" />
         </div>
 
+        <div>
+            <InputLabel for="dkl" value="Dkl" />
+            <Multiselect
+                v-model="form.dkl"
+                :custom-label="nameWithLang"
+                :options="dpls">
+            </Multiselect>
+        </div>
+
         <div class="flex items-center gap-4">
             <PrimaryButton>Save</PrimaryButton>
         </div>
     </form>
 </template>
-<script>
-import { ref, reactive } from 'vue'
-import TextInput from '@/Components/TextInput.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import InputError from '@/Components/InputError.vue';
-import SelectInput from '@/Components/SelectInput.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { router } from '@inertiajs/vue3';
-import Footer from '@/Components/Footer.vue';
-import axios from 'axios';
-import NProgress from 'nprogress';
-import Swal from 'sweetalert2'
-export default {
-    components: {
-        PrimaryButton,
-        TextInput,
-        InputLabel,
-        InputError,
-        SelectInput,
-        Footer
-    },
-    props: {
-        prodis: Object
-    },
-    setup(){
-        const form = reactive({
-            nipy: '',
-            nama: '',   
-            prodi: '',
-            email: ''
-        })
-
-        const validation = ref([])
-
-        const submit = () => {
-            NProgress.start()
-            axios.post('/dpl', {
-                nipy: form.nipy,
-                nama: form.nama,
-                prodi: form.prodi,
-                email: form.email,
-                asal: form.asal
-            })
-            .then((res) => {
-                Swal.fire({
-                    icon: 'success',
-                    title: res.data.title,
-                    text: res.data.text
-                })
-                router.get('/dpl')
-            })
-            .catch((err) => {
-                if(err.response.data.errors){
-                    validation.value = err.response.data.errors
-                }
-                else{
-                    //console.log(err.response.data)
-                    Swal.fire({
-                        icon: 'error',
-                        title: err.response.data.title,
-                        text: err.response.data.text
-                    })
-                }
-            })
-            .finally(() => {
-                NProgress.done()
-            })
-        }
-
-        const numOnly = (evt) => {
-            evt = (evt) ? evt : window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-                evt.preventDefault();
-            } else {
-                return true;
-            }
-        }
-
-        return {
-            form,
-            validation,
-            submit,
-            numOnly
-        }
-    }
-}
-</script>

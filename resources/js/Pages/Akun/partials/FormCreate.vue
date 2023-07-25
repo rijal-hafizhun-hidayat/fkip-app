@@ -180,6 +180,7 @@ const nameWithLang = ({nama}) => {
                 <option value="2">DPL</option>
                 <option value="3">Guru Pamong</option>
                 <option value="4">Mahasiswa</option>
+                <option value="5">DKL</option>
             </SelectInput>
             <InputError v-if="validation.role" :message="validation.role[0]" class="mt-2" />
         </div>
@@ -255,4 +256,3 @@ const nameWithLang = ({nama}) => {
         </div>
     </form>
 </template>
-<!-- <style src="vue-multiselect/dist/vue-multiselect.min.css"></style> -->

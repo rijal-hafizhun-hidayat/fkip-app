@@ -36,7 +36,8 @@ class UpdateDplRequest extends FormRequest
             'nipy' => 'required|numeric',
             'nama' => 'required|string',
             'prodi' => 'required|string',
-            'email' => 'required|email:rfc,dns'
+            'email' => 'required|email:rfc,dns',
+            'dkl' => 'required|numeric'
         ];
     }
 }

@@ -5,7 +5,7 @@ import NProgress from 'nprogress';
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
 import DetailButton from '@/Components/DetailButton.vue';
-import { router, usePage } from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 import InputSearch from '@/Components/InputSearch.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -23,10 +23,25 @@ onMounted(() => {
     if(props.user.role === 1){
         getDpl()
     }
-    else{
-        getDplByProdi()
+    else if(props.user.role === 5){
+        getDplByDkl()
     }       
 })
+
+const getDplByDkl = (page = 1, nama = search.value) => {
+    axios.get(`/getDpls?page=${page}`, {
+        params: {
+            dkl: props.user.id_dpl,
+            nama: nama
+        }
+    })
+    .then((res) => {
+        console.log(res)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
 
 const destroy = (id) => {
     NProgress.start()
@@ -155,5 +170,5 @@ watch(search, async (newSearch, oldSearch) => {
             </tbody>
         </table>
     </div>
-    <TailwindPagination class="mt-6" :data="dpls" @pagination-change-page="getDpl" />
+    <TailwindPagination :keepLength="true" :limit="1" class="mt-6" :data="dpls" @pagination-change-page="getDpl" />
 </template>

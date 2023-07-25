@@ -11,7 +11,7 @@ import { ref } from 'vue'
 export default{
     setup(){
         const icon = ref('')
-        icon.value = 'images/icons/Logo-UAD-Hitam-Putihpng.png'
+        icon.value = 'images/icons/Group_1000002335.jpg'
         return {
             icon
         }

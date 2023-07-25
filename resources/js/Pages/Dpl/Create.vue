@@ -1,3 +1,21 @@
+<script setup>
+import { ref } from 'vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import FormCreate from './Partials/FormCreate.vue';
+import FormImport from './Partials/FormImport.vue';
+
+const isClick= ref(false);
+const props = defineProps({
+    prodis: Object,
+    dpls: Object
+})
+
+const clickForm = (isBool) => {
+    isClick.value = isBool
+}
+</script>
 <template>
     <Head title="Tambah Dpl" />
 
@@ -14,42 +32,9 @@
                     <PrimaryButton @click="clickForm(false)">Manual</PrimaryButton>
                     <PrimaryButton @click="clickForm(true)">Import</PrimaryButton>
                 </div>
-                <FormCreate v-if="!isClick" :prodis="prodis"/>
+                <FormCreate v-if="!isClick" :prodis="prodis" :dpls="dpls"/>
                 <FormImport v-if="isClick"/>
             </div>
         </div>
     </AuthenticatedLayout>
 </template>
-<script>
-import { ref } from 'vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import FormCreate from './Partials/FormCreate.vue';
-import FormImport from './Partials/FormImport.vue';
-export default {
-    components: {
-        AuthenticatedLayout,
-        Head,
-        FormCreate,
-        FormImport,
-        PrimaryButton
-    },
-    props: {
-        guruPamongs: Object,
-        prodis: Object
-    },
-    setup(){
-        const isClick= ref(false);
-
-        const clickForm = (isBool) => {
-            isClick.value = isBool
-        }
-
-        return {
-            isClick,
-            clickForm
-        }
-    }
-}
-</script>

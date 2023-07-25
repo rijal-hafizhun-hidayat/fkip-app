@@ -151,6 +151,6 @@ watch(search, async (newSearch, oldSearch) => {
             </tbody>
         </table>
     </div>
-    <TailwindPagination v-if="user.role === 1" class="mt-6" :data="guruPamongs" @pagination-change-page="getGuruPamong" />
-    <TailwindPagination v-if="user.role === 2" class="mt-6" :data="guruPamongs" @pagination-change-page="getGuruPamongByIdDpl" />
+    <TailwindPagination :keepLength="true" :limit="1" v-if="user.role === 1" class="mt-6" :data="guruPamongs" @pagination-change-page="getGuruPamong" />
+    <TailwindPagination :keepLength="true" :limit="1" v-if="user.role === 2" class="mt-6" :data="guruPamongs" @pagination-change-page="getGuruPamongByIdDpl" />
 </template>
