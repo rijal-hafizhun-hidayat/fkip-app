@@ -174,6 +174,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/getSekolah', [SekolahService::class, 'getSekolah'])->name('sekolah.getSekolah');
     Route::post('/sekolah', [SekolahService::class, 'store'])->name('sekolah.store');
     Route::get('/getSekolahById/{id}', [SekolahService::class, 'getSekolahById'])->name('sekolah.getSekolahById');
+    Route::put('/sekolah/{id}', [SekolahService::class, 'update'])->name('sekolah.update');
+    Route::delete('/sekolah/{id}', [SekolahService::class, 'destroy'])->name('sekolah.destroy');
 });
 
 require __DIR__.'/auth.php';

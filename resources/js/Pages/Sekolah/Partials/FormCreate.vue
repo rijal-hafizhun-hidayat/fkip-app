@@ -7,11 +7,13 @@ import { ref } from 'vue'
 import axios from 'axios';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2';
+import nprogress from 'nprogress';
 
 const validation = ref([])
 const namaSekolah = ref('')
 
 const submit = () =>{
+    nprogress.start()
     axios.post('/sekolah', {
         nama: namaSekolah.value
     })
@@ -24,9 +26,11 @@ const submit = () =>{
         router.get('/sekolah')
     })
     .catch((err) => {
-        console.log(err)
+        validation.value = err.response.data.errors
     })
-    //console.log(namaSekolah.value)
+    .finally(() => {
+        nprogress.done()
+    })
 }
 </script>
 <template>

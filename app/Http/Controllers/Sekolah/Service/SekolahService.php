@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Sekolah\Service;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sekolah\StoreSekolahRequest;
+use App\Http\Requests\Sekolah\UpdateSekolahRequest;
 use App\Models\Sekolah;
 
 class SekolahService extends Controller
@@ -31,6 +32,25 @@ class SekolahService extends Controller
         try {
             $sekolah = Sekolah::find($id);
             return $this->sendResponse($sekolah, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->sendResponse(null, 404, false, 'gagal', $e->getMessage());
+        }
+    }
+
+    public function update(UpdateSekolahRequest $request, $id){
+        //dd($request->validated(), $id);
+        try {
+            Sekolah::where('id', $id)->update($request->validated());
+            return $this->sendResponse(null, 200, true, 'berhasil', 'berhasil update data');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->sendResponse(null, 404, false, 'gagal', $e->getMessage());
+        }
+    }
+
+    public function destroy($id){
+        try {
+            Sekolah::destroy($id);
+            return $this->sendResponse(null, 200, true, 'berhasil', 'berhasil hapus data');
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->sendResponse(null, 404, false, 'gagal', $e->getMessage());
         }

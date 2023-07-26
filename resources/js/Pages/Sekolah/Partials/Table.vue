@@ -4,6 +4,8 @@ import UpdateButton from '@/Components/UpdateButton.vue';
 import { router } from '@inertiajs/vue3';
 import axios from 'axios';
 import { onMounted, ref } from 'vue'
+import nprogress from 'nprogress';
+import Swal from 'sweetalert2';
 
 const sekolahs = ref([])
 
@@ -22,12 +24,21 @@ const getSekolah = () => {
 }
 
 const destroy = (id) => {
+    nprogress.start()
     axios.delete(`/sekolah/${id}`)
     .then((res) => {
-        console.log(res)
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+        router.get('/sekolah')
     })
     .catch((err) => {
         console.log(err)
+    })
+    .finally(() => {
+        nprogress.done()
     })
 }
 

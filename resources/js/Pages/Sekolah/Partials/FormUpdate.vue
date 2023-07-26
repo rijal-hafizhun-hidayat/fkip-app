@@ -7,6 +7,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2';
+import nprogress from 'nprogress';
 
 const validation = ref([])
 const namaSekolah = ref('')
@@ -29,6 +30,7 @@ const getSekolahById = () => {
 }
 
 const submit = () =>{
+    nprogress.start()
     axios.put(`/sekolah/${props.id}`, {
         nama: namaSekolah.value
     })
@@ -41,7 +43,10 @@ const submit = () =>{
         router.get('/sekolah')
     })
     .catch((err) => {
-        console.log(err)
+        validation.value = err.response.data.errors
+    })
+    .finally(() => {
+        nprogress.done()
     })
 }
 </script>
