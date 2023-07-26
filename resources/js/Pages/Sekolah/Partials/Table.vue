@@ -3,18 +3,25 @@ import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
 import { router } from '@inertiajs/vue3';
 import axios from 'axios';
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import nprogress from 'nprogress';
 import Swal from 'sweetalert2';
+import InputSearch from '@/Components/InputSearch.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const sekolahs = ref([])
+const searchNama = ref('')
 
 onMounted(() => {
     getSekolah()
 })
 
 const getSekolah = () => {
-    axios.get('/getSekolah')
+    axios.get('/getSekolah', {
+        params: {
+            nama_sekolah: searchNama.value
+        }
+    })
     .then((res) => {
         sekolahs.value = res.data.data
     })
@@ -42,11 +49,24 @@ const destroy = (id) => {
     })
 }
 
+const reset = () => {
+    router.get('/sekolah')
+}
+
 const show = (id) => {
     router.get(`/sekolah/${id}`)
 }
+
+watch(searchNama, async (newSearchNama, oldSearchNama) => {
+    getSekolah()
+})
 </script>
 <template>
+    <div class="space-x-4">
+        <InputSearch v-model="searchNama" />
+        <PrimaryButton @click="reset">Reset</PrimaryButton>
+    </div>
+    
     <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
         <table class="w-full whitespace-nowrap">
             <thead>

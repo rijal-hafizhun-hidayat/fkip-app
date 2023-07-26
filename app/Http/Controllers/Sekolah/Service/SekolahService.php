@@ -6,13 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Sekolah\StoreSekolahRequest;
 use App\Http\Requests\Sekolah\UpdateSekolahRequest;
 use App\Models\Sekolah;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SekolahService extends Controller
 {
-    public function getSekolah(){
+    public function getSekolah(Request $request){
         try {
-            $sekolah = Sekolah::paginate(10);
-            return $this->sendResponse($sekolah, 200, true, null, null);
+            $sekolah = $this->setQuerytGetSekolah();
+            return $this->sendResponse($sekolah->paginate(10), 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->sendResponse(null, 404, false, 'gagal', $e->getMessage());
         }
@@ -54,6 +56,14 @@ class SekolahService extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->sendResponse(null, 404, false, 'gagal', $e->getMessage());
         }
+    }
+
+    private function setQuerytGetSekolah(){
+        $querySekolah = DB::table('sekolah');
+        if(request()->filled('nama_sekolah')){
+            $querySekolah->where('nama', 'like', '%'.request()->nama_sekolah.'%');
+        }
+        return $querySekolah;
     }
 
     private function sendResponse($data, $code, $status, $title, $text){
