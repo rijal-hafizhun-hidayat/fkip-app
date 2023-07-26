@@ -39,7 +39,7 @@ class DplService extends Controller
 
     public function store(StoreDplRequest $request){
         try {
-            Dpl::create($request->validated());
+            $this->storeDpl($request->all());
             return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil Tambah Data');
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', 'Nidn / Niy sudah digunakan');
@@ -52,8 +52,13 @@ class DplService extends Controller
     }
 
     public function update(UpdateDplRequest $request, $id){
-        Dpl::where('id', $id)->update($request->validated());
-        return $this->responseService(null, 200, true, 'Berhasil', 'berhasil ubah data');
+        try {
+            Dpl::where('id', $id)->update($request->validated());
+            return $this->responseService(null, 200, true, 'Berhasil', 'berhasil ubah data');
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e->getMessage());
+        }
+        
     }
 
     public function getDplById($id){
@@ -90,6 +95,22 @@ class DplService extends Controller
             return $this->responseService($guruPamongs, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, null);
+        }
+    }
+
+    private function storeDpl($request){
+        //return $request['dkl']['id'];
+        try {
+            Dpl::create([
+                'dkl' => $request['dkl']['id'],
+                'nama' => $request['nama'],
+                'nipy' => $request['nipy'],
+                'email' => $request['email'],
+                'prodi' => $request['prodi']
+            ]);
+            return true;
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $e->getMessage();            
         }
     }
 

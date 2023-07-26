@@ -6,7 +6,6 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link, usePage } from '@inertiajs/vue3';
-import Footer from '@/Components/Footer.vue';
 
 const showingNavigationDropdown = ref(false);
 
@@ -52,6 +51,9 @@ const user = computed(() => page.props.auth.user)
                                 <NavLink v-if="user.role == 1 || user.role == 2" :href="route('guru_pamong')" :active="route().current('guru_pamong')">
                                     Guru Pamong
                                 </NavLink>  
+                                <NavLink v-if="user.role == 1" :href="route('sekolah')" :active="route().current('sekolah')">
+                                    Sekolah
+                                </NavLink>
                             </div>
                         </div>
 
@@ -145,6 +147,9 @@ const user = computed(() => page.props.auth.user)
                         </ResponsiveNavLink>
                         <ResponsiveNavLink v-if="user.role == 1 || user.role == 2" :href="route('guru_pamong')" :active="route().current('guru_pamong')">
                             Guru Pamong
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink v-if="user.role == 1" :href="route('sekolah')" :active="route().current('sekolah')">
+                            Sekolah
                         </ResponsiveNavLink>
                     </div>
 

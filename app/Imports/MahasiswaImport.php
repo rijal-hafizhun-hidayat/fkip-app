@@ -3,9 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Mahasiswa;
-use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithUpsertColumns;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 

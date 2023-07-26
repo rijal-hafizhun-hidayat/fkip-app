@@ -3,10 +3,7 @@
 namespace App\Imports;
 
 use App\Models\GuruPamong;
-use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class GuruPamongImport implements ToModel, WithHeadingRow

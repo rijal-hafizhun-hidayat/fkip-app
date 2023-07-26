@@ -37,7 +37,7 @@ class StoreDplRequest extends FormRequest
             'nama' => 'required|string',
             'prodi' => 'required|string',
             'email' => 'required|email:rfc,dns',
-            'dkl' => 'required|numeric'
+            'dkl' => 'required'
         ];
     }
 }

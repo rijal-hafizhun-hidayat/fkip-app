@@ -15,6 +15,8 @@ use App\Http\Controllers\Dpl\Service\DplService;
 use App\Http\Controllers\Dpl\Service\DplImportService;
 use App\Http\Controllers\Bimbingan\BimbinganController;
 use App\Http\Controllers\Bimbingan\Service\BimbinganService;
+use App\Http\Controllers\Sekolah\SekolahController;
+use App\Http\Controllers\Sekolah\Service\SekolahService;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -162,6 +164,16 @@ Route::middleware('auth')->group(function () {
         Route::post('/bimbingan/{id}', [BimbinganService::class, 'store'])->name('bimbingan.store');
         Route::put('/bimbingan/catatan-pemimbing/{id}', [BimbinganService::class, 'storeCatatanPembimbing'])->name('bimbingan.storeCatatanPembimbing');
     });
+
+    //router
+    Route::get('/sekolah', [SekolahController::class, 'index'])->name('sekolah');
+    Route::get('/sekolah/create', [SekolahController::class, 'create'])->name('sekolah.create');
+    Route::get('/sekolah/{id}', [SekolahController::class, 'show'])->name('sekolah.show');
+
+    //service
+    Route::get('/getSekolah', [SekolahService::class, 'getSekolah'])->name('sekolah.getSekolah');
+    Route::post('/sekolah', [SekolahService::class, 'store'])->name('sekolah.store');
+    Route::get('/getSekolahById/{id}', [SekolahService::class, 'getSekolahById'])->name('sekolah.getSekolahById');
 });
 
 require __DIR__.'/auth.php';

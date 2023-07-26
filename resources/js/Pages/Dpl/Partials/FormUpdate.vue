@@ -27,11 +27,13 @@ const form = reactive({
 })
 
 const validation = ref([])
+const dklId = ref([])
 
 onMounted(() => {
     NProgress.start()
     axios.get(`/getDplById/${props.id}`)
     .then((res) => {
+        form.dkl = res.data.data.dkl
         form.nipy = res.data.data.nipy
         form.nama = res.data.data.nama
         form.prodi = res.data.data.prodi
@@ -45,15 +47,16 @@ onMounted(() => {
     })
 })
 
+console.log(form)
+
 const submit = () => {
     NProgress.start()
     axios.put(`/dpl/${props.id}`, {
-        dkl: form.dkl.id,
+        dkl: setIdDkl(),
         nipy: form.nipy,
         nama: form.nama,
         prodi: form.prodi,
-        email: form.email,
-        asal: form.asal
+        email: form.email
     })
     .then((res) => {
         Swal.fire({
@@ -64,6 +67,7 @@ const submit = () => {
         router.get('/dpl')
     })
     .catch((err) => {
+        console.log(err)
         if(err.response.data.errors){
             validation.value = err.response.data.errors
         }
@@ -78,6 +82,15 @@ const submit = () => {
     .finally(() => {
         NProgress.done()
     })
+}
+
+const setIdDkl = () => {
+    if(dklId.value.id != null){
+        return dklId.value.id
+    }
+    else{
+        return form.dkl
+    }
 }
 
 const numOnly = (evt) => {
@@ -146,9 +159,10 @@ const nameWithLang = ({nama}) => {
         <div>
             <InputLabel for="dkl" value="Dkl" />
             <Multiselect
-                v-model="form.dkl"
+                v-model="dklId"
                 :custom-label="nameWithLang"
-                :options="dpls">
+                :options="dpls"
+                placeholder="pilih dkl">
             </Multiselect>
         </div>
 

@@ -12,8 +12,8 @@ import Swal from 'sweetalert2'
 import Multiselect from 'vue-multiselect'
 import 'vue-multiselect/dist/vue-multiselect.css'
 
+const dkl = ref([])
 const form = reactive({
-    dkl: '',
     nipy: '',
     nama: '',
     prodi: '',
@@ -29,7 +29,7 @@ const validation = ref([])
 const submit = () => {
     NProgress.start()
     axios.post('/dpl', {
-        dkl: form.dkl.id,
+        dkl: dkl.value,
         nipy: form.nipy,
         nama: form.nama,
         prodi: form.prodi,
@@ -127,10 +127,12 @@ const nameWithLang = ({nama}) => {
         <div>
             <InputLabel for="dkl" value="Dkl" />
             <Multiselect
-                v-model="form.dkl"
+                v-model="dkl"
                 :custom-label="nameWithLang"
-                :options="dpls">
+                :options="dpls"
+                :class="{ 'border-rose-600': validation.dkl }">
             </Multiselect>
+            <InputError v-if="validation.dkl" :message="validation.dkl[0]" class="mt-2" />
         </div>
 
         <div class="flex items-center gap-4">

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Dpl;
+namespace App\Http\Requests\Sekolah;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class UpdateDplRequest extends FormRequest
+class ImportSekolahRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,13 +15,11 @@ class UpdateDplRequest extends FormRequest
         return Auth::check();
     }
 
-    public function messages(): array
+    public function messages():array
     {
         return [
             'required' => 'wajib diisi',
-            'numeric' => 'wajib dalam bentuk angka',
-            'string' => 'wajib dalam bentuk teks',
-            'email' => 'email wajib dengan format yang sesuai'
+            'file' => 'wajib file excel'
         ];
     }
 
@@ -33,11 +31,7 @@ class UpdateDplRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nipy' => 'required|numeric',
-            'nama' => 'required|string',
-            'prodi' => 'required|string',
-            'email' => 'required|email:rfc,dns',
-            'dkl' => 'required'
+            'excel' => 'required|file|mimes:xlsx, xls'
         ];
     }
 }
