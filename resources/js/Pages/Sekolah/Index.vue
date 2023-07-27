@@ -9,7 +9,7 @@ const create = () => {
 }
 </script>
 <template>
-    <Head title="Mahasiswa" />
+    <Head title="Sekolah" />
 
     <AuthenticatedLayout>
         <template #header>

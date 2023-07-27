@@ -1,3 +1,16 @@
+<script setup>
+import { ref } from 'vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import FormCreate from './Partials/FormCreate.vue';
+import FormImport from './Partials/FormImport.vue';
+
+const isClick= ref(false);
+const clickForm = (isBool) => {
+    isClick.value = isBool
+}
+</script>
 <template>
     <Head title="Tambah Guru Pamong" />
 
@@ -21,32 +34,3 @@
         </div>
     </AuthenticatedLayout>
 </template>
-<script>
-import { ref } from 'vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-import FormCreate from './Partials/FormCreate.vue';
-import FormImport from './Partials/FormImport.vue';
-export default {
-    components: {
-        AuthenticatedLayout,
-        Head,
-        FormCreate,
-        FormImport,
-        PrimaryButton
-    },
-    setup(){
-        const isClick= ref(false);
-
-        const clickForm = (isBool) => {
-            isClick.value = isBool
-        }
-
-        return {
-            isClick,
-            clickForm
-        }
-    }
-}
-</script>

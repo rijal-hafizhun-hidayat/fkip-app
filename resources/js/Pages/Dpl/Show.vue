@@ -10,7 +10,7 @@ const props = defineProps({
 })
 </script>
 <template>
-    <Head title="Ubah Dpl" />
+    <Head title="Edit Dpl" />
 
     <AuthenticatedLayout>
         <template #header>

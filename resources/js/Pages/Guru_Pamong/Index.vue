@@ -1,5 +1,19 @@
+<script setup>
+import { computed } from 'vue'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Table from './Partials/Table.vue';
+import { Head, router, usePage } from '@inertiajs/vue3';
+
+const page = usePage()
+const user = computed(() => page.props.auth.user)
+
+const create = () => {
+    router.get('/guru-pamong/create')
+}
+</script>
 <template>
-    <Head title="Mahasiswa" />
+    <Head title="Guru Pamong" />
 
     <AuthenticatedLayout>
         <template #header>
@@ -15,27 +29,3 @@
         </div>
     </AuthenticatedLayout>
 </template>
-<script>
-import { computed } from 'vue'
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import Table from './Partials/Table.vue';
-import { Head, router, usePage } from '@inertiajs/vue3';
-export default {
-    components: { AuthenticatedLayout, Head, PrimaryButton, Table },
-    setup(){
-        const page = usePage()
-        const user = computed(() => page.props.auth.user)
-
-        const create = () => {
-            router.get('/guru-pamong/create')
-        }
-
-        return {
-            page,
-            user,
-            create
-        }
-    }
-}
-</script>

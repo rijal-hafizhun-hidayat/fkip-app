@@ -6,12 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Sekolah\StoreSekolahRequest;
 use App\Http\Requests\Sekolah\UpdateSekolahRequest;
 use App\Models\Sekolah;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class SekolahService extends Controller
 {
-    public function getSekolah(Request $request){
+    public function getSekolah(){
         try {
             $sekolah = $this->setQuerytGetSekolah();
             return $this->sendResponse($sekolah->paginate(10), 200, true, null, null);

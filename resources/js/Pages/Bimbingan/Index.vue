@@ -1,12 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DetailMahasiswa from './Partials/DetailMahasiswa.vue'
-import { Head, router } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import Table from './Partials/Table.vue';
 import ModalCreateBimbingan from './Partials/ModalCreateBimbingan.vue'
-import { ref, onMounted, reactive } from 'vue';
-import axios from 'axios';
 
 const props = defineProps({
     id: Number

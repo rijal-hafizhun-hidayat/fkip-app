@@ -8,7 +8,7 @@ defineProps({
 })
 </script>
 <template>
-    <Head title="Mahasiswa" />
+    <Head title="Edit Sekolah" />
 
     <AuthenticatedLayout>
         <template #header>
