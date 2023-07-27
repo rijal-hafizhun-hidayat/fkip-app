@@ -8,6 +8,7 @@ import nprogress from 'nprogress';
 import Swal from 'sweetalert2';
 import InputSearch from '@/Components/InputSearch.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { TailwindPagination } from 'laravel-vue-pagination';
 
 const sekolahs = ref([])
 const searchNama = ref('')
@@ -16,8 +17,8 @@ onMounted(() => {
     getSekolah()
 })
 
-const getSekolah = () => {
-    axios.get('/getSekolah', {
+const getSekolah = (page = 1) => {
+    axios.get(`/getSekolah?page=${page}`, {
         params: {
             nama_sekolah: searchNama.value
         }
@@ -57,6 +58,16 @@ const show = (id) => {
     router.get(`/sekolah/${id}`)
 }
 
+const setJenisPlp = (jenisPlp) => {
+    if(jenisPlp == 'plp_1'){
+        jenisPlp == 'PLP 1'
+    }
+    else{
+        jenisPlp = 'PLP 2'
+    }
+    return jenisPlp
+}
+
 watch(searchNama, async (newSearchNama, oldSearchNama) => {
     getSekolah()
 })
@@ -72,6 +83,7 @@ watch(searchNama, async (newSearchNama, oldSearchNama) => {
             <thead>
                 <tr class="text-left font-bold">
                     <th class="pb-4 pt-6 px-6">Nama Sekolah</th>
+                    <th class="pb-4 pt-6 px-6">PLP</th>
                     <th class="pb-4 pt-6 px-6">Action</th>
                 </tr>
             </thead>
@@ -79,6 +91,9 @@ watch(searchNama, async (newSearchNama, oldSearchNama) => {
                 <tr v-for="sekolah in sekolahs.data" :key="sekolah.id" class="hover:bg-gray-100">
                     <td class="border-t items-center px-6 py-4">
                         {{ sekolah.nama }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ setJenisPlp(sekolah.jenis_plp) }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
@@ -93,4 +108,5 @@ watch(searchNama, async (newSearchNama, oldSearchNama) => {
             </tbody>
         </table>
     </div>
+    <TailwindPagination class="mt-6" :keepLength="true" :limit="1" :data="sekolahs" @pagination-change-page="getSekolah" />
 </template>

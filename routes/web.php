@@ -17,6 +17,8 @@ use App\Http\Controllers\Bimbingan\BimbinganController;
 use App\Http\Controllers\Bimbingan\Service\BimbinganService;
 use App\Http\Controllers\Sekolah\SekolahController;
 use App\Http\Controllers\Sekolah\Service\SekolahService;
+use App\Http\Controllers\Sekolah\Service\SekolahImportService;
+use App\Imports\SekolahImport;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -165,17 +167,18 @@ Route::middleware('auth')->group(function () {
         Route::put('/bimbingan/catatan-pemimbing/{id}', [BimbinganService::class, 'storeCatatanPembimbing'])->name('bimbingan.storeCatatanPembimbing');
     });
 
-    //router
+    //router sekolah
     Route::get('/sekolah', [SekolahController::class, 'index'])->name('sekolah');
     Route::get('/sekolah/create', [SekolahController::class, 'create'])->name('sekolah.create');
     Route::get('/sekolah/{id}', [SekolahController::class, 'show'])->name('sekolah.show');
 
-    //service
+    //service sekolah
     Route::get('/getSekolah', [SekolahService::class, 'getSekolah'])->name('sekolah.getSekolah');
     Route::post('/sekolah', [SekolahService::class, 'store'])->name('sekolah.store');
     Route::get('/getSekolahById/{id}', [SekolahService::class, 'getSekolahById'])->name('sekolah.getSekolahById');
     Route::put('/sekolah/{id}', [SekolahService::class, 'update'])->name('sekolah.update');
     Route::delete('/sekolah/{id}', [SekolahService::class, 'destroy'])->name('sekolah.destroy');
+    Route::post('/sekolah/import', [SekolahImportService::class, 'import'])->name('sekolah.import');
 });
 
 require __DIR__.'/auth.php';

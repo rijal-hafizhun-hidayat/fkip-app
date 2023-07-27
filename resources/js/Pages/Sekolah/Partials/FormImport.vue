@@ -15,7 +15,7 @@ const form = reactive({
 
 const submit = () => {
     NProgress.start()
-    axios.post('/guru-pamong/import', {
+    axios.post('/sekolah/import', {
         excel: form.excel
     }, {
         headers: {
@@ -28,7 +28,7 @@ const submit = () => {
             title: res.data.title,
             text: res.data.text
         })
-        router.get('/guru-pamong')
+        router.get('/sekolah')
     })
     .catch((err) => {
         validation.value = err.response.data.errors

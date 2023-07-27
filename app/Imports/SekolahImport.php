@@ -10,7 +10,8 @@ class SekolahImport implements ToModel, WithHeadingRow
 {
     public function model (array $row){
         return new Sekolah([
-            'sekolah' => $row['sekolah']
+            'nama' => $row['sekolah'],
+            'jenis_plp' => $row['jenis_plp']
         ]);
     }
 }
