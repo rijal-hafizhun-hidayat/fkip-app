@@ -28,6 +28,9 @@ onMounted(() => {
     if(props.user.role == 3){
         getMahasiswaByIdGuruPamong(props.user.id_guru_pamong)
     }
+    else if(props.user.role == 2){
+        getMahasiswaByIdDpl(props.user.id_dpl)
+    }
     else{
         getMahasiswa(filter)
     } 
@@ -71,6 +74,16 @@ const getMahasiswaByIdGuruPamong = (newFilter = filter) => {
     })
     .finally(() => {
         NProgress.done()
+    })
+}
+
+const getMahasiswaByIdDpl = (id) => {
+    axios.get(`/getMahasiswaByIdDpl/${props.user.id_dpl}`)
+    .then((res) => {
+        mahasiswas.value = res.data
+    })
+    .catch((err) => {
+        console.log(err)
     })
 }
 
@@ -136,13 +149,12 @@ const goToRouteBimbingan = (id) => {
     router.get(`/bimbingans/${id}`)
 }
 
-const addAsosiasiDpl = (id) => {
-    router.get(`/mahasiswa/dpl/${id}`);
-}
-
 watch(filter, async (newFilter, oldSearch) => {
     if(props.user.role == 1){
         getMahasiswa()
+    }
+    else if(props.user.role == 2){
+
     }
     else{
         getMahasiswaByIdGuruPamong()
@@ -194,8 +206,7 @@ watch(filter, async (newFilter, oldSearch) => {
                             <DestroyButton v-if="user.role == 1" @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
                             <DetailButton @click="addNilai(mahasiswa.jenis_plp, mahasiswa.prodi, mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
-                            <AsosiasiButton v-if="user.role == 1" @click="addAsosiasiDpl(mahasiswa.id)"><i class="fa-solid fa-person-circle-plus fa-xl"></i></AsosiasiButton>
-                            <PrimaryButton v-if="user.role == 1" @click="goToRouteBimbingan(mahasiswa.id)"><i class="fa-solid fa-person-chalkboard fa-lg"></i></PrimaryButton>
+                            <PrimaryButton v-if="user.role == 2 || user.role == 5" @click="goToRouteBimbingan(mahasiswa.id)"><i class="fa-solid fa-person-chalkboard fa-lg"></i></PrimaryButton>
                         </div>
                     </td>
                 </tr>

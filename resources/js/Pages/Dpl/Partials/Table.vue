@@ -106,7 +106,8 @@ const update = (id) => {
 }
 
 const addBimbinganGuruPamong = (id) => {
-    router.get(`/dpl/guru-pamong/${id}`)
+    //console.log(id)
+    router.get(`/dpl/asosiasi/${id}`)
 }
 
 const reset = () => {

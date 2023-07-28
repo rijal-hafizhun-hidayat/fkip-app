@@ -4,11 +4,13 @@ import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
-import { reactive, ref, onMounted } from 'vue';
+import { reactive, ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { router } from '@inertiajs/vue3'
+import { router, usePage } from '@inertiajs/vue3'
 
+const page = usePage()
+const user = computed(() => page.props.auth.user)
 const isHidden = ref(true)
 const validation = ref([])
 const props = defineProps({
@@ -44,6 +46,7 @@ const submit = () => {
         keterangan_bimbingan: bimbingan.keterangan_bimbingan  
     })
     .then((res) => {
+        console.log(res)
         Swal.fire({
             icon: 'success',
             title: res.data.title,
@@ -52,6 +55,7 @@ const submit = () => {
         router.get(`/bimbingans/${props.id_mahasiswa}`)
     })
     .catch((err) => {
+        console.log(err)
         Swal.fire({
             icon: 'error',
             title: err.response.data.title,
@@ -80,34 +84,34 @@ const showModal = () => {
             <div class="p-3">
                 <form @submit.prevent="submit" class="px-3 space-y-5">
 
-                    <div>
+                    <div v-if="user.role == 4">
                         <InputLabel for="keterangan_bimbingan" value="Keterangan Bimbingan" />
                         <TextInput
                             id="nama"
                             type="text"
                             class="block w-full"
                             v-model="bimbingan.keterangan_bimbingan"/>
-                        <!-- <InputError v-if="validation.keterangan_bimbingan" :message="validation.keterangan_bimbingan[0]" class="mt-2" /> -->
+                        <InputError v-if="validation.keterangan_bimbingan" :message="validation.keterangan_bimbingan[0]" class="mt-2" />
                     </div>
 
-                    <div>
+                    <div v-if="user.role == 4">
                         <InputLabel for="link" value="Link" />
                         <TextInput
                             id="matakuliah"
                             type="text"
                             class="block w-full"
                             v-model="bimbingan.link"/>
-                        <!-- <InputError v-if="validation.link" :message="validation.link[0]" class="mt-2" /> -->
+                        <InputError v-if="validation.link" :message="validation.link[0]" class="mt-2" />
                     </div>
 
-                    <div>
+                    <div v-if="user.role == 2">
                         <InputLabel for="catatan_pembimbing" value="catatan pembimbing" />
                         <TextInput
                             id="catatan_pembimbing"
                             type="text"
                             class="block w-full"
                             v-model="bimbingan.catatan_pembimbing"/>
-                        <!-- <InputError v-if="validation.link" :message="validation.link[0]" class="mt-2" /> -->
+                        <InputError v-if="validation.link" :message="validation.link[0]" class="mt-2" />
                     </div>
 
                     <div class="flex justify-end">

@@ -42,6 +42,8 @@ const goToRouteGuruPamongById = (id) => {
 </script>
 <template>
     <div class="bg-white rounded-md shadow-md overflow-x-auto mt-10">
+        <p class="font-semibold text-xl text-gray-800 leading-tight ms-5 mt-5 mb-5">Data Guru Pamong</p>
+        <hr>
         <table class="w-full whitespace-nowrap">
             <thead>
                 <tr class="text-left font-bold">

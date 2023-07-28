@@ -11,7 +11,8 @@ import { router } from '@inertiajs/vue3'
 
 const bimbingans = ref([])
 const props = defineProps({
-    id: Number
+    id: Number,
+    user: Array
 })
 
 onMounted(() => {
@@ -51,7 +52,7 @@ const destroy = (id) => {
 }
 
 const setDateToIndo = (date) => {
-    return moment(date).format('LL');
+    return moment(date).format('LLL');
 }
 
 const goToGoggleDrive = (link) => {
@@ -82,13 +83,13 @@ const goToGoggleDrive = (link) => {
                         {{ bimbingan.catatan_pembimbing }}
                     </td>
                     <td v-else class="border-t items-center px-6 py-4">
-                        <ModalCreateCatatanPembimbing :id="bimbingan.id" :id_mahasiswa="id"/>
+                        <ModalCreateCatatanPembimbing v-if="user.role == 2" :id="bimbingan.id" :id_mahasiswa="id"/>
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
-                            <DestroyButton @click="destroy(bimbingan.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                            <ModalUpdateBimbingan :id="bimbingan.id" :id_mahasiswa="id"/>
-                            <GoogleDriveButton @click="goToGoggleDrive(bimbingan.link)"><i class="fa-brands fa-google-drive text-white fa-lg"></i></GoogleDriveButton>
+                            <DestroyButton v-if="user.role == 2" @click="destroy(bimbingan.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
+                            <ModalUpdateBimbingan v-if="user.role == 4 || user.role == 2" :id="bimbingan.id" :id_mahasiswa="id"/>
+                            <GoogleDriveButton v-if="user.role == 4 || user.role == 2" @click="goToGoggleDrive(bimbingan.link)"><i class="fa-brands fa-google-drive text-white fa-lg"></i></GoogleDriveButton>
                         </div>
                     </td>
                 </tr>

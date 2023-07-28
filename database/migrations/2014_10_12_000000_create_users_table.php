@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->bigInteger('id_dpl')->nullable();
             $table->bigInteger('id_guru_pamong')->nullable();
+            $table->bigInteger('id_mahasiswa')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -8,6 +8,7 @@ use App\Http\Requests\Dpl\UpdateDplRequest;
 use Illuminate\Support\Facades\DB;
 use App\Models\Dpl;
 use App\Models\GuruPamong;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
 class DplService extends Controller
@@ -73,8 +74,14 @@ class DplService extends Controller
 
     public function storeGuruPamong(Request $request, $id){
         try {
-            GuruPamong::where('id', $request->id_guru_pamong)->update(['id_dpl' => $id]);
-            return $this->responseService(null, 200, true, 'Berhasil', 'berhasil tambah bimbingan dpl guru pamong');
+            if($request->filled('id_guru_pamong')){
+                GuruPamong::where('id', $request->id_guru_pamong)->update(['id_dpl' => $id]);
+            }
+            if($request->filled('id_mahasiswa')){
+                Mahasiswa::where('id', $request->id_mahasiswa)->update(['id_dpl' => $id]);
+            }
+            return $this->responseService(null, 200, true, 'Berhasil', 'berhasil tambah asosiasi');
+           
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService($e, 400, false, 'Gagal', 'gagal tambah bimbingan dpl guru pamong');
         }

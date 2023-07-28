@@ -39,20 +39,23 @@ const user = computed(() => page.props.auth.user)
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink v-if="user.role == 1" :href="route('akun')" :active="route().current('akun')">
+                                <NavLink v-if="user.role == 1" :href="route('akun.index')" :active="route().current('akun.*')">
                                     Akun
                                 </NavLink>
-                                <NavLink v-if="user.role == 1 || user.role == 3" :href="route('mahasiswa')" :active="route().current('mahasiswa')">
+                                <NavLink v-if="user.role == 1 || user.role == 3 || user.role == 2" :href="route('mahasiswa.index')" :active="route().current('mahasiswa.*')">
                                     Mahasiswa
                                 </NavLink>
-                                <NavLink v-if="user.role == 1" :href="route('dpl')" :active="route().current('dpl')">
+                                <NavLink v-if="user.role == 1" :href="route('dpl.index')" :active="route().current('dpl.*')">
                                     Dpl
                                 </NavLink> 
-                                <NavLink v-if="user.role == 1 || user.role == 2" :href="route('guru_pamong')" :active="route().current('guru_pamong')">
+                                <NavLink v-if="user.role == 1 || user.role == 2" :href="route('guru_pamong.index')" :active="route().current('guru_pamong.*')">
                                     Guru Pamong
                                 </NavLink>  
-                                <NavLink v-if="user.role == 1" :href="route('sekolah')" :active="route().current('sekolah')">
+                                <NavLink v-if="user.role == 1" :href="route('sekolah.index')" :active="route().current('sekolah.*')">
                                     Sekolah
+                                </NavLink>
+                                <NavLink v-if="user.role == 4" :href="route('bimbingan.index', user.id_mahasiswa)" :active="route().current('bimbingan.*')">
+                                    Bimbingan
                                 </NavLink>
                             </div>
                         </div>
@@ -136,20 +139,23 @@ const user = computed(() => page.props.auth.user)
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink v-if="user.role == 1" :href="route('akun')" :active="route().current('akun')">
+                        <ResponsiveNavLink v-if="user.role == 1" :href="route('akun.index')" :active="route().current('akun.*')">
                             Akun
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink v-if="user.role == 1 || user.role == 3" :href="route('mahasiswa')" :active="route().current('mahasiswa')">
+                        <ResponsiveNavLink v-if="user.role == 1 || user.role == 3 || user.role == 2" :href="route('mahasiswa.index')" :active="route().current('mahasiswa.*')">
                             Mahasiswa
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink v-if="user.role == 1" :href="route('dpl')" :active="route().current('dpl')">
+                        <ResponsiveNavLink v-if="user.role == 1" :href="route('dpl.index')" :active="route().current('dpl.*')">
                             Dpl
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink v-if="user.role == 1 || user.role == 2" :href="route('guru_pamong')" :active="route().current('guru_pamong')">
+                        <ResponsiveNavLink v-if="user.role == 1 || user.role == 2" :href="route('guru_pamong.index')" :active="route().current('guru_pamong.*')">
                             Guru Pamong
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink v-if="user.role == 1" :href="route('sekolah')" :active="route().current('sekolah')">
+                        <ResponsiveNavLink v-if="user.role == 1" :href="route('sekolah.index')" :active="route().current('sekolah.*')">
                             Sekolah
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink v-if="user.role == 4" :href="route('bimbingan.index')" :active="route().current('bimbingan.*')">
+                            Bimbingan
                         </ResponsiveNavLink>
                     </div>
 

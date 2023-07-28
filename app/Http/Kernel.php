@@ -73,6 +73,7 @@ class Kernel extends HttpKernel
         'isGuruPamong' => \App\Http\Middleware\IsGuruPamong::class,
         'isAdminDplMahasiswa' => \App\Http\Middleware\IsAdminDplMahasiswa::class,
         'isAdminDplGuruPamong' => \App\Http\Middleware\IsAdminDplGuruPamong::class,
-        'isAdminDkl' => \App\Http\Middleware\IsAdminDkl::class
+        'isAdminDkl' => \App\Http\Middleware\IsAdminDkl::class,
+        'isDpl' => \App\Http\Middleware\IsDpl::class
     ];
 }

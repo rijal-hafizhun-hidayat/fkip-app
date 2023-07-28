@@ -32,6 +32,15 @@ class MahasiswaService extends Controller
         }
     }
 
+    public function getMahasiswaNoPaginate(){
+        try {
+            $mahasiswa = Mahasiswa::all();
+            return $this->responseService($mahasiswa, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e->getMessage());
+        }
+    }
+
     public function getMahasiswaByIdAkun(Request $request, $id){
         try {
             $queryMahasiswa = Mahasiswa::latest()->where('id_guru_pamong', $id);
@@ -42,6 +51,16 @@ class MahasiswaService extends Controller
             return $this->responseService($mahasiswa, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e);
+        }
+    }
+
+    public function getMahasiswaByIdDpl($id){
+        //dd($id);
+        try {
+            $mahasiswa = Mahasiswa::where('id_dpl', $id)->get();
+            return $this->responseService($mahasiswa, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 404, false, 'gagal', $e->getMessage());
         }
     }
 

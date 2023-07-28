@@ -25,6 +25,7 @@ class AkunService extends Controller
     }
 
     public function store(StoreAkunRequest $request){
+        //dd($request->validated());
         User::create($request->validated());
         return $this->responseService(null, 200, true, 'Berhasil', 'Tambah Akun Berhasil');
     }

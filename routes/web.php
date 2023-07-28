@@ -55,7 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('isAdmin')->group(function (){
 
         //route akun
-        Route::get('/akun', [AkunController::class, 'index'])->name('akun');
+        Route::get('/akun', [AkunController::class, 'index'])->name('akun.index');
         Route::get('/akun/create', [AkunController::class, 'create'])->name('akun.create');
         Route::get('/akun/{id}', [AkunController::class, 'show'])->name('akun.show');
         Route::get('/akun/tambah-mahasiswa/{id}', [AkunController::class, 'addMhs'])->name('akun.addMhs');
@@ -75,10 +75,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/getProdi/{prodi}', [AkunService::class, 'getProdi'])->name('akun.getProdi');
 
         //route dpl
-        Route::get('/dpl', [DplController::class, 'index'])->name('dpl');
+        Route::get('/dpl', [DplController::class, 'index'])->name('dpl.index');
         Route::get('/dpl/create', [DplController::class, 'create'])->name('dpl.create');
         Route::get('/dpl/{id}', [DplController::class, 'show'])->name('dpl.show');
-        Route::get('/dpl/guru-pamong/{id}', [DplController::class, 'dplGuruPamong'])->name('dpl.dplGuruPamong');
+        Route::get('/dpl/asosiasi/{id}', [DplController::class, 'dplGuruPamongMahasiswa'])->name('dpl.dplGuruPamongMahasiswa');
 
         //service dpl
         Route::get('/getDpls', [DplService::class, 'getDpls'])->name('dpl.getDpls');
@@ -96,7 +96,7 @@ Route::middleware('auth')->group(function () {
 
     //route mahasiswa
     Route::middleware('isAdminDplGuruPamong')->group(function(){
-        Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa');
+        Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
         Route::get('/mahasiswa/nilai/{jenisPlp}/{prodi}/{id}', [MahasiswaController::class, 'nilai'])->name('mahasiswa.nilai');
 
         Route::middleware('isAdmin')->group(function(){
@@ -106,6 +106,7 @@ Route::middleware('auth')->group(function () {
 
             //service mahasiswa
             Route::get('/getMahasiswa', [MahasiswaService::class, 'getMahasiswa'])->name('mahasiswa.getMahasiswa');
+            Route::get('/getMahasiswaNoPaginate', [MahasiswaService::class, 'getMahasiswaNoPaginate'])->name('mahasiswa.getMahasiswaNoPaginate');
             Route::post('/mahasiswa', [MahasiswaService::class, 'store'])->name('mahasiswa.store');
             Route::delete('/mahasiswa/{id}', [MahasiswaService::class, 'destroy'])->name('mahasiswa.destroy');
             Route::put('/mahasiswa/{id}', [MahasiswaService::class, 'update'])->name('mahasiswa.update');
@@ -114,7 +115,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/destroyAsosiasiDpl/{id}', [MahasiswaService::class, 'destroyAsosiasiDpl'])->name('mahasiswa.destroyAsosiasiDpl');
             Route::get('/getDplMahasiswaById/{id}', [MahasiswaService::class, 'getDplMahasiswaById'])->name('mahasiswa.getDplMahasiswaById');
         });
-       
+        Route::get('/getMahasiswaByIdDpl/{id}', [MahasiswaService::class, 'getMahasiswaByIdDpl'])->name('mahasiswa.getMahasiswaByIdDpl');
         Route::get('/getNilaiKomponenByIdMahasiswa/{jenis_plp}/{id}', [MahasiswaService::class, 'getNilaiKomponenByIdMahasiswa'])->name('mahasiswa.getNilaiKomponenByIdMahasiswa');
         Route::get('/getMahasiswaByIdAkun/{id}', [MahasiswaService::class, 'getMahasiswaByIdAkun'])->name('mahasiswa.getMahasiswaByIdAkun')->middleware('isGuruPamong');
         Route::put('/updateNilai/{id}', [MahasiswaService::class, 'updateNilai'])->name('mahasiswa.updateNilai');
@@ -128,7 +129,7 @@ Route::middleware('auth')->group(function () {
     //route guru pamong
     Route::middleware('isAdminDpl')->group(function(){
 
-        Route::get('/guru-pamong', [GuruPamongController::class, 'index'])->name('guru_pamong');
+        Route::get('/guru-pamong', [GuruPamongController::class, 'index'])->name('guru_pamong.index');
         Route::get('/guru-pamong/mahasiswa/{id}', [GuruPamongController::class, 'createAsosiasiMahasiswa'])->name('guru_pamong.addAsosiasiMahasiswa');
         Route::get('/guru-pamong/mahasiswa/nilai/{id}', [GuruPamongController::class, 'showNilaiMahasiswa'])->name('guru_pamong.showNilaiMahasiswa');
 
@@ -155,20 +156,22 @@ Route::middleware('auth')->group(function () {
 
     //route bimbingan
     Route::middleware('isAdminDplMahasiswa')->group(function(){
-        Route::get('/bimbingans/{id}', [BimbinganController::class, 'index'])->name('bimbingan');
+        Route::get('/bimbingans/{id}', [BimbinganController::class, 'index'])->name('bimbingan.index');
         Route::get('/bimbingan/create/{id}', [BimbinganController::class, 'create'])->name('bimbingan.create');
 
         //service
+        Route::middleware('isDpl')->group(function(){
+            Route::put('/bimbingan/catatan-pemimbing/{id}', [BimbinganService::class, 'storeCatatanPembimbing'])->name('bimbingan.storeCatatanPembimbing');
+            Route::delete('/bimbingan/{id}', [BimbinganService::class, 'destroy'])->name('bimbingan.destroy');
+        });
         Route::put('/bimbingan/{id}', [BimbinganService::class, 'update'])->name('bimbingan.update');
         Route::get('/bimbingan/{id}', [BimbinganService::class, 'getBimbinganById'])->name('bimbingan.getBimbinganById');
-        Route::delete('/bimbingan/{id}', [BimbinganService::class, 'destroy'])->name('bimbingan.destroy');
         Route::get('/getBimbinganByIdMahasiswa/{id}', [BimbinganService::class, 'getBimbinganByIdMahasiswa'])->name('bimbingan.getBimbinganByIdMahasiswa');
         Route::post('/bimbingan/{id}', [BimbinganService::class, 'store'])->name('bimbingan.store');
-        Route::put('/bimbingan/catatan-pemimbing/{id}', [BimbinganService::class, 'storeCatatanPembimbing'])->name('bimbingan.storeCatatanPembimbing');
     });
 
     //router sekolah
-    Route::get('/sekolah', [SekolahController::class, 'index'])->name('sekolah');
+    Route::get('/sekolah', [SekolahController::class, 'index'])->name('sekolah.index');
     Route::get('/sekolah/create', [SekolahController::class, 'create'])->name('sekolah.create');
     Route::get('/sekolah/{id}', [SekolahController::class, 'show'])->name('sekolah.show');
 

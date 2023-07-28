@@ -23,7 +23,8 @@ class User extends Authenticatable
         'password',
         'prodi',
         'id_dpl',
-        'id_guru_pamong'
+        'id_guru_pamong',
+        'id_mahasiswa'
     ];
 
     public const ROLE_ID_ADMIN = 1;

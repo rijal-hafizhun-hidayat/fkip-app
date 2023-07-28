@@ -33,7 +33,7 @@ class UpdateBimbinganRequest extends FormRequest
         return [
             'keterangan_bimbingan' => 'required|string',
             'link' => 'required|string',
-            'catatan_pembimbing' => 'required|string'
+            'catatan_pembimbing' => 'nullable|string'
         ];
     }
 }
