@@ -6,12 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Mahasiswa\StoreMahasiswaRequest;
 use App\Http\Requests\Mahasiswa\UpdateIdDplRequest;
 use App\Http\Requests\Mahasiswa\UpdateMahasiswaRequest;
-use App\Http\Requests\Mahasiswa\UpdateNilaiMahasiswa;
 use App\Models\Bimbingan;
 use App\Models\Dpl;
 use App\Models\Mahasiswa;
 use App\Models\Nilai;
-use App\Models\Nilai_nb;
 use App\Models\Pertanyaan;
 use Illuminate\Http\Request;
 
@@ -40,7 +38,7 @@ class MahasiswaService extends Controller
             if($request->filled('nama')){
                 $queryMahasiswa->where('nama', 'like', '%'.$request->nama.'%');
             }
-            $mahasiswa = $queryMahasiswa->paginate(1);
+            $mahasiswa = $queryMahasiswa->paginate(10);
             return $this->responseService($mahasiswa, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e);
@@ -94,9 +92,7 @@ class MahasiswaService extends Controller
     }
 
     public function updateNilai(Request $request, $id){
-        //dd($request->all());
         $data = $this->setNilai($request->all(), $id);
-        //dd($data);
         try {
             Mahasiswa::where('id', $id)->update(
                 [
@@ -112,9 +108,13 @@ class MahasiswaService extends Controller
     }
 
     public function getPertanyaanByJenisPlpJenisBidangJenisPertanyaan($jenisPlp, $jenisBidang, $jenisPertanyaan){
+        //dd($jenisPlp, $jenisBidang, $jenisPertanyaan);
         try {
-            if($jenisPlp == 'plp_1'){
+            if($jenisPlp == 'plp_1' && $jenisPertanyaan != 'ns'){
                 $pertanyaan = $this->getPertanyaanByPlpOne();
+            }
+            else if($jenisPertanyaan == 'ns' ){
+                $pertanyaan = $this->getPertanyaanByNs();
             }
             else{
                 $pertanyaan = $this->getPertanyaanByPlpTwo($jenisPlp, $jenisBidang, $jenisPertanyaan);
@@ -172,6 +172,15 @@ class MahasiswaService extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, $e->getMessage());
         }
+    }
+
+    private function getPertanyaanByNs(){
+        try {
+            $pertanyaan = Pertanyaan::where('jenis_kalimat', 'ns')->get();
+        } catch (\Illuminate\Database\QueryException $e) {
+            $pertanyaan = false;
+        }
+        return $pertanyaan;
     }
 
     private function getPertanyaanByPlpOne(){
@@ -250,6 +259,7 @@ class MahasiswaService extends Controller
         //dd($credential);
         $resultCredential = $this->setJenisNilai($credential);
         $resultCredential['total_nilai'] = $this->setTotalNilai($resultCredential, $id);
+        //dd($resultCredential);
         return $resultCredential;
     }
 
@@ -260,64 +270,94 @@ class MahasiswaService extends Controller
         if($resultCredential['jenis_bidang'] == 'bk' && $resultCredential['jenis_plp'] == 'plp_2'){
             //dd('bk');
             if($resultCredential['jenis_nilai'] == 'nilai_ne' && $nilaiKompeten['nilai_ne'] == null){
-                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $resultCredential['nilai_ne']) / 4;
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $resultCredential['nilai_ne'] + $nilaiKompeten['nilai_ns']) / 5;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_nd' && $nilaiKompeten['nilai_nd'] == null){
-                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $resultCredential['nilai_nd'] + $nilaiKompeten['nilai_ne']) / 4;
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $resultCredential['nilai_nd'] + $nilaiKompeten['nilai_ne'] + $nilaiKompeten['nilai_ns']) / 5;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_nc' && $nilaiKompeten['nilai_nc'] == null){
-                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne']) / 4;
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne'] + $nilaiKompeten['nilai_ns']) / 5;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] == null){
-                $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne']) / 4;
+                $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne'] + $nilaiKompeten['nilai_ns']) / 5;
+            }
+            else if($resultCredential['jenis_nilai'] == 'nilai_ns' && $nilaiKompeten['nilai_ns'] == null){
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne'] + $resultCredential['nilai_ns']) / 5;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_ne' && $nilaiKompeten['nilai_ne'] != null){
-                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $resultCredential['nilai_ne']) / 4;
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $resultCredential['nilai_ne'] + $nilaiKompeten['nilai_ns']) / 5;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_nd' && $nilaiKompeten['nilai_nd'] != null){
-                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $resultCredential['nilai_nd'] + $nilaiKompeten['nilai_ne']) / 4;
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $resultCredential['nilai_nd'] + $nilaiKompeten['nilai_ne'] + $nilaiKompeten['nilai_ns']) / 5;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_nc' && $nilaiKompeten['nilai_nc'] != null){
-                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne']) / 4;
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne'] + $nilaiKompeten['nilai_ns']) / 5;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] != null){
-                $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne']) / 4;
+                $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne'] + $nilaiKompeten['nilai_ns']) / 5;
+            }
+            else if($resultCredential['jenis_nilai'] == 'nilai_ns' && $nilaiKompeten['nilai_ns'] != null){
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne'] + $resultCredential['nilai_ns']) / 5;
             }
         }
         else if($resultCredential['jenis_bidang'] == 'pgpaud' && $resultCredential['jenis_plp'] == 'plp_2'){
             //dd($nilaiKompeten);
             if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] == null){
-                $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nd']) / 2;
+                $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ns']) / 3;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_nd' && $nilaiKompeten['nilai_nd'] == null){
-                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nd']) / 2;
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nd'] + $nilaiKompeten['nilai_nd']) / 3;
+            }
+            else if($resultCredential['jenis_nilai'] == 'nilai_ns' && $nilaiKompeten['nilai_ns'] == null){
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nd'] + $resultCredential['nilai_ns']) / 3;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] != null){
-                $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nd']) / 2;
+                $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ns']) / 3;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_nd' && $nilaiKompeten['nilai_nd'] != null){
-                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nd']) / 2;
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nd'] + $nilaiKompeten['nilai_ns']) / 3;
+            }
+            else if($resultCredential['jenis_nilai'] == 'nilai_ns' && $nilaiKompeten['nilai_ns'] != null){
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nd'] + $resultCredential['nilai_ns']) / 3;
             }
         }
         else if($resultCredential['jenis_bidang'] == 'teaching' && $resultCredential['jenis_plp'] == 'plp_2'){
             //dd('teaching');
             if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] == null){
-                $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nc']) / 2;
+                $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_ns']) / 3;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_nc' && $nilaiKompeten['nilai_nc'] == null){
-                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nc']) / 2;
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nc'] + $nilaiKompeten['nilai_ns']) / 3;
+            }
+            else if($resultCredential['jenis_nilai'] == 'nilai_ns' && $nilaiKompeten['nilai_ns'] == null){
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $resultCredential['nilai_ns']) / 3;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] != null){
-                $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nc']) / 2;
+                $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_ns']) / 3;
             }
             else if($resultCredential['jenis_nilai'] == 'nilai_nc' && $nilaiKompeten['nilai_nc'] != null){
-                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nc']) / 2;
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nc'] + $nilaiKompeten['nilai_ns']) / 3;
+            }
+            else if($resultCredential['jenis_nilai'] == 'nilai_ns' && $nilaiKompeten['nilai_ns'] != null){
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $resultCredential['nilai_ns']) / 3;
             }
         }
         else if($resultCredential['jenis_plp'] == 'plp_1'){
-            $totalNilai = $resultCredential['nilai_nb'];   
+            //$totalNilai = $resultCredential['nilai_nb'];
+            if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] == null){
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nb']) / 2;
+            }   
+            else if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] != null){
+                $totalNilai = ($nilaiKompeten['nilai_nb'] + $resultCredential['nilai_nb']) / 2;
+            }
+            else if($resultCredential['jenis_nilai'] == 'nilai_ns' && $nilaiKompeten['nilai_ns'] == null){
+                $totalNilai = ($nilaiKompeten['nilai_ns'] + $resultCredential['nilai_ns']) / 2;
+            }
+            else if($resultCredential['jenis_nilai'] == 'nilai_ns' && $nilaiKompeten['nilai_ns'] != null){
+                $totalNilai = ($nilaiKompeten['nilai_ns'] + $resultCredential['nilai_ns']) / 2;
+            }
+
         }
-        
         return $totalNilai;
     }
 
@@ -346,6 +386,9 @@ class MahasiswaService extends Controller
         else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'teaching' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNdTeaching($credential);
         }
+        else if($credential['jenis_nilai'] == 'nilai_ns' && $credential['jenis_bidang'] == 'teaching'){
+            $credential[$jenisNilai] = $this->setNilaiNs($credential);
+        }
         else if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'bk' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNbBk($credential);
         }
@@ -358,17 +401,35 @@ class MahasiswaService extends Controller
         else if($credential['jenis_nilai'] == 'nilai_ne' && $credential['jenis_bidang'] == 'bk' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNeBk($credential);
         }
+        else if($credential['jenis_nilai'] == 'nilai_ns' && $credential['jenis_bidang'] == 'bk'){
+            $credential[$jenisNilai] = $this->setNilaiNs($credential);
+        }
         else if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'pgpaud' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNbPgpaud($credential);
         }
         else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'pgpaud' && $credential['jenis_plp'] == 'plp_2'){
             $credential[$jenisNilai] = $this->setNilaiNdPgpaud($credential);
         }
+        else if($credential['jenis_nilai'] == 'nilai_ns' && $credential['jenis_bidang'] == 'pgpaud'){
+            $credential[$jenisNilai] = $this->setNilaiNs($credential);
+        }
         else if($credential['jenis_plp'] == 'plp_1'){
             $credential[$jenisNilai] = $this->setNilaiNbPlpOne($credential);
         }
 
         return $credential;
+    }
+
+    private function setNilaiNs($credential){
+        $totalPoint = null;
+
+        for ($i=0; $i < count($credential['nilai_kompeten']); $i++) { 
+            $totalPoint = $totalPoint+$credential['nilai_kompeten'][$i];
+        }
+
+        $hasil = ($totalPoint / 24) * 100;
+        
+        return $hasil;
     }
 
     private function setNilaiNbPgpaud($credential){

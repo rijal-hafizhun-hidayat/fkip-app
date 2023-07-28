@@ -20,8 +20,7 @@ class StoreAkunRequest extends FormRequest
         return [
             'required' => 'Wajib diisi',
             'string' => 'Wajib dalam bentuk teks',
-            'numeric' => 'Wajib dalam bentuk angka',
-            'email' => 'Wajib format email'
+            'numeric' => 'Wajib dalam bentuk angka'
         ];
     }
 
@@ -35,7 +34,6 @@ class StoreAkunRequest extends FormRequest
         return [
             'nama' => 'required|string',
             'username' => 'required|string',
-            'email' => 'required|email:rfc,dns',
             'password' => 'required|string',
             'role' => 'required|numeric',
             'id_dpl' => 'nullable|numeric',

@@ -11,6 +11,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { TailwindPagination } from 'laravel-vue-pagination';
 
 const sekolahs = ref([])
+const total = ref()
 const searchNama = ref('')
 
 onMounted(() => {
@@ -24,7 +25,9 @@ const getSekolah = (page = 1) => {
         }
     })
     .then((res) => {
+        console.log(res)
         sekolahs.value = res.data.data
+        total.value = res.data.data.total
     })
     .catch((err) => {
         console.log(err)
@@ -102,9 +105,9 @@ watch(searchNama, async (newSearchNama, oldSearchNama) => {
                         </div>
                     </td>
                 </tr>
-                <!-- <tr v-if="length === 0">
-                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
-                </tr> -->
+                <tr v-if="total === 0">
+                    <td class="px-6 py-4 text-center border-t" colspan="3">No data found.</td>
+                </tr>
             </tbody>
         </table>
     </div>

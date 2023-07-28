@@ -54,9 +54,9 @@ const getMahasiswa = (page = 1, newFilter = filter) => {
     })
 }
 
-const getMahasiswaByIdGuruPamong = (page = 1, newFilter = filter) => {
+const getMahasiswaByIdGuruPamong = (newFilter = filter) => {
     NProgress.start()
-    axios.get(`/getMahasiswaByIdAkun/${props.user.id_guru_pamong}?page=${page}`, {
+    axios.get(`/getMahasiswaByIdAkun/${props.user.id_guru_pamong}`, {
         params: {
             nama: newFilter.nama,
             jenis_plp: newFilter.jenis_plp
@@ -64,7 +64,7 @@ const getMahasiswaByIdGuruPamong = (page = 1, newFilter = filter) => {
     })
     .then((res) => {
         mahasiswas.value = res.data.data
-        length.value = res.data.data.data.length
+        console.log(res.data.data.length)
     })
     .catch((err) => {
         console.log(err)
@@ -206,5 +206,4 @@ watch(filter, async (newFilter, oldSearch) => {
         </table>
     </div>
     <TailwindPagination v-if="user.role === 1" class="mt-6" :keepLength="true" :limit="1" :data="mahasiswas" @pagination-change-page="getMahasiswa" />
-    <TailwindPagination v-if="user.role === 3" class="mt-6" :keepLength="true" :limit="1" :data="mahasiswas" @pagination-change-page="getMahasiswaByIdGuruPamong" />
 </template>

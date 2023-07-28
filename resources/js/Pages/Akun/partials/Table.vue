@@ -89,7 +89,6 @@ watch(search, async (newSearch, oldSearch) => {
                 <tr class="text-left font-bold">
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th class="pb-4 pt-6 px-6">Username</th>
-                    <th class="pb-4 pt-6 px-6">Email</th>
                     <th class="pb-4 pt-6 px-6">Hak Akses</th>
                     <th class="pb-4 pt-6 px-6">Action</th>
                 </tr>
@@ -101,9 +100,6 @@ watch(search, async (newSearch, oldSearch) => {
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ akun.username }}
-                    </td>
-                    <td class="border-t items-center px-6 py-4">
-                        {{ akun.email }}
                     </td>
                     <td v-if="akun.role == 1" class="border-t items-center px-6 py-4">
                         Admin
@@ -127,7 +123,7 @@ watch(search, async (newSearch, oldSearch) => {
                     </td>
                 </tr>
                 <tr v-if="length === 0">
-                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
+                    <td class="px-6 py-4 text-center border-t" colspan="4">No data found.</td>
                 </tr>
             </tbody>
         </table>

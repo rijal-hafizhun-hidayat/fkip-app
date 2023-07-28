@@ -15,7 +15,6 @@ import 'vue-multiselect/dist/vue-multiselect.css'
 const form = reactive({
     nama: '',
     username: '',
-    email: '',
     password: '',
     role: '',
     nim: '',
@@ -43,7 +42,6 @@ const submit = () => {
     axios.post('/akun', {
         nama: form.nama,
         username: form.username,
-        email: form.email,
         password: form.password,
         role: form.role,
         id_guru_pamong: form.id_guru_pamong,
@@ -155,17 +153,6 @@ const nameWithLang = ({nama}) => {
                 :class="{ 'border-rose-600': validation.nama }"
                 @change="setUsernamePasswordIdDplGuruPamong(form.nama, form.role, asosiasi)" />
             <InputError v-if="validation.nama" :message="validation.nama[0]" class="mt-2" />
-        </div>
-
-        <div>
-            <InputLabel for="email" value="Email" />
-            <TextInput
-                id="email"
-                type="email"
-                class="mt-1 block w-full"
-                v-model="form.email"
-                :class="{ 'border-rose-600': validation.email }" />
-            <InputError v-if="validation.email" :message="validation.email[0]" class="mt-2" />
         </div>
 
         <div>

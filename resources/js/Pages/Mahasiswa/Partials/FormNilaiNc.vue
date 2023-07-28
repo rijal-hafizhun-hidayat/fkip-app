@@ -1,7 +1,6 @@
 <script setup>
 import { reactive, onMounted, ref } from 'vue'
 import InputLabel from '@/Components/InputLabel.vue';
-import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputLikertScale from '@/Components/InputLikertScale.vue'
 import axios from 'axios';

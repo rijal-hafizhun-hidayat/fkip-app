@@ -9,7 +9,8 @@ const mahasiswa = reactive({
     nilai_nb: '',
     nilai_nc: '',
     nilai_nd: '',
-    nilai_ne: ''
+    nilai_ne: '',
+    nilai_ns: ''
 })
 const props = defineProps({
     id: Number,
@@ -33,6 +34,7 @@ const getMahasiswaById = () => {
         mahasiswa.nilai_nc = res.data.data.nilai_nc
         mahasiswa.nilai_nd = res.data.data.nilai_nd
         mahasiswa.nilai_ne = res.data.data.nilai_ne
+        mahasiswa.nilai_ns = res.data.data.nilai_ns
         mahasiswa.nilai = res.data.data.nilai
         console.log(mahasiswa)
     })
@@ -53,6 +55,7 @@ const getMahasiswaById = () => {
                     <th class="pb-4 pt-6 px-6">Nc</th>
                     <th class="pb-4 pt-6 px-6">Nd</th>
                     <th class="pb-4 pt-6 px-6">Ne</th>
+                    <th class="pb-4 pt-6 px-6">Ns</th>
                     <th class="pb-4 pt-6 px-6">Nilai Total</th>
                 </tr>
             </thead>
@@ -75,6 +78,9 @@ const getMahasiswaById = () => {
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ mahasiswa.nilai_ne }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ mahasiswa.nilai_ns }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ mahasiswa.nilai }}

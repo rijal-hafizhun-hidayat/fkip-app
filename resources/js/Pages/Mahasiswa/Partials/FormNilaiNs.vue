@@ -15,32 +15,21 @@ const props = defineProps({
     jenis_pertanyaan: String
 })
 const nilai = reactive({
-    nilai_kompeten_nb: []
+    nilai_kompeten_ns: []
 })
 
-console.log(props.id, props.jenis_plp, props.jenis_bidang, props.jenis_pertanyaan)
+// console.log(props.id, props.jenis_plp, props.jenis_bidang, props.jenis_pertanyaan)
 
 onMounted(() => {
     getPertanyaanByJenisPlpJenisBidangJenisPertanyaan()
     getNilaiKomponenByIdMahasiswa()
 })
 
-const getPertanyaanByJenisPlpJenisBidangJenisPertanyaan = () => {
-    axios.get(`/getPertanyaanByJenisPlpJenisBidangJenisPertanyaan/${props.jenis_plp}/${props.jenis_bidang}/${props.jenis_pertanyaan}`)
-    .then((res) => {
-        console.log(res)
-        pertanyaans.value = res.data.data
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-}
-
 const getNilaiKomponenByIdMahasiswa = () => {
     axios.get(`/getNilaiKomponenByIdMahasiswa/${props.jenis_plp}/${props.id}`)
     .then((res) => {
-        if(res.data.data.nilai_kompeten_nb != null){
-            nilai.nilai_kompeten_nb = JSON.parse(res.data.data.nilai_kompeten_nb)
+        if(res.data.data.nilai_kompeten_ns != null){
+            nilai.nilai_kompeten_ns = JSON.parse(res.data.data.nilai_kompeten_ns)
         }
     })
     .catch((err) => {
@@ -48,12 +37,23 @@ const getNilaiKomponenByIdMahasiswa = () => {
     })
 }
 
+const getPertanyaanByJenisPlpJenisBidangJenisPertanyaan = () => {
+    axios.get(`/getPertanyaanByJenisPlpJenisBidangJenisPertanyaan/${props.jenis_plp}/${props.jenis_bidang}/${props.jenis_pertanyaan}`)
+    .then((res) => {
+        pertanyaans.value = res.data.data
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
 const submit = () => {
+    //console.log(nilai)
     axios.put(`/updateNilai/${props.id}`, {
-        nilai_kompeten: nilai.nilai_kompeten_nb,
-        jenis_nilai: 'nilai_nb',
+        nilai_kompeten: nilai.nilai_kompeten_ns,
+        jenis_nilai: 'nilai_ns',
         jenis_bidang: props.jenis_bidang,
-        jenis_nilai_kompeten: 'nilai_kompeten_nb',
+        jenis_nilai_kompeten: 'nilai_kompeten_ns',
         jenis_plp: props.jenis_plp
     })
     .then((res) => {
@@ -77,7 +77,7 @@ const submit = () => {
             <InputLikertScale
                 class="mt-2.5 block"
                 :name="'n_kompeten_'+index+1"
-                v-model="nilai.nilai_kompeten_nb[index]" />
+                v-model="nilai.nilai_kompeten_ns[index]" />
         </div>
         <PrimaryButton>Submit</PrimaryButton>
     </form>

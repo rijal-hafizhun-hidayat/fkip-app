@@ -24,10 +24,12 @@ return new class extends Migration
             $table->json('nilai_kompeten_nc')->nullable();
             $table->json('nilai_kompeten_nd')->nullable();
             $table->json('nilai_kompeten_ne')->nullable();
+            $table->json('nilai_kompeten_ns')->nullable();
             $table->decimal('nilai_nb', $precision = 8, $scale = 1)->nullable();
             $table->decimal('nilai_nc', $precision = 8, $scale = 1)->nullable();
             $table->decimal('nilai_nd', $precision = 8, $scale = 1)->nullable();
             $table->decimal('nilai_ne', $precision = 8, $scale = 1)->nullable();
+            $table->decimal('nilai_ns', $precision = 8, $scale = 1)->nullable();
             $table->decimal('nilai', $precision = 8, $scale = 1)->nullable();
             $table->timestamps();
         });

@@ -23,7 +23,6 @@ const props = defineProps({
 const form = reactive({
     nama: '',
     username: '',
-    email: '',
     role: '',
     id_guru_pamong: '',
     id_dpl: '',
@@ -40,7 +39,6 @@ onMounted(() => {
     .then((res) => {
         form.nama = res.data.data.nama
         form.username = res.data.data.username
-        form.email = res.data.data.email
         form.role = res.data.data.role
     })
     .catch((err) => {
@@ -57,7 +55,6 @@ const submit = () => {
     axios.put(`/akun/${props.id}`, {
         nama: form.nama,
         username: form.username,
-        email: form.email,
         role: form.role,
         id_dpl: form.id_dpl,
         id_guru_pamong: form.id_guru_pamong,
@@ -162,18 +159,6 @@ const updateValueAction = ({ commit }, value) => {
                 @change="setUsername(form.nama, form.role, asosiasi)"
             />
             <InputError v-if="validation.nama" :message="validation.nama[0]" class="mt-2" />
-        </div>
-
-        <div>
-            <InputLabel for="email" value="Email" />
-            <TextInput
-                id="email"
-                type="email"
-                class="mt-1 block w-full"
-                v-model="form.email"
-                :class="{ 'border-rose-600': validation.email }"
-            />
-            <InputError v-if="validation.email" :message="validation.email[0]" class="mt-2" />
         </div>
 
         <div>
