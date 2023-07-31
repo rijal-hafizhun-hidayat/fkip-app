@@ -119,7 +119,6 @@ const nilaiMahasiswa = (jenisPlp, prodi, id) => {
                     <td v-if="user.role === 2" class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
                             <DetailButton @click="nilaiMahasiswa(mahasiswa.jenis_plp, mahasiswa.prodi, mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
-                            <PrimaryButton @click="goToRouteBimbingan(mahasiswa.id)"><i class="fa-solid fa-person-chalkboard fa-lg"></i></PrimaryButton>
                         </div>
                     </td>
                 </tr>

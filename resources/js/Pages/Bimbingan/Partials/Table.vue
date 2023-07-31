@@ -23,6 +23,7 @@ onMounted(() => {
 const getBimbinganByIdMahasiswa = () => {
     axios.get(`/getBimbinganByIdMahasiswa/${props.id}`)
     .then((res) => {
+        console.log(res)
         bimbingans.value = res.data.data
         //console.log(bimbingans.value)
     })
@@ -93,8 +94,8 @@ const goToGoggleDrive = (link) => {
                         </div>
                     </td>
                 </tr>
-                <tr v-if="length === 0">
-                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
+                <tr v-if="bimbingans.length === 0">
+                    <td class="px-6 py-4 text-center border-t" colspan="4">No data found.</td>
                 </tr>
             </tbody>
         </table>
