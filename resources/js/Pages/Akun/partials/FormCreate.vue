@@ -102,13 +102,18 @@ const setUsername = (firstName, role, singkatanProdi, bidang_keahlian) => {
 
 const setPassword = (firstName, role, uniq) => {
     if(role == 2){
-        form.password = firstName.toLowerCase()+uniq.nipy
+        //form.password = firstName.toLowerCase()+uniq.nipy
+        form.password = firstName.toLowerCase()+Math.floor(Math.random() * 9000 + 1000);
     }
     else if(role == 3){
-        form.password = firstName.toLowerCase()+uniq.bidang_keahlian.toLowerCase()+Math.floor(Math.random()*(999-100+1)+100)
+        //form.password = firstName.toLowerCase()+uniq.bidang_keahlian.toLowerCase()+Math.floor(Math.random()*(999-100+1)+100)
+        form.password = firstName.toLowerCase()+Math.floor(Math.random() * 9000 + 1000)+'@admin';
+    }
+    else if(role == 1){
+        form.password = Math.floor(Math.random()*(999-100+1)+100)+'@admin'
     }
     else{
-        form.password = Math.floor(Math.random()*(999-100+1)+100)+'@admin'
+        form.password = Math.floor(Math.random() * 9000 + 1000)+'@admin'
     }
 }
 

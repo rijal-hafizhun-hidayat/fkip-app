@@ -63,9 +63,9 @@ const showModal = () => {
             </div>
             <!-- modal body -->
             <div class="p-3">
-                <form @submit.prevent="submit" class="px-3">
+                <form @submit.prevent="submit" class="px-3 space-y-6">
 
-                    <div class="mb-5">
+                    <div>
                         <InputLabel for="catatan_pembimbing" value="catatan_pembimbing" />
                         <TextInput
                             id="nama"

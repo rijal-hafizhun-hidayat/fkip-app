@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, reactive } from 'vue'
 import axios from 'axios';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const mahasiswa = reactive({
     nama: '',

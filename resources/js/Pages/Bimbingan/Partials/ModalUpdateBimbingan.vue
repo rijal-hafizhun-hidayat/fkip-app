@@ -82,7 +82,7 @@ const showModal = () => {
             </div>
             <!-- modal body -->
             <div class="p-3">
-                <form @submit.prevent="submit" class="px-3 space-y-5">
+                <form @submit.prevent="submit" class="px-3 space-y-6">
 
                     <div v-if="user.role == 4">
                         <InputLabel for="keterangan_bimbingan" value="Keterangan Bimbingan" />

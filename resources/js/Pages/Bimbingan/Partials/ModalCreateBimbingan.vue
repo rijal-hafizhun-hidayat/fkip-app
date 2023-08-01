@@ -7,23 +7,42 @@ import { reactive, ref, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3'
+import SelectInput from '@/Components/SelectInput.vue';
 
 const isHidden = ref(true)
 const validation = ref([])
+const jenisPlp = ref('')
+const tahapanBimbinganPlpI = ['Pra Pelaksanaan', 'Perangkat', 'Praktik Pembelajaran', 'Luaran']
+const tahapanBimbinganPlpII = ['Pra Pelaksanaan', 'Obesrvasu ke Sekolah', 'Luaran']
 const props = defineProps({
     id: Number
 })
 
-//console.log(props.id, props.idDpl)
-
 const form = reactive({
     keterangan_bimbingan: '',
+    tahap_bimbingan: '',
     link: ''
 })
 
+onMounted(() => {
+    getJenisPlpMahasiswa()
+})
+
+const getJenisPlpMahasiswa = () => {
+    axios.get(`/getMahasiswaById/${props.id}`)
+    .then((res) => {
+        console.log(res)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
 const submit = () => {
+    //console.log(form)
     axios.post(`/bimbingan/${props.id}`, {
         keterangan_bimbingan: form.keterangan_bimbingan,
+        tahap_bimbingan: form.tahap_bimbingan,
         link: form.link,
         id_dpl: props.idDpl
     })
@@ -67,9 +86,9 @@ const showModal = () => {
             </div>
             <!-- modal body -->
             <div class="p-3">
-                <form @submit.prevent="submit" class="px-3">
+                <form @submit.prevent="submit" class="px-3 space-y-6">
 
-                    <div class="mb-5">
+                    <div>
                         <InputLabel for="keterangan_bimbingan" value="Keterangan Bimbingan" />
                         <TextInput
                             id="nama"
@@ -78,6 +97,16 @@ const showModal = () => {
                             :class="{ 'border-rose-600': validation.keterangan_bimbingan }"
                             v-model="form.keterangan_bimbingan" />
                         <InputError v-if="validation.keterangan_bimbingan" :message="validation.keterangan_bimbingan[0]" class="mt-2" />
+                    </div>
+
+                    <div>
+                        <InputLabel for="tahapan_bimbingan" value="Tahapan Bimbingan"/>
+                        <SelectInput v-model="form.tahap_bimbingan" class="block w-full" >
+                            <option disabled selected value="">-- Pilih --</option>
+                            <option>Perencanaan</option>
+                            <option>Pelaksanaan</option>
+                            <option>pelaporan</option>
+                        </SelectInput>
                     </div>
 
                     <div>

@@ -8,10 +8,8 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link, usePage } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
-
 const page = usePage()
 const user = computed(() => page.props.auth.user)
-
 </script>
 
 <template>
@@ -154,7 +152,7 @@ const user = computed(() => page.props.auth.user)
                         <ResponsiveNavLink v-if="user.role == 1" :href="route('sekolah.index')" :active="route().current('sekolah.*')">
                             Sekolah
                         </ResponsiveNavLink>
-                        <ResponsiveNavLink v-if="user.role == 4" :href="route('bimbingan.index')" :active="route().current('bimbingan.*')">
+                        <ResponsiveNavLink v-if="user.role == 4" :href="route('bimbingan.index', user.id_mahasiswa)" :active="route().current('bimbingan.*')">
                             Bimbingan
                         </ResponsiveNavLink>
                     </div>

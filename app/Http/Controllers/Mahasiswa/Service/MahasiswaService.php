@@ -34,7 +34,7 @@ class MahasiswaService extends Controller
 
     public function getMahasiswaNoPaginate(){
         try {
-            $mahasiswa = Mahasiswa::all();
+            $mahasiswa = Mahasiswa::where('id_dpl', null)->get();
             return $this->responseService($mahasiswa, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e->getMessage());
