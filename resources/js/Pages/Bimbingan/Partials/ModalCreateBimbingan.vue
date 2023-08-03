@@ -15,7 +15,8 @@ const jenisPlp = ref('')
 const tahapanBimbinganPlpI = ['Pra Pelaksanaan', 'Perangkat', 'Praktik Pembelajaran', 'Luaran']
 const tahapanBimbinganPlpII = ['Pra Pelaksanaan', 'Obesrvasu ke Sekolah', 'Luaran']
 const props = defineProps({
-    id: Number
+    id: Number,
+    jenisPlp: String
 })
 
 const form = reactive({
@@ -31,7 +32,7 @@ onMounted(() => {
 const getJenisPlpMahasiswa = () => {
     axios.get(`/getMahasiswaById/${props.id}`)
     .then((res) => {
-        console.log(res)
+        jenisPlp.value = res.data.data.jenis_plp
     })
     .catch((err) => {
         console.log(err)
@@ -39,7 +40,6 @@ const getJenisPlpMahasiswa = () => {
 }
 
 const submit = () => {
-    //console.log(form)
     axios.post(`/bimbingan/${props.id}`, {
         keterangan_bimbingan: form.keterangan_bimbingan,
         tahap_bimbingan: form.tahap_bimbingan,
@@ -99,13 +99,19 @@ const showModal = () => {
                         <InputError v-if="validation.keterangan_bimbingan" :message="validation.keterangan_bimbingan[0]" class="mt-2" />
                     </div>
 
-                    <div>
+                    <div v-if="jenisPlp == 'plp_1'">
                         <InputLabel for="tahapan_bimbingan" value="Tahapan Bimbingan"/>
                         <SelectInput v-model="form.tahap_bimbingan" class="block w-full" >
                             <option disabled selected value="">-- Pilih --</option>
-                            <option>Perencanaan</option>
-                            <option>Pelaksanaan</option>
-                            <option>pelaporan</option>
+                            <option v-for="tahapan in tahapanBimbinganPlpI"> {{ tahapan }}</option>
+                        </SelectInput>
+                    </div>
+
+                    <div v-if="jenisPlp == 'plp_2'">
+                        <InputLabel for="tahapan_bimbingan" value="Tahapan Bimbingan"/>
+                        <SelectInput v-model="form.tahap_bimbingan" class="block w-full" >
+                            <option disabled selected value="">-- Pilih --</option>
+                            <option v-for="tahapan in tahapanBimbinganPlpII"> {{ tahapan }}</option>
                         </SelectInput>
                     </div>
 

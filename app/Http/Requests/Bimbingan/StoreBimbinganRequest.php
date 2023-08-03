@@ -20,6 +20,7 @@ class StoreBimbinganRequest extends FormRequest
         return [
             'required' => 'wajib diisi',
             'string' => 'wajib dalam bentuk kalimat',
+            'url' => 'wajib link yang valid'
         ];
     }
 
@@ -32,7 +33,7 @@ class StoreBimbinganRequest extends FormRequest
     {
         return [
             'keterangan_bimbingan' => 'required|string',
-            'link' => 'required|string',
+            'link' => 'required|url:https',
             'tahap_bimbingan' => 'required|string'
         ];
     }

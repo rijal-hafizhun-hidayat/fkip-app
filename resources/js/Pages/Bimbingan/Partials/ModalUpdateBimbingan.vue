@@ -1,6 +1,7 @@
 <script setup>
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import SelectInput from '@/Components/SelectInput.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
@@ -10,21 +11,26 @@ import Swal from 'sweetalert2';
 import { router, usePage } from '@inertiajs/vue3'
 
 const page = usePage()
+const jenisPlp = ref('')
 const user = computed(() => page.props.auth.user)
 const isHidden = ref(true)
 const validation = ref([])
+const tahapanBimbinganPlpI = ['Pra Pelaksanaan', 'Perangkat', 'Praktik Pembelajaran', 'Luaran']
+const tahapanBimbinganPlpII = ['Pra Pelaksanaan', 'Obesrvasu ke Sekolah', 'Luaran']
 const props = defineProps({
     id: Number,
     id_mahasiswa: Number
 })
 const bimbingan = reactive({
     catatan_pembimbing: '',
+    tahap_bimbingan: '',
     link: '',
     keterangan_bimbingan: ''
 })
 
 onMounted(() => {
     getBimbinganById()
+    getJenisPlpMahasiswa()
 })
 
 const getBimbinganById = () => {
@@ -32,7 +38,18 @@ const getBimbinganById = () => {
     .then((res) => {
         bimbingan.catatan_pembimbing = res.data.data.catatan_pembimbing
         bimbingan.link = res.data.data.link
+        bimbingan.tahap_bimbingan = res.data.data.tahap_bimbingan
         bimbingan.keterangan_bimbingan = res.data.data.keterangan_bimbingan
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
+const getJenisPlpMahasiswa = () => {
+    axios.get(`/getMahasiswaById/${props.id_mahasiswa}`)
+    .then((res) => {
+        jenisPlp.value = res.data.data.jenis_plp
     })
     .catch((err) => {
         console.log(err)
@@ -42,6 +59,7 @@ const getBimbinganById = () => {
 const submit = () => {
     axios.put(`/bimbingan/${props.id}`, {
         catatan_pembimbing: bimbingan.catatan_pembimbing,
+        tahap_bimbingan: bimbingan.tahap_bimbingan,
         link: bimbingan.link,
         keterangan_bimbingan: bimbingan.keterangan_bimbingan  
     })
@@ -102,6 +120,20 @@ const showModal = () => {
                             class="block w-full"
                             v-model="bimbingan.link"/>
                         <InputError v-if="validation.link" :message="validation.link[0]" class="mt-2" />
+                    </div>
+
+                    <div v-if="jenisPlp == 'plp_1'">
+                        <InputLabel for="tahapan_bimbingan" value="Tahapan Bimbingan"/>
+                        <SelectInput v-model="bimbingan.tahap_bimbingan" class="block w-full" >
+                            <option v-for="tahapan in tahapanBimbinganPlpI"> {{ tahapan }}</option>
+                        </SelectInput>
+                    </div>
+
+                    <div v-if="jenisPlp == 'plp_2'">
+                        <InputLabel for="tahapan_bimbingan" value="Tahapan Bimbingan"/>
+                        <SelectInput v-model="bimbingan.tahap_bimbingan" class="block w-full" >
+                            <option v-for="tahapan in tahapanBimbinganPlpII"> {{ tahapan }}</option>
+                        </SelectInput>
                     </div>
 
                     <div v-if="user.role == 2">

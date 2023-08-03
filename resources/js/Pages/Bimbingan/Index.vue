@@ -11,8 +11,6 @@ const user = computed(() => page.props.auth.user)
 const props = defineProps({
     id: Number
 })
-
-console.log(props.id)
 </script>
 <template>
     <Head title="Dpl" />

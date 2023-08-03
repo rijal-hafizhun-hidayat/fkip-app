@@ -8,7 +8,8 @@ const props = defineProps({
 })
 const mahasiswa = reactive({
     nama: '',
-    nim: ''
+    nim: '',
+    jenis_plp: ''
 })
 
 onMounted(() => {
@@ -20,6 +21,7 @@ const getMahasiswaById = () => {
     .then((res) => {
         mahasiswa.nim = res.data.data.nim
         mahasiswa.nama = res.data.data.nama
+        mahasiswa.jenis_plp = res.data.data.jenis_plp
     })
     .catch((err) => {
         console.log(err)
@@ -46,6 +48,16 @@ const getMahasiswaById = () => {
                 type="text"
                 class="mt-3 block w-full bg-slate-200"
                 v-model="mahasiswa.nim"/>
+        </div>
+        
+        <div class="flex">
+            <InputLabel for="nim" class="basis-1/4 mt-5" value="Nim" />
+            <TextInput
+                disabled
+                id="nim"
+                type="text"
+                class="mt-3 block w-full bg-slate-200"
+                v-model="mahasiswa.jenis_plp"/>
         </div>   
     </div>
 </template>

@@ -69,6 +69,7 @@ class BimbinganService extends Controller
             Bimbingan::where('id', $id)->update([
                 'link' => $request->link,
                 'catatan_pembimbing' => $request->catatan_pembimbing,
+                'tahap_bimbingan' => $request->tahap_bimbingan,
                 'keterangan_bimbingan' => $request->keterangan_bimbingan,
                 'updated_at' => Carbon::now()
             ]);
@@ -78,17 +79,33 @@ class BimbinganService extends Controller
         }
     }
 
+    public function confirmed(Request $request, $id){
+        try {
+            $bimbingan = Bimbingan::find($id);
+            if($bimbingan->confirmed == 0){
+                $bimbingan->confirmed = $request->confirmed;
+                $bimbingan->save();
+                return $this->sendResponse(null, 200, true, 'berhasil', 'berhasil ACC Bimbingan');
+            }
+            else if($bimbingan->confirmed == 1){
+                $bimbingan->confirmed = 0;
+                $bimbingan->save();
+                return $this->sendResponse(null, 200, true, 'berhasil', 'berhasil Batalkan ACC Bimbingan');
+            }
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->sendResponse(null, 400, false, null, $e->getMessage());
+        }
+    }
+
     private function storeBimbingan($credential, $id, $idDpl){
         try {
-            // Bimbingan::where('id', $id)->update([
-            //     'keterangan_bimbingan' => $credential['keterangan_bimbingan'],
-            //     'link' => $credential['link']
-            // ]);
             Bimbingan::create([
                 'id_mahasiswa' => $id,
                 'id_dpl' => $idDpl,
                 'keterangan_bimbingan' => $credential['keterangan_bimbingan'],
+                'tahap_bimbingan' => $credential['tahap_bimbingan'],
                 'link' => $credential['link'],
+                'confirmed' => 0,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ]);
