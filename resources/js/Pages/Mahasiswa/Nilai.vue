@@ -76,8 +76,8 @@ const setIsClick = (isClick) => {
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div v-if="user.role === 3" class="flex mt-8 space-x-4">
-                <div><PrimaryButton @click="setIsClick('ns')">+ Nilai Ns</PrimaryButton></div>
-                <div><PrimaryButton @click="setIsClick('nb')">+ Nilai Nb</PrimaryButton></div>
+                <div><PrimaryButton v-if="jenis_plp == 'plp_1'" @click="setIsClick('nb')">+ Nilai Nb</PrimaryButton></div>
+                <div><PrimaryButton v-if="jenis_plp == 'plp_2'" @click="setIsClick('ns')">+ Nilai Ns</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'teaching'" @click="setIsClick('nc')">+ Nilai Nc</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" @click="setIsClick('nc')">+ Nilai Nc</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'pgpaud'" @click="setIsClick('nd')">+ Nilai Nd</PrimaryButton></div>

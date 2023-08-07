@@ -18,8 +18,6 @@ const nilai = reactive({
     nilai_kompeten_ns: []
 })
 
-// console.log(props.id, props.jenis_plp, props.jenis_bidang, props.jenis_pertanyaan)
-
 onMounted(() => {
     getPertanyaanByJenisPlpJenisBidangJenisPertanyaan()
     getNilaiKomponenByIdMahasiswa()
