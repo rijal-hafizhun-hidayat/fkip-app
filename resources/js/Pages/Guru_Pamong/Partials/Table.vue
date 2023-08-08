@@ -127,19 +127,18 @@ const nameWithLang = ({nama}) => {
 }
 </script>
 <template>
-    <div class="flex space-x-4">
+    <div class="max-[640px]:grid grid-cols-1 gap-4 min-[640px]:flex min-[640px]:space-x-4">
         <InputSearch v-model="search" />
         <SelectInput v-model="filter.bidang_keahlian">
             <option selected disabled value="">-- Pilih Bidang Keahlian--</option>
             <option v-for="prodi in prodis">{{ prodi.bidang_keahlian }}</option>
         </SelectInput>
-        <!-- <Multiselect
+        <Multiselect
             v-model="filter.asal_sekolah"
             :custom-label="nameWithLang"
-            :options="sekolahs"
-            style="width: 100px;">
-        </Multiselect> -->
-        <PrimaryButton @click="reset">Reset</PrimaryButton>
+            :options="sekolahs">
+        </Multiselect>
+        <PrimaryButton class="max-[640px]:w-20" @click="reset">Reset</PrimaryButton>
     </div>
 
     <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
