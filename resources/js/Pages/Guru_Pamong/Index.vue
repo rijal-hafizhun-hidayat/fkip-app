@@ -7,7 +7,10 @@ import { Head, router, usePage } from '@inertiajs/vue3';
 
 const page = usePage()
 const user = computed(() => page.props.auth.user)
-
+defineProps({
+    sekolahs: Object,
+    prodis: Object
+})
 const create = () => {
     router.get('/guru-pamong/create')
 }
@@ -25,7 +28,7 @@ const create = () => {
         </template>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Table :user="user"/>
+            <Table :user="user" :sekolahs="sekolahs" :prodis="prodis"/>
         </div>
     </AuthenticatedLayout>
 </template>

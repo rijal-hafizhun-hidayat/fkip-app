@@ -44,8 +44,13 @@ class GuruPamongService extends Controller
     }
 
     public function getGuruPamongById($id){
-        $data = GuruPamong::find($id);
-        return $this->responseService($data, 200, true, null, null);
+        try {
+            $data = GuruPamong::find($id);
+            return $this->responseService($data, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e);
+        }
+        
     }
 
     public function update(UpdateGuruPamongRequest $request, $id){
@@ -55,7 +60,6 @@ class GuruPamongService extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e->getMessage());
         }
-       
     }
 
     public function destroy($id){

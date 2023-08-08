@@ -8,6 +8,9 @@ import { computed } from 'vue'
 
 const page = usePage()
 const user = computed(() => page.props.auth.user)
+defineProps({
+    prodis: Object
+})
 
 const create = () => {
     router.get('/mahasiswa/create')
@@ -26,7 +29,7 @@ const create = () => {
         </template>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Table :user="user" />
+            <Table :user="user" :prodis="prodis"/>
         </div>
     </AuthenticatedLayout>
 </template>

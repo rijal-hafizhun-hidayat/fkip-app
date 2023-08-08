@@ -14,13 +14,14 @@ use Illuminate\Http\Request;
 class DplService extends Controller
 {
     public function getDpls(Request $request){
+        //dd($request->all(), $request->prodi, $request->nama);
         try {
             $queryDpl = Dpl::latest();
             if($request->filled('nama')){
                 $queryDpl->where('nama', 'like', '%'.$request->nama.'%');
             }
-            if($request->filled('dkl')){
-                $queryDpl->where('dkl', $request->dkl);
+            if($request->filled('prodi')){
+                $queryDpl->where('prodi', $request->prodi);
             }
             $dpl = $queryDpl->paginate(10);
             return $this->responseService($dpl, 200, true, null, null);

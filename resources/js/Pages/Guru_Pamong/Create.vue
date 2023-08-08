@@ -7,6 +7,9 @@ import FormCreate from './Partials/FormCreate.vue';
 import FormImport from './Partials/FormImport.vue';
 
 const isClick= ref(false);
+defineProps({
+    sekolahs: Object
+})
 const clickForm = (isBool) => {
     isClick.value = isBool
 }
@@ -28,7 +31,7 @@ const clickForm = (isBool) => {
                     <PrimaryButton @click="clickForm(true)">Import</PrimaryButton>
                 </div>
                 <hr class="mt-5 bg-black">
-                <FormCreate v-if="!isClick" />
+                <FormCreate v-if="!isClick" :sekolahs="sekolahs" />
                 <FormImport v-if="isClick"/>
             </div>
         </div>

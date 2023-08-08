@@ -13,14 +13,16 @@ import InputSearch from '@/Components/InputSearch.vue';
 import SelectInput from '@/Components/SelectInput.vue';
 
 const props = defineProps({
-    user: Object
+    user: Object,
+    prodis: Object
 })
 
 const mahasiswas = ref([])
 const length = ref('')
 const filter = reactive({
     nama: '',
-    jenis_plp: ''
+    jenis_plp: '',
+    prodi: ''
 })
 
 onMounted(() => {
@@ -40,11 +42,11 @@ const getMahasiswa = (page = 1, newFilter = filter) => {
     axios.get(`/getMahasiswa?page=${page}`, {
         params: {
             nama: newFilter.nama,
-            jenis_plp: newFilter.jenis_plp
+            jenis_plp: newFilter.jenis_plp,
+            prodi: newFilter.prodi
         }
     })
     .then((res) => {
-        console.log(res)
         mahasiswas.value = res.data.data
         length.value = res.data.data.data.length
     })
@@ -61,12 +63,13 @@ const getMahasiswaByIdGuruPamong = (newFilter = filter) => {
     axios.get(`/getMahasiswaByIdAkun/${props.user.id_guru_pamong}`, {
         params: {
             nama: newFilter.nama,
-            jenis_plp: newFilter.jenis_plp
+            jenis_plp: newFilter.jenis_plp,
+            prodi: newFilter.prodi
         }
     })
     .then((res) => {
         mahasiswas.value = res.data.data
-        console.log(res.data.data.length)
+        length.value = res.data.data.data.length
     })
     .catch((err) => {
         console.log(err)
@@ -76,10 +79,17 @@ const getMahasiswaByIdGuruPamong = (newFilter = filter) => {
     })
 }
 
-const getMahasiswaByIdDpl = (id) => {
-    axios.get(`/getMahasiswaByIdDpl/${props.user.id_dpl}`)
+const getMahasiswaByIdDpl = () => {
+    axios.get(`/getMahasiswaByIdDpl/${props.user.id_dpl}`, {
+        params: {
+            nama: newFilter.nama,
+            jenis_plp: newFilter.jenis_plp,
+            prodi: newFilter.prodi
+        }
+    })
     .then((res) => {
-        mahasiswas.value = res.data
+        mahasiswas.value = res.data.data
+        length.value = res.data.data.data.length
     })
     .catch((err) => {
         console.log(err)
@@ -152,9 +162,6 @@ watch(filter, async (newFilter, oldSearch) => {
     if(props.user.role == 1){
         getMahasiswa()
     }
-    else if(props.user.role == 2){
-
-    }
     else{
         getMahasiswaByIdGuruPamong()
     }
@@ -164,11 +171,15 @@ watch(filter, async (newFilter, oldSearch) => {
     <div class="space-x-4">
         <InputSearch v-model="filter.nama" />
         <SelectInput v-model="filter.jenis_plp">
-            <option disabled value=""> -- Pilih --</option>
+            <option disabled value=""> -- Pilih PLP --</option>
             <option value="plp_1">PLP 1</option>
             <option value="plp_2">PLP 2</option>
         </SelectInput>
-        <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
+        <SelectInput v-model="filter.prodi">
+            <option disabled value=""> -- Pilih Prodi --</option>
+            <option v-for="prodi in prodis">{{ prodi.nama }}</option>
+        </SelectInput>
+        <PrimaryButton @click="reset" class="py-3">Reset</PrimaryButton>
     </div>
 
     <div class="bg-white rounded-md shadow overflow-x-auto mt-10">

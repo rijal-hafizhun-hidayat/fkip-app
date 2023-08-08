@@ -3,9 +3,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import FormUpdate from './Partials/FormUpdate.vue';
 
-const props = defineProps({
+defineProps({
     id: Number,
-    prodis: Object
+    prodis: Object,
+    sekolahs: Object
 })
 </script>
 <template>
@@ -20,7 +21,7 @@ const props = defineProps({
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
-                <FormUpdate :id="id" :prodis="prodis"/>
+                <FormUpdate :id="id" :prodis="prodis" :sekolahs="sekolahs"/>
             </div>
         </div>
     </AuthenticatedLayout>

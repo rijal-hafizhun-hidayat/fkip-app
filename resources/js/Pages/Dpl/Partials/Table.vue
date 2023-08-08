@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, reactive } from 'vue';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import DestroyButton from '@/Components/DestroyButton.vue';
@@ -9,14 +9,19 @@ import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 import InputSearch from '@/Components/InputSearch.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SelectInput from '@/Components/SelectInput.vue';
 import { TailwindPagination } from 'laravel-vue-pagination';
 
 const dpls = ref([])
-const search = ref('')
+const search = reactive({
+    nama: '',
+    prodi: ''
+})
 const length = ref('')
 
 const props = defineProps({
-    user: Object
+    user: Object,
+    prodis: Object
 })
 
 onMounted(() => {
@@ -47,7 +52,6 @@ const destroy = (id) => {
             title: res.data.title,
             text: res.data.text
         })
-
         router.get('/dpl')
     })
     .catch((err) => {
@@ -58,11 +62,12 @@ const destroy = (id) => {
     })
 }
 
-const getDpl = (page = 1, nama = search.value) => {
+const getDpl = (page = 1, filter = search) => {
     NProgress.start()
     axios.get(`/getDpls?page=${page}`, {
         params: {
-            nama: nama
+            nama: filter.nama,
+            prodi: filter.prodi
         }
     })
     .then((res) => {
@@ -113,19 +118,21 @@ const reset = () => {
 
 watch(search, async (newSearch, oldSearch) => {
     if(newSearch != null){
-        if(props.user.role == 1){
-            getDpl()
-        }
-        else{
-            getDplByProdi()
-        }
+        getDpl()
     }
 })
 </script>
 
 <template>
-    <InputSearch v-model="search" />
-    <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
+    <div class="space-x-4">
+        <InputSearch v-model="search.nama" />
+        <SelectInput v-model="search.prodi">
+            <option selected disabled value="">-- Pilih Prodi --</option>
+            <option v-for="prodi in prodis">{{ prodi.nama }}</option>
+        </SelectInput>
+        <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
+    </div>
+    
 
     <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
         <table class="w-full whitespace-nowrap">

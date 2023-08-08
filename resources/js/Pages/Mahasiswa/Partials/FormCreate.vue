@@ -14,7 +14,6 @@ const validation = ref([])
 const form = reactive({
     nama: '',
     nim: '',
-    email: '',
     prodi: '',
     jenis_plp: ''
 })
@@ -28,7 +27,6 @@ const submit = () => {
     axios.post('/mahasiswa', {
         nama: form.nama,
         nim: form.nim,
-        email: form.email,
         prodi: form.prodi,
         jenis_plp: form.jenis_plp
     })
@@ -103,18 +101,6 @@ const numOnly = (evt) => {
                     <option value="plp_2">PLP 2</option>
                 </SelectInput>
                 <InputError v-if="validation.jenis_plp" :message="validation.jenis_plp[0]" class="mt-2" />
-            </div>
-                    
-            <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    :class="{ 'border-rose-600': validation.email }"
-                />
-                <InputError v-if="validation.email" :message="validation.email[0]" class="mt-2" />
             </div>
 
             <div class="flex items-center gap-4">

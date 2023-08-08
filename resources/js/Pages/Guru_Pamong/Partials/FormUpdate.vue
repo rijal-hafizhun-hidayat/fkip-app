@@ -4,23 +4,23 @@ import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import InputError from '@/Components/InputError.vue';
 import SelectInput from '@/Components/SelectInput.vue';
-import Dropdown from '@/Components/Dropdown.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { router } from '@inertiajs/vue3';
-import Footer from '@/Components/Footer.vue';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import Swal from 'sweetalert2'
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.css'
 
 const validation = ref([])
 const props = defineProps({
     id: Number,
-    prodis: Object
+    prodis: Object,
+    sekolahs: Object
 })
 
 const form = reactive({
     nama: '',
-    asal: '',
     asal_sekolah: '',
     bidang_keahlian: ''
 })
@@ -29,7 +29,6 @@ onMounted(() =>{
     axios.get(`/getGuruPamongById/${props.id}`)
     .then((res) => {
         form.nama = res.data.data.nama
-        form.asal = res.data.data.asal
         form.asal_sekolah = res.data.data.asal_sekolah
         form.bidang_keahlian = res.data.data.bidang_keahlian
     })
@@ -42,7 +41,6 @@ const submit = () => {
     NProgress.start()
     axios.put(`/guru-pamong/${props.id}`, {
         nama: form.nama,
-        asal: form.asal,
         asal_sekolah: form.asal_sekolah,
         bidang_keahlian: form.bidang_keahlian
     })
@@ -61,6 +59,10 @@ const submit = () => {
         NProgress.done()
     })
 }
+
+const nameWithLang = ({nama}) => {
+    return nama
+}
 </script>
 <template>
     <form @submit.prevent="submit" class="mt-6 space-y-6">
@@ -76,29 +78,14 @@ const submit = () => {
             />
             <InputError v-if="validation.nama" :message="validation.nama[0]" class="mt-2" />
         </div>
-                    
-        <div>
-            <InputLabel for="asal" value="Asal" />
-            <TextInput
-                id="asal"
-                type="text"
-                class="mt-1 block w-full"
-                v-model="form.asal"
-                :class="{ 'border-rose-600': validation.asal }"
-            />
-            <InputError v-if="validation.asal" :message="validation.asal[0]" class="mt-2" />
-        </div>
 
         <div>
             <InputLabel for="asal_sekolah" value="Asal Sekolah" />
-            <TextInput
-                id="asal_sekolah"
-                type="text"
-                class="mt-1 block w-full"
+            <Multiselect
                 v-model="form.asal_sekolah"
-                :class="{ 'border-rose-600': validation.asal_sekolah }"
-            />
-            <InputError v-if="validation.asal_sekolah" :message="validation.asal_sekolah[0]" class="mt-2" />
+                :custom-label="nameWithLang"
+                :options="sekolahs">
+            </Multiselect>
         </div>
 
         <div>

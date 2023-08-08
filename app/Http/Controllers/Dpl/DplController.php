@@ -11,7 +11,9 @@ use Inertia\Inertia;
 class DplController extends Controller
 {
     public function index(){
-        return Inertia::render('Dpl/Index');
+        return Inertia::render('Dpl/Index', [
+            'prodis' => Prodi::all()
+        ]);
     }
 
     public function create(){

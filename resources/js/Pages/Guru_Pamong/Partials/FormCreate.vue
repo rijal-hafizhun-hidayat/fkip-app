@@ -9,6 +9,8 @@ import { router } from '@inertiajs/vue3';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import Swal from 'sweetalert2'
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.css'
 
 const form = reactive({
     nama: '',
@@ -19,6 +21,9 @@ const form = reactive({
 
 const validation = ref([])
 const prodis = ref([])
+defineProps({
+    sekolahs: Object
+})
 
 onMounted(() => {
     getBidangKeahlian()
@@ -28,8 +33,7 @@ const submit = () => {
     NProgress.start()
     axios.post('/guru-pamong', {
         nama: form.nama,
-        asal: form.asal,
-        asal_sekolah: form.asal_sekolah,
+        asal_sekolah: form.asal_sekolah.nama,
         bidang_keahlian: form.bidang_keahlian
     })
     .then((res) => {
@@ -57,6 +61,10 @@ const getBidangKeahlian = () => {
         console.log(err)
     })
 }
+
+const nameWithLang = ({nama}) => {
+    return nama
+}
 </script>
 <template>
     <form @submit.prevent="submit" class="mt-6 space-y-6">
@@ -72,29 +80,14 @@ const getBidangKeahlian = () => {
             />
             <InputError v-if="validation.nama" :message="validation.nama[0]" class="mt-2" />
         </div>
-                    
-        <div>
-            <InputLabel for="asal" value="Asal" />
-            <TextInput
-                id="asal"
-                type="text"
-                class="mt-1 block w-full"
-                v-model="form.asal"
-                :class="{ 'border-rose-600': validation.asal }"
-            />
-            <InputError v-if="validation.asal" :message="validation.asal[0]" class="mt-2" />
-        </div>
 
         <div>
             <InputLabel for="asal_sekolah" value="Asal Sekolah" />
-            <TextInput
-                id="asal_sekolah"
-                type="text"
-                class="mt-1 block w-full"
+            <Multiselect
                 v-model="form.asal_sekolah"
-                :class="{ 'border-rose-600': validation.asal_sekolah }"
-            />
-            <InputError v-if="validation.asal_sekolah" :message="validation.asal_sekolah[0]" class="mt-2" />
+                :custom-label="nameWithLang"
+                :options="sekolahs">
+            </Multiselect>
         </div>
 
         <div>

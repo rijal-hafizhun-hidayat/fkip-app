@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('guru_pamong', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->text('asal');
             $table->string('asal_sekolah');
             $table->string('bidang_keahlian');
             $table->bigInteger('id_dpl')->nullable();

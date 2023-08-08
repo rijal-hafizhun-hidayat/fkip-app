@@ -27,8 +27,6 @@ const disabled = ref(true)
 const validation = ref([])
 const isSeePass = ref(false)
 const asosiasi = ref([])
-// const hiddenPass = ref('fa-solid fa-eye-slash fa-lg')
-// const showPass = ref('fa-solid fa-eye fa-lg')
 const props = defineProps({
     guruPamongs: Object,
     prodis: Object,

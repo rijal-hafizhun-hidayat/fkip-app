@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, reactive } from 'vue';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import DestroyButton from '@/Components/DestroyButton.vue';
@@ -7,21 +7,30 @@ import UpdateButton from '@/Components/UpdateButton.vue';
 import DetailButton from '@/Components/DetailButton.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputSearch from '@/Components/InputSearch.vue';
+import SelectInput from '@/Components/SelectInput.vue';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 import { TailwindPagination } from 'laravel-vue-pagination';
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.css'
 
 const props = defineProps({
-    user: Object
+    user: Object,
+    sekolahs: Object,
+    prodis: Object
 })
 
 const guruPamongs = ref([])
 const search = ref('')
 const routeGetGuruPamong = ref('')
 const length = ref('')
+const filter = reactive({
+    asal_sekolah: '',
+    bidang_keahlian: ''
+})
 
 onMounted(() => {
-    if(props.user.role === 2){
+    if(props.user.role == 2){
         getGuruPamongByIdDpl()
     }
     else{
@@ -56,7 +65,12 @@ const getGuruPamong = (page = 1, nama) => {
     routeGetGuruPamong.value = nama == null ? `/getGuruPamongs?page=${page}` : `/getGuruPamongs?page=${page}&nama=${nama}`
 
     NProgress.start()
-    axios.get(routeGetGuruPamong.value)
+    axios.get(routeGetGuruPamong.value, {
+        params: {
+            asal_sekolah: filter.asal_sekolah,
+            bidang_keahlian: filter.bidang_keahlian
+        }
+    })
     .then((res) => {
         guruPamongs.value = res.data.data
         length.value = res.data.data.data.length
@@ -107,10 +121,26 @@ watch(search, async (newSearch, oldSearch) => {
         }
     }
 })
+
+const nameWithLang = ({nama}) => {
+    return nama
+}
 </script>
 <template>
-    <InputSearch v-model="search" />
-    <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
+    <div class="flex space-x-4">
+        <InputSearch v-model="search" />
+        <SelectInput v-model="filter.bidang_keahlian">
+            <option selected disabled value="">-- Pilih Bidang Keahlian--</option>
+            <option v-for="prodi in prodis">{{ prodi.bidang_keahlian }}</option>
+        </SelectInput>
+        <!-- <Multiselect
+            v-model="filter.asal_sekolah"
+            :custom-label="nameWithLang"
+            :options="sekolahs"
+            style="width: 100px;">
+        </Multiselect> -->
+        <PrimaryButton @click="reset">Reset</PrimaryButton>
+    </div>
 
     <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
         <table class="w-full whitespace-nowrap">
@@ -145,7 +175,7 @@ watch(search, async (newSearch, oldSearch) => {
                         </div>
                     </td>
                 </tr>
-                <tr v-if="length === 0">
+                <tr v-if="length == 0">
                     <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
                 </tr>
             </tbody>

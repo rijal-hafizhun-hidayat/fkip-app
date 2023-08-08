@@ -32,7 +32,6 @@ class StoreGuruPamongRequest extends FormRequest
     {
         return [
             'nama' => 'required|string',
-            'asal' => 'required|string',
             'asal_sekolah' => 'required|string',
             'bidang_keahlian' => 'required|string'
         ];

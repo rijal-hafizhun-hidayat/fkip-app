@@ -15,16 +15,9 @@ use Illuminate\Http\Request;
 
 class MahasiswaService extends Controller
 {
-    public function getMahasiswa(Request $request){
-        //dd($request->all());
+    public function getMahasiswa(){
         try {
-            $queryMahasiswa = Mahasiswa::latest();
-            if($request->filled('nama')){
-                $queryMahasiswa->where('nama', 'like', '%'.$request->nama.'%');
-            }
-            if($request->filled('jenis_plp')){
-                $queryMahasiswa->where('jenis_plp', $request->jenis_plp);
-            }
+            $queryMahasiswa = $this->setQueryMahasiswa();
             $mahasiswa = $queryMahasiswa->paginate(10);
             return $this->responseService($mahasiswa, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
@@ -55,7 +48,6 @@ class MahasiswaService extends Controller
     }
 
     public function getMahasiswaByIdDpl($id){
-        //dd($id);
         try {
             $mahasiswa = Mahasiswa::where('id_dpl', $id)->get();
             return $this->responseService($mahasiswa, 200, true, null, null);
@@ -122,7 +114,6 @@ class MahasiswaService extends Controller
     }
 
     public function getPertanyaanByJenisPlpJenisBidangJenisPertanyaan($jenisPlp, $jenisBidang, $jenisPertanyaan){
-        //dd($jenisPlp, $jenisBidang, $jenisPertanyaan);
         try {
             if($jenisPlp == 'plp_1' && $jenisPertanyaan != 'ns'){
                 $pertanyaan = $this->getPertanyaanByPlpOne();
@@ -186,6 +177,22 @@ class MahasiswaService extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, $e->getMessage());
         }
+    }
+
+    private function setQueryMahasiswa(){
+        $dBMahasiswa = Mahasiswa::latest();
+
+        if(request()->filled('nama')){
+            $dBMahasiswa->where('nama', 'like', '%'.request()->nama.'%');
+        }
+        if(request()->filled('jenis_plp')){
+            $dBMahasiswa->where('jenis_plp', request()->jenis_plp);
+        }
+        if(request()->filled('prodi')){
+            $dBMahasiswa->where('prodi', request()->prodi);
+        }
+
+        return $dBMahasiswa;
     }
 
     private function getPertanyaanByNs(){
