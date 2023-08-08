@@ -112,7 +112,6 @@ class DplService extends Controller
                 'dkl' => $request['dkl']['id'],
                 'nama' => $request['nama'],
                 'nipy' => $request['nipy'],
-                'email' => $request['email'],
                 'prodi' => $request['prodi']
             ]);
             return true;

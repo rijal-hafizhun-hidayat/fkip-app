@@ -11,7 +11,6 @@ import { TailwindPagination } from 'laravel-vue-pagination';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import InputSearch from '@/Components/InputSearch.vue';
 import SelectInput from '@/Components/SelectInput.vue';
-import AsosiasiButton from '@/Components/AsosiasiButton.vue';
 
 const props = defineProps({
     user: Object
