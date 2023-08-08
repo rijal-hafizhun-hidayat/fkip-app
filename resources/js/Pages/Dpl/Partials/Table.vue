@@ -20,12 +20,7 @@ const props = defineProps({
 })
 
 onMounted(() => {
-    if(props.user.role === 1){
-        getDpl()
-    }
-    else if(props.user.role === 5){
-        getDplByDkl()
-    }       
+    getDpl()      
 })
 
 const getDplByDkl = (page = 1, nama = search.value) => {
@@ -117,14 +112,7 @@ const reset = () => {
 }
 
 watch(search, async (newSearch, oldSearch) => {
-    if(newSearch != null){
-        if(props.user.role == 1){
-            getDpl()
-        }
-        else{
-            getDplByProdi()
-        }
-    }
+    getDpl()
 })
 </script>
 
@@ -162,7 +150,7 @@ watch(search, async (newSearch, oldSearch) => {
                     </td>
                 </tr>
                 <tr v-if="length === 0">
-                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
+                    <td class="px-6 py-4 text-center border-t" colspan="4">No data found.</td>
                 </tr>
             </tbody>
         </table>

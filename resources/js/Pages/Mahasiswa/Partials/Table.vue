@@ -211,5 +211,5 @@ watch(filter, async (newFilter, oldSearch) => {
             </tbody>
         </table>
     </div>
-    <TailwindPagination v-if="user.role === 1" class="mt-6" :keepLength="true" :limit="1" :data="mahasiswas" @pagination-change-page="getMahasiswa" />
+    <TailwindPagination v-if="user.role == 1" class="mt-6" :keepLength="true" :limit="1" :data="mahasiswas" @pagination-change-page="getMahasiswa" />
 </template>
