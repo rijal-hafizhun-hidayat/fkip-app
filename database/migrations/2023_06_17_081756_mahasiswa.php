@@ -17,7 +17,6 @@ return new class extends Migration
             $table->bigInteger('id_guru_pamong')->nullable();
             $table->bigInteger('id_dpl')->nullable();
             $table->string('nama');
-            $table->string('email')->nullable();
             $table->string('prodi');
             $table->string('jenis_plp');
             $table->json('nilai_kompeten_nb')->nullable();

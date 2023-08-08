@@ -21,7 +21,6 @@ class UpdateDplRequest extends FormRequest
             'required' => 'wajib diisi',
             'numeric' => 'wajib dalam bentuk angka',
             'string' => 'wajib dalam bentuk teks',
-            'email' => 'email wajib dengan format yang sesuai'
         ];
     }
 
@@ -35,9 +34,7 @@ class UpdateDplRequest extends FormRequest
         return [
             'nipy' => 'required|numeric',
             'nama' => 'required|string',
-            'prodi' => 'required|string',
-            'email' => 'required|email:rfc,dns',
-            'dkl' => 'required'
+            'prodi' => 'required|string'
         ];
     }
 }

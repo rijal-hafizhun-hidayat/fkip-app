@@ -23,7 +23,6 @@ const form = reactive({
     nipy: '',
     nama: '',   
     prodi: '',
-    email: ''
 })
 
 const validation = ref([])
@@ -37,7 +36,6 @@ onMounted(() => {
         form.nipy = res.data.data.nipy
         form.nama = res.data.data.nama
         form.prodi = res.data.data.prodi
-        form.email = res.data.data.email
     })
     .catch((err) => {
         console.log(err)
@@ -56,7 +54,6 @@ const submit = () => {
         nipy: form.nipy,
         nama: form.nama,
         prodi: form.prodi,
-        email: form.email
     })
     .then((res) => {
         Swal.fire({
@@ -142,18 +139,6 @@ const nameWithLang = ({nama}) => {
                 <option v-for="prodi in prodis">{{ prodi.nama }}</option>
             </SelectInput>
             <InputError v-if="validation.prodi" :message="validation.prodi[0]" class="mt-2" />
-        </div>
-
-        <div>
-            <InputLabel for="email" value="Email" />
-            <TextInput
-                id="email"
-                type="email"
-                class="mt-1 block w-full"
-                v-model="form.email"
-                :class="{ 'border-rose-600': validation.email }"
-            />
-            <InputError v-if="validation.email" :message="validation.email[0]" class="mt-2" />
         </div>
 
         <div>

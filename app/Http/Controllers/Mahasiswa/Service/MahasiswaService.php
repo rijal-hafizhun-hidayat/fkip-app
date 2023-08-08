@@ -85,11 +85,6 @@ class MahasiswaService extends Controller
     public function store(StoreMahasiswaRequest $request){
         try {
             Mahasiswa::create($request->validated());
-            //dd($mahasiswa->id);
-            // Nilai::create([
-            //     'id_mahasiswa' => $mahasiswa->id,
-            //     'jenis_plp' => $mahasiswa->jenis_plp,
-            // ]);
             return $this->responseService(null, 200, true, 'Berhasil', 'Berhasil Tambah Mahasiswa');
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, $e->getMessage());
@@ -495,7 +490,6 @@ class MahasiswaService extends Controller
 
     private function setNilaiNdBk($credential){
         $totalPoint = null;
-        //dd(count($credential['nilai_kompeten']), $credential['nilai_kompeten']);
 
         for ($i=0; $i < count($credential['nilai_kompeten']); $i++) { 
             $totalPoint = $totalPoint+$credential['nilai_kompeten'][$i];

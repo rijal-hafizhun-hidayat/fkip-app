@@ -139,7 +139,6 @@ watch(search, async (newSearch, oldSearch) => {
                     <th class="pb-4 pt-6 px-6">Nip / Niy</th>
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th class="pb-4 pt-6 px-6">Prodi</th>
-                    <th class="pb-4 pt-6 px-6">Email</th>
                     <th class="pb-4 pt-6 px-6">Action</th>
                 </tr>
             </thead>
@@ -153,9 +152,6 @@ watch(search, async (newSearch, oldSearch) => {
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ dpl.prodi }}
-                    </td>
-                    <td class="border-t items-center px-6 py-4">
-                        {{ dpl.email }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">

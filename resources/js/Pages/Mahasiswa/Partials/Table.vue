@@ -180,7 +180,6 @@ watch(filter, async (newFilter, oldSearch) => {
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th class="pb-4 pt-6 px-6">Jenis PLP</th>
                     <th class="pb-4 pt-6 px-6">Prodi</th>
-                    <th class="pb-4 pt-6 px-6">Email</th>
                     <th class="pb-4 pt-6 px-6">Action</th>
                 </tr>
             </thead>
@@ -199,9 +198,6 @@ watch(filter, async (newFilter, oldSearch) => {
                         {{ mahasiswa.prodi }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
-                        {{ mahasiswa.email }}
-                    </td>
-                    <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
                             <DestroyButton v-if="user.role == 1" @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
@@ -211,7 +207,7 @@ watch(filter, async (newFilter, oldSearch) => {
                     </td>
                 </tr>
                 <tr v-if="length === 0">
-                    <td class="px-6 py-4 text-center border-t" colspan="6">No data found.</td>
+                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
                 </tr>
             </tbody>
         </table>
