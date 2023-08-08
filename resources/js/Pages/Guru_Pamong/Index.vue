@@ -20,7 +20,7 @@ const create = () => {
             <div class="flex justify-between">
                 <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Guru Pamong</h2></div>
                 <!-- <div><PrimaryButton class="order-1 mt-[-10px]">Tambah Kelas</PrimaryButton></div> -->
-                <div v-if="user.role === 1" class="order-1"><PrimaryButton @click="create">Tambah Guru Pamong</PrimaryButton></div>
+                <div v-if="user.role == 1" class="order-1"><PrimaryButton @click="create">Tambah Guru Pamong</PrimaryButton></div>
             </div>
         </template>
 
