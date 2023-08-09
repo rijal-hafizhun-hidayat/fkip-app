@@ -6,21 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Sekolah\StoreSekolahRequest;
 use App\Http\Requests\Sekolah\UpdateSekolahRequest;
 use App\Models\Sekolah;
-use Illuminate\Support\Facades\DB;
 
 class SekolahService extends Controller
 {
     public function getSekolah(){
         try {
-            $sekolah = $this->setQuerytGetSekolah();
-            return $this->sendResponse($sekolah->paginate(10), 200, true, null, null);
+            $querySekolah = $this->setQuerytGetSekolah();
+            $sekolah = $querySekolah->paginate(10);
+            return $this->sendResponse($sekolah, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->sendResponse(null, 404, false, 'gagal', $e->getMessage());
         }
     }
 
     public function store(StoreSekolahRequest $request){
-        //dd($request->validated());
         try {
             Sekolah::create($request->validated());
             return $this->sendResponse(null, 200, true, 'berhasil', 'berhasil tambah sekolah');
@@ -39,7 +38,6 @@ class SekolahService extends Controller
     }
 
     public function update(UpdateSekolahRequest $request, $id){
-        //dd($request->validated(), $id);
         try {
             Sekolah::where('id', $id)->update($request->validated());
             return $this->sendResponse(null, 200, true, 'berhasil', 'berhasil update data');
@@ -58,11 +56,14 @@ class SekolahService extends Controller
     }
 
     private function setQuerytGetSekolah(){
-        $querySekolah = DB::table('sekolah');
-        if(request()->filled('nama_sekolah')){
-            $querySekolah->where('nama', 'like', '%'.request()->nama_sekolah.'%');
+        $dBSekolah = Sekolah::latest();
+        if(request()->filled('nama')){
+            $dBSekolah->where('nama', 'like', '%'.request()->nama.'%');
         }
-        return $querySekolah;
+        if(request()->filled('jenis_plp')){
+            $dBSekolah->where('jenis_plp', request()->jenis_plp);
+        }
+        return $dBSekolah;
     }
 
     private function sendResponse($data, $code, $status, $title, $text){

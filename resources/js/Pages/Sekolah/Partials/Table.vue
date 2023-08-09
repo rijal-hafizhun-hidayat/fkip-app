@@ -1,9 +1,10 @@
 <script setup>
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
+import SelectInput from '@/Components/SelectInput.vue';
 import { router } from '@inertiajs/vue3';
 import axios from 'axios';
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, reactive } from 'vue'
 import nprogress from 'nprogress';
 import Swal from 'sweetalert2';
 import InputSearch from '@/Components/InputSearch.vue';
@@ -11,21 +12,24 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { TailwindPagination } from 'laravel-vue-pagination';
 
 const sekolahs = ref([])
-const total = ref()
-const searchNama = ref('')
+const total = ref('')
+const filter = reactive({
+    nama: '',
+    jenis_plp: ''
+})
 
 onMounted(() => {
     getSekolah()
 })
 
-const getSekolah = (page = 1) => {
+const getSekolah = (page = 1, newFilter = filter) => {
     axios.get(`/getSekolah?page=${page}`, {
         params: {
-            nama_sekolah: searchNama.value
+            nama: newFilter.nama,
+            jenis_plp: newFilter.jenis_plp
         }
     })
     .then((res) => {
-        console.log(res)
         sekolahs.value = res.data.data
         total.value = res.data.data.total
     })
@@ -63,7 +67,7 @@ const show = (id) => {
 
 const setJenisPlp = (jenisPlp) => {
     if(jenisPlp == 'plp_1'){
-        jenisPlp == 'PLP 1'
+        jenisPlp = 'PLP 1'
     }
     else{
         jenisPlp = 'PLP 2'
@@ -71,13 +75,18 @@ const setJenisPlp = (jenisPlp) => {
     return jenisPlp
 }
 
-watch(searchNama, async (newSearchNama, oldSearchNama) => {
+watch(filter, async (newFilter, oldFilter) => {
     getSekolah()
 })
 </script>
 <template>
-    <div class="space-x-4">
-        <InputSearch v-model="searchNama" />
+    <div class="flex space-x-4">
+        <InputSearch v-model="filter.nama" />
+        <SelectInput v-model="filter.jenis_plp">
+            <option selected disabled value="">-- Pilih --</option>
+            <option value="plp_1">PLP 1</option>
+            <option value="plp_2">PLP 2</option>
+        </SelectInput>
         <PrimaryButton @click="reset">Reset</PrimaryButton>
     </div>
     
@@ -105,7 +114,7 @@ watch(searchNama, async (newSearchNama, oldSearchNama) => {
                         </div>
                     </td>
                 </tr>
-                <tr v-if="total === 0">
+                <tr v-if="total == 0">
                     <td class="px-6 py-4 text-center border-t" colspan="3">No data found.</td>
                 </tr>
             </tbody>

@@ -31,7 +31,8 @@ class UpdateSekolahRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama' => 'required|string'
+            'nama' => 'required|string',
+            'jenis_plp' => 'required|string'
         ];
     }
 }
