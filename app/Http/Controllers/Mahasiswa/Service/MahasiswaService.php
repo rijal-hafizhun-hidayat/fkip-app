@@ -49,7 +49,8 @@ class MahasiswaService extends Controller
 
     public function getMahasiswaByIdDpl($id){
         try {
-            $mahasiswa = Mahasiswa::where('id_dpl', $id)->get();
+            $queryMahasiswa = $this->setQueryMahasiswaByIdDpl($id);
+            $mahasiswa = $queryMahasiswa->get();
             return $this->responseService($mahasiswa, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 404, false, 'gagal', $e->getMessage());
@@ -177,6 +178,22 @@ class MahasiswaService extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, $e->getMessage());
         }
+    }
+
+    private function setQueryMahasiswaByIdDpl($id){
+        $dBMahasiswa = Mahasiswa::where('id_dpl', $id);
+
+        if(request()->filled('nama')){
+            $dBMahasiswa->where('nama', 'like', '%'.request()->nama.'%');
+        }
+        if(request()->filled('jenis_plp')){
+            $dBMahasiswa->where('jenis_plp', request()->jenis_plp);
+        }
+        if(request()->filled('prodi')){
+            $dBMahasiswa->where('prodi', request()->prodi);
+        }
+
+        return $dBMahasiswa;
     }
 
     private function setQueryMahasiswa(){

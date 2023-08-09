@@ -25,6 +25,7 @@ const search = ref('')
 const routeGetGuruPamong = ref('')
 const length = ref('')
 const filter = reactive({
+    nama: '',
     asal_sekolah: '',
     bidang_keahlian: ''
 })
@@ -61,14 +62,15 @@ const destroy = (id) => {
     })
 }
 
-const getGuruPamong = (page = 1, nama) => {
-    routeGetGuruPamong.value = nama == null ? `/getGuruPamongs?page=${page}` : `/getGuruPamongs?page=${page}&nama=${nama}`
+const getGuruPamong = (page = 1, newFilter = filter) => {
+    //routeGetGuruPamong.value = nama == null ? `/getGuruPamongs?page=${page}` : `/getGuruPamongs?page=${page}&nama=${nama}`
 
     NProgress.start()
-    axios.get(routeGetGuruPamong.value, {
+    axios.get(`/getGuruPamongs?page=${page}`, {
         params: {
-            asal_sekolah: filter.asal_sekolah,
-            bidang_keahlian: filter.bidang_keahlian
+            nama: newFilter.nama,
+            asal_sekolah: newFilter.asal_sekolah.nama,
+            bidang_keahlian: newFilter.bidang_keahlian
         }
     })
     .then((res) => {
@@ -83,12 +85,17 @@ const getGuruPamong = (page = 1, nama) => {
     })
 }
 
-const getGuruPamongByIdDpl = (page = 1, nama) => {
-    console.log(props.user.id_dpl)
-    routeGetGuruPamong.value = nama == null ? `/getGuruPamongByIdDpl/${props.user.id_dpl}?page=${page}` : `/getGuruPamongByIdDpl/${props.user.id_dpl}?page=${page}&nama=${nama}`
+const getGuruPamongByIdDpl = (page = 1, newFilter = filter) => {
+    //routeGetGuruPamong.value = nama == null ? `/getGuruPamongByIdDpl/${props.user.id_dpl}?page=${page}` : `/getGuruPamongByIdDpl/${props.user.id_dpl}?page=${page}&nama=${nama}`
 
     NProgress.start()
-    axios.get(routeGetGuruPamong.value)
+    axios.get(`/getGuruPamongByIdDpl/${props.user.id_dpl}?page=${page}`, {
+        params: {
+            nama: newFilter.nama,
+            asal_sekolah: newFilter.asal_sekolah.nama,
+            bidang_keahlian: newFilter.bidang_keahlian
+        }
+    })
     .then((res) => {
         guruPamongs.value = res.data.data
         length.value = res.data.data.data.length
@@ -111,14 +118,12 @@ const reset = () => {
     })
 }
 
-watch(search, async (newSearch, oldSearch) => {
-    if(newSearch != null){
-        if(props.user.role == 1){
-            getGuruPamong(1, newSearch)
-        }
-        else{
-            getGuruPamongByIdDpl(1, newSearch)
-        }
+watch(filter, async (newFilter, oldFilter) => {
+    if(props.user.role === 1){
+        getGuruPamong()
+    }
+    else{
+        getGuruPamongByIdDpl()
     }
 })
 
@@ -128,7 +133,7 @@ const nameWithLang = ({nama}) => {
 </script>
 <template>
     <div class="max-[640px]:grid grid-cols-1 gap-4 min-[640px]:flex min-[640px]:space-x-4">
-        <InputSearch v-model="search" />
+        <InputSearch v-model="filter.nama" />
         <SelectInput v-model="filter.bidang_keahlian">
             <option selected disabled value="">-- Pilih Bidang Keahlian--</option>
             <option v-for="prodi in prodis">{{ prodi.bidang_keahlian }}</option>
@@ -138,7 +143,7 @@ const nameWithLang = ({nama}) => {
             :custom-label="nameWithLang"
             :options="sekolahs">
         </Multiselect>
-        <PrimaryButton class="max-[640px]:w-20" @click="reset">Reset</PrimaryButton>
+        <PrimaryButton @click="reset">Reset</PrimaryButton>
     </div>
 
     <div class="bg-white rounded-md shadow overflow-x-auto mt-10">

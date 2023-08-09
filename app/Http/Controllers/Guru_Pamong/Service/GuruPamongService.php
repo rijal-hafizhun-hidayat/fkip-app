@@ -12,27 +12,21 @@ use Illuminate\Http\Request;
 
 class GuruPamongService extends Controller
 {
-    public function getGuruPamongs(Request $request){
+    public function getGuruPamongs(){
         try {
-            $queryGuruPamong = GuruPamong::latest();
-            if($request->filled('nama')){
-                $queryGuruPamong->where('nama', 'like', '%'.$request->nama.'%');
-            }
-            $guruPamong = $queryGuruPamong->paginate(10);
-            return $this->responseService($guruPamong, 200, true, null, null);
+            $queryGuruPamongs = $this->setQueryGetGuruPamongs();
+            $guruPamongs = $queryGuruPamongs->paginate(10);
+            return $this->responseService($guruPamongs, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e);
         }
     }
 
-    public function getGuruPamongByIdDpl(Request $request, $id){
+    public function getGuruPamongByIdDpl($id){
         try {
-            $queryGuruPamong = GuruPamong::where('id_dpl', $id)->latest();
-            if($request->filled('nama')){
-                $queryGuruPamong->where('nama', 'like', '%'.$request->nama.'%');
-            }
-            $guruPamong = $queryGuruPamong->paginate(10);
-            return $this->responseService($guruPamong, 200, true, null, null);
+            $queryGuruPamongsByIdDpl = $this->setQueryGetGuruPamongByIdDpl($id);
+            $guruPamongs = $queryGuruPamongsByIdDpl->paginate(10);
+            return $this->responseService($guruPamongs, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e);
         }
@@ -110,6 +104,38 @@ class GuruPamongService extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e->getMessage());
         }
+    }
+
+    private function setQueryGetGuruPamongByIdDpl($id){
+        $dBGuruPamongsByIdDpl = GuruPamong::where('id_dpl', $id)->latest();
+
+        if(request()->filled('nama')){
+            $dBGuruPamongsByIdDpl->where('nama', 'like', '%'.request()->nama.'%');
+        }
+        if(request()->filled('asal_sekolah')){
+            $dBGuruPamongsByIdDpl->where('asal_sekolah', request()->asal_sekolah);
+        }
+        if(request()->filled('bidang_keahlian')){
+            $dBGuruPamongsByIdDpl->where('bidang_keahlian', request()->bidang_keahlian);
+        }
+
+        return $dBGuruPamongsByIdDpl;
+    }
+
+    private function setQueryGetGuruPamongs(){
+        $dBGuruPamongs = GuruPamong::latest();
+
+        if(request()->filled('nama')){
+            $dBGuruPamongs->where('nama', 'like', '%'.request()->nama.'%');
+        }
+        if(request()->filled('asal_sekolah')){
+            $dBGuruPamongs->where('asal_sekolah', request()->asal_sekolah);
+        }
+        if(request()->filled('bidang_keahlian')){
+            $dBGuruPamongs->where('bidang_keahlian', request()->bidang_keahlian);
+        }
+
+        return $dBGuruPamongs;
     }
 
     private function responseService($data, $code, $status, $title, $text){

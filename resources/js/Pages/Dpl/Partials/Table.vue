@@ -124,13 +124,13 @@ watch(search, async (newSearch, oldSearch) => {
 </script>
 
 <template>
-    <div class="space-x-4">
+    <div class="min-[640px]:space-x-4 max-[640px]:grid grid-cols-1 gap-4">
         <InputSearch v-model="search.nama" />
         <SelectInput v-model="search.prodi">
             <option selected disabled value="">-- Pilih Prodi --</option>
             <option v-for="prodi in prodis">{{ prodi.nama }}</option>
         </SelectInput>
-        <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
+        <PrimaryButton @click="reset" class="py-3">Reset</PrimaryButton>
     </div>
     
 

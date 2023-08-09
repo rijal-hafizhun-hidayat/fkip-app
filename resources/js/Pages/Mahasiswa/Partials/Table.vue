@@ -79,7 +79,8 @@ const getMahasiswaByIdGuruPamong = (newFilter = filter) => {
     })
 }
 
-const getMahasiswaByIdDpl = () => {
+const getMahasiswaByIdDpl = (newFilter = filter) => {
+    NProgress.start()
     axios.get(`/getMahasiswaByIdDpl/${props.user.id_dpl}`, {
         params: {
             nama: newFilter.nama,
@@ -88,11 +89,14 @@ const getMahasiswaByIdDpl = () => {
         }
     })
     .then((res) => {
-        mahasiswas.value = res.data.data
-        length.value = res.data.data.data.length
+        mahasiswas.value = res.data
+        length.value = res.data.data.length
     })
     .catch((err) => {
         console.log(err)
+    })
+    .finally(() => {
+        NProgress.done()
     })
 }
 
@@ -159,8 +163,11 @@ const goToRouteBimbingan = (id) => {
 }
 
 watch(filter, async (newFilter, oldSearch) => {
-    if(props.user.role == 1){
+    if(props.user.role === 1){
         getMahasiswa()
+    }
+    else if(props.user.role === 2){
+        getMahasiswaByIdDpl()
     }
     else{
         getMahasiswaByIdGuruPamong()
@@ -168,7 +175,7 @@ watch(filter, async (newFilter, oldSearch) => {
 })
 </script>
 <template>
-    <div class="space-x-4">
+    <div class="min-[640px]:space-x-4 max-[640px]:grid grid-cols-1 gap-4">
         <InputSearch v-model="filter.nama" />
         <SelectInput v-model="filter.jenis_plp">
             <option disabled value=""> -- Pilih PLP --</option>
@@ -179,7 +186,7 @@ watch(filter, async (newFilter, oldSearch) => {
             <option disabled value=""> -- Pilih Prodi --</option>
             <option v-for="prodi in prodis">{{ prodi.nama }}</option>
         </SelectInput>
-        <PrimaryButton @click="reset" class="py-3">Reset</PrimaryButton>
+        <PrimaryButton @click="reset">Reset</PrimaryButton>
     </div>
 
     <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
@@ -216,7 +223,7 @@ watch(filter, async (newFilter, oldSearch) => {
                         </div>
                     </td>
                 </tr>
-                <tr v-if="length === 0">
+                <tr v-if="length == 0">
                     <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
                 </tr>
             </tbody>
