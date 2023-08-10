@@ -34,13 +34,10 @@ class MahasiswaService extends Controller
         }
     }
 
-    public function getMahasiswaByIdAkun(Request $request, $id){
+    public function getMahasiswaByIdAkun($id){
         try {
-            $queryMahasiswa = Mahasiswa::latest()->where('id_guru_pamong', $id);
-            if($request->filled('nama')){
-                $queryMahasiswa->where('nama', 'like', '%'.$request->nama.'%');
-            }
-            $mahasiswa = $queryMahasiswa->paginate(10);
+            $queryMahasiswa = $this->setQueryMahasiswaByIdAkun($id);
+            $mahasiswa = $queryMahasiswa->get();
             return $this->responseService($mahasiswa, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e);
@@ -178,6 +175,22 @@ class MahasiswaService extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, $e->getMessage());
         }
+    }
+
+    private function setQueryMahasiswaByIdAkun($id){
+        $dBMahasiswa = Mahasiswa::where('id_guru_pamong', $id)->latest();
+
+        if(request()->filled('nama')){
+            $dBMahasiswa->where('nama', 'like', '%'.request()->nama.'%');
+        }
+        if(request()->filled('jenis_plp')){
+            $dBMahasiswa->where('jenis_plp', request()->jenis_plp);
+        }
+        if(request()->filled('prodi')){
+            $dBMahasiswa->where('prodi', request()->prodi);
+        }
+
+        return $dBMahasiswa;
     }
 
     private function setQueryMahasiswaByIdDpl($id){

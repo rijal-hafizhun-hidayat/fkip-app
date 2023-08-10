@@ -33,7 +33,7 @@ onMounted(() => {
         getMahasiswaByIdDpl(props.user.id_dpl)
     }
     else{
-        getMahasiswa(filter)
+        getMahasiswa()
     } 
 })
 
@@ -47,6 +47,7 @@ const getMahasiswa = (page = 1, newFilter = filter) => {
         }
     })
     .then((res) => {
+        console.log(res)
         mahasiswas.value = res.data.data
         length.value = res.data.data.data.length
     })
