@@ -119,7 +119,7 @@ const reset = () => {
 }
 
 watch(filter, async (newFilter, oldFilter) => {
-    if(props.user.role === 1){
+    if(props.user.role == 1){
         getGuruPamong()
     }
     else{

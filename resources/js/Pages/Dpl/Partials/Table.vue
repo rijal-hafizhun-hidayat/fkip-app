@@ -15,7 +15,8 @@ import { TailwindPagination } from 'laravel-vue-pagination';
 const dpls = ref([])
 const search = reactive({
     nama: '',
-    prodi: ''
+    prodi: '',
+    jenis_plp: ''
 })
 const length = ref('')
 
@@ -67,7 +68,8 @@ const getDpl = (page = 1, filter = search) => {
     axios.get(`/getDpls?page=${page}`, {
         params: {
             nama: filter.nama,
-            prodi: filter.prodi
+            prodi: filter.prodi,
+            jenis_plp: filter.jenis_plp
         }
     })
     .then((res) => {
@@ -106,7 +108,6 @@ const update = (id) => {
 }
 
 const addBimbinganGuruPamong = (id) => {
-    //console.log(id)
     router.get(`/dpl/asosiasi/${id}`)
 }
 
@@ -114,6 +115,17 @@ const reset = () => {
     router.visit('/dpl', {
         method: 'get'
     })
+}
+
+const setJenisPlp = (jenisPlp) => {
+    let setPlp = ''
+    if(jenisPlp == 'plp_2'){
+        setPlp = 'PLP 2'
+    }
+    else{
+        setPlp = 'PLP 1'
+    }
+    return setPlp
 }
 
 watch(search, async (newSearch, oldSearch) => {
@@ -130,6 +142,11 @@ watch(search, async (newSearch, oldSearch) => {
             <option selected disabled value="">-- Pilih Prodi --</option>
             <option v-for="prodi in prodis">{{ prodi.nama }}</option>
         </SelectInput>
+        <SelectInput v-model="search.jenis_plp">
+            <option selected disabled value="">-- Pilih PLP --</option>
+            <option value="plp_1">PLP 1</option>
+            <option value="plp_2">PLP 2</option>
+        </SelectInput>
         <PrimaryButton @click="reset" class="py-3">Reset</PrimaryButton>
     </div>
     
@@ -141,6 +158,7 @@ watch(search, async (newSearch, oldSearch) => {
                     <th class="pb-4 pt-6 px-6">Nip / Niy</th>
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th class="pb-4 pt-6 px-6">Prodi</th>
+                    <th class="pb-4 pt-6 px-6">Jenis PLP</th>
                     <th class="pb-4 pt-6 px-6">Action</th>
                 </tr>
             </thead>
@@ -154,6 +172,9 @@ watch(search, async (newSearch, oldSearch) => {
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ dpl.prodi }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ setJenisPlp(dpl.jenis_plp) }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">

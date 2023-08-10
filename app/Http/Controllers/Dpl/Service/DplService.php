@@ -13,16 +13,9 @@ use Illuminate\Http\Request;
 
 class DplService extends Controller
 {
-    public function getDpls(Request $request){
-        //dd($request->all(), $request->prodi, $request->nama);
+    public function getDpls(){
         try {
-            $queryDpl = Dpl::latest();
-            if($request->filled('nama')){
-                $queryDpl->where('nama', 'like', '%'.$request->nama.'%');
-            }
-            if($request->filled('prodi')){
-                $queryDpl->where('prodi', $request->prodi);
-            }
+            $queryDpl = $this->setQueryGetDpl();
             $dpl = $queryDpl->paginate(10);
             return $this->responseService($dpl, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
@@ -104,6 +97,22 @@ class DplService extends Controller
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, null);
         }
+    }
+
+    private function setQueryGetDpl(){
+        $dBDpls = Dpl::latest();
+
+        if(request()->filled('nama')){
+            $dBDpls->where('nama', 'like', '%'.request()->nama.'%');
+        }
+        if(request()->filled('prodi')){
+            $dBDpls->where('prodi', request()->prodi);
+        }
+        if(request()->filled('jenis_plp')){
+            $dBDpls->where('jenis_plp', request()->jenis_plp);
+        }
+
+        return $dBDpls;
     }
 
     private function storeDpl($request){

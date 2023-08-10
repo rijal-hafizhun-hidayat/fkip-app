@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nama');
             $table->bigInteger('nipy')->unique();
             $table->string('prodi');
+            $table->string('jenis_plp');
             $table->timestamps();
         });
     }

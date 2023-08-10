@@ -1,3 +1,40 @@
+<script setup>
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
+import DestroyButton from '@/Components/DestroyButton.vue';
+import { router } from '@inertiajs/vue3'
+import Swal from 'sweetalert2'
+
+const guruPamongByIdGuruPamong = ref([])
+const props = defineProps({
+    id: Number
+})
+
+onMounted(() => {
+    axios.get(`/getGuruPamongByIdGuruPamong/${props.id}`)
+    .then((res) => {
+        guruPamongByIdGuruPamong.value = res.data.data
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+})
+
+const destroyAsosiasiGuruPamong = () => {
+    axios.put(`/destroyAsosiasiGuruPamong/${props.id}`)
+    .then((res) => {
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+        router.get('/akun')
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+</script>
 <template>
     <div class="bg-white rounded-md shadow-md overflow-x-auto mt-10">
         <table class="w-full whitespace-nowrap">
@@ -33,51 +70,3 @@
         </table>
     </div>
 </template>
-<script>
-import { onMounted, ref } from 'vue';
-import axios from 'axios';
-import NProgress from 'nprogress';
-import DestroyButton from '@/Components/DestroyButton.vue';
-import { router } from '@inertiajs/vue3'
-import Swal from 'sweetalert2'
-export default{
-    components: { DestroyButton },
-    props: {
-        id: Number
-    },
-    setup(props){
-        const guruPamongByIdGuruPamong = ref([])
-
-        onMounted(() => {
-            axios.get(`/getGuruPamongByIdGuruPamong/${props.id}`)
-            .then((res) => {
-                guruPamongByIdGuruPamong.value = res.data.data
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        })
-
-        const destroyAsosiasiGuruPamong = () => {
-            axios.put(`/destroyAsosiasiGuruPamong/${props.id}`)
-            .then((res) => {
-                Swal.fire({
-                    icon: 'success',
-                    title: res.data.title,
-                    text: res.data.text
-                })
-
-                router.get('/akun')
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-        }
-
-        return {
-            guruPamongByIdGuruPamong,
-            destroyAsosiasiGuruPamong
-        }
-    }
-}
-</script>

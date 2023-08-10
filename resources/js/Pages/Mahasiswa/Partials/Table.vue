@@ -164,10 +164,10 @@ const goToRouteBimbingan = (id) => {
 }
 
 watch(filter, async (newFilter, oldSearch) => {
-    if(props.user.role === 1){
+    if(props.user.role == 1){
         getMahasiswa()
     }
-    else if(props.user.role === 2){
+    else if(props.user.role == 2){
         getMahasiswaByIdDpl()
     }
     else{

@@ -34,7 +34,8 @@ class UpdateDplRequest extends FormRequest
         return [
             'nipy' => 'required|numeric',
             'nama' => 'required|string',
-            'prodi' => 'required|string'
+            'prodi' => 'required|string',
+            'jenis_plp' => 'required|string'
         ];
     }
 }

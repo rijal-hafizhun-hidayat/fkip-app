@@ -14,12 +14,13 @@ class DplImport implements ToModel, WithUpserts, WithHeadingRow
         return new Dpl([
             'nama' => $row['nama'],
             'nipy' => $row['nipy'],
-            'prodi' => $row['prodi']
+            'prodi' => $row['prodi'],
+            'jenis_plp' => $row['jenis_plp']
         ]);
     }
 
     public function uniqueBy()
     {
-        return 'nipy';
+        return 'id';
     }
 }
