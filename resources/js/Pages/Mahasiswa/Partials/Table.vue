@@ -176,7 +176,7 @@ watch(filter, async (newFilter, oldSearch) => {
 </script>
 <template>
     <div class="min-[640px]:space-x-4 max-[640px]:grid grid-cols-1 gap-4">
-        <InputSearch v-model="filter.nama" />
+        <InputSearch v-model="filter.nama" placeholder="Cari Nama"/>
         <SelectInput v-model="filter.jenis_plp">
             <option disabled value=""> -- Pilih PLP --</option>
             <option value="plp_1">PLP 1</option>

@@ -80,7 +80,7 @@ watch(search, async (newSearch, oldSearch) => {
 </script>
 
 <template>
-    <InputSearch v-model="search" />
+    <InputSearch v-model="search" placeholder="Cari Nama" />
     <PrimaryButton @click="reset" class="ml-5 py-3">Reset</PrimaryButton>
     
     <div class="bg-white rounded-md shadow overflow-x-auto mt-5">

@@ -81,7 +81,7 @@ watch(filter, async (newFilter, oldFilter) => {
 </script>
 <template>
     <div class="flex space-x-4">
-        <InputSearch v-model="filter.nama" />
+        <InputSearch v-model="filter.nama" placeholder="Cari Nama"/>
         <SelectInput v-model="filter.jenis_plp">
             <option selected disabled value="">-- Pilih --</option>
             <option value="plp_1">PLP 1</option>

@@ -125,7 +125,7 @@ watch(search, async (newSearch, oldSearch) => {
 
 <template>
     <div class="min-[640px]:space-x-4 max-[640px]:grid grid-cols-1 gap-4">
-        <InputSearch v-model="search.nama" />
+        <InputSearch v-model="search.nama" placeholder="Cari Nama" />
         <SelectInput v-model="search.prodi">
             <option selected disabled value="">-- Pilih Prodi --</option>
             <option v-for="prodi in prodis">{{ prodi.nama }}</option>
