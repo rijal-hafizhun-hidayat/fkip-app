@@ -35,7 +35,6 @@ const props = defineProps({
 })
 
 const submit = () => {
-    //console.log(form)
     NProgress.start()
     axios.post('/akun', {
         nama: form.nama,
@@ -94,24 +93,22 @@ const setUsername = (firstName, role, singkatanProdi, bidang_keahlian) => {
         form.username = firstName.toLowerCase()+'-'+bidang_keahlian.toLowerCase()
     }
     else{
-        form.username = firstName+Math.floor(Math.random()*(999-100+1)+100)+'@admin'
+        form.username = firstName+Math.floor(Math.random()*(999-100+1)+100)
     }
 }
 
 const setPassword = (firstName, role, uniq) => {
     if(role == 2){
-        //form.password = firstName.toLowerCase()+uniq.nipy
-        form.password = firstName.toLowerCase()+Math.floor(Math.random() * 9000 + 1000);
+        form.password = firstName.toLowerCase()+Math.floor(Math.random() * 90 + 10)
     }
     else if(role == 3){
-        //form.password = firstName.toLowerCase()+uniq.bidang_keahlian.toLowerCase()+Math.floor(Math.random()*(999-100+1)+100)
-        form.password = firstName.toLowerCase()+Math.floor(Math.random() * 9000 + 1000)+'@admin';
+        form.password = firstName.toLowerCase()+Math.floor(Math.random() * 90 + 10)
     }
     else if(role == 1){
-        form.password = Math.floor(Math.random()*(999-100+1)+100)+'@admin'
+        form.password = Math.floor(Math.random() * 9000 + 1000)+'@admin'
     }
     else{
-        form.password = Math.floor(Math.random() * 9000 + 1000)+'@admin'
+        form.password = Math.floor(Math.random() * 9000 + 1000)+'@mahasiswa'
     }
 }
 
@@ -238,7 +235,6 @@ const nameWithLang = ({nama}) => {
                     <PrimaryButton v-if="isSeePass == false" class="mt-1 py-3.5" @click="isSeePass = !isSeePass"><i class="fa-solid fa-eye"></i></PrimaryButton>
                 </div>
             </div>
-            
         </div>
 
         <div class="flex items-center gap-4">

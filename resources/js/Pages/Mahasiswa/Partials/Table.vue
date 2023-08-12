@@ -181,7 +181,7 @@ watch(filter, async (newFilter, oldSearch) => {
         <SelectInput v-model="filter.jenis_plp">
             <option disabled value=""> -- Pilih PLP --</option>
             <option value="plp_1">PLP 1</option>
-            <option value="plp_2">PLP 2</option>
+            <option value="plp_2">PLP 2 </option>
         </SelectInput>
         <SelectInput v-model="filter.prodi">
             <option disabled value=""> -- Pilih Prodi --</option>

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('dkl')->nullable();
             $table->string('nama');
-            $table->bigInteger('nipy')->unique();
+            $table->bigInteger('nipy');
             $table->string('prodi');
             $table->string('jenis_plp');
             $table->timestamps();

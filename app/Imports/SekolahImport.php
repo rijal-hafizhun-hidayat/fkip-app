@@ -3,15 +3,25 @@
 namespace App\Imports;
 
 use App\Models\Sekolah;
-use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class SekolahImport implements ToModel, WithHeadingRow
+class SekolahImport implements ToCollection, WithHeadingRow
 {
-    public function model (array $row){
-        return new Sekolah([
-            'nama' => $row['sekolah'],
-            'jenis_plp' => $row['jenis_plp']
-        ]);
+    public function collection (Collection $rows){
+        foreach($rows as $row){
+            $isSekolah = Sekolah::where('id', $row['id'])->first();
+            if(is_null($isSekolah)){
+                Sekolah::create([
+                    'id' => $row['id'],
+                    'nama' => $row['sekolah'],
+                    'jenis_plp' => $row['jenis_plp'],
+                ]);
+            }
+            else{
+                null;
+            }
+        }
     }
 }

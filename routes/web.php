@@ -18,7 +18,6 @@ use App\Http\Controllers\Bimbingan\Service\BimbinganService;
 use App\Http\Controllers\Sekolah\SekolahController;
 use App\Http\Controllers\Sekolah\Service\SekolahService;
 use App\Http\Controllers\Sekolah\Service\SekolahImportService;
-use App\Imports\SekolahImport;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;

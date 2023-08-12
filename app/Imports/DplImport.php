@@ -3,24 +3,28 @@
 namespace App\Imports;
 
 use App\Models\Dpl;
-use Maatwebsite\Excel\Concerns\ToModel;
-use Maatwebsite\Excel\Concerns\WithUpserts;
+use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\ToCollection;
 
-class DplImport implements ToModel, WithUpserts, WithHeadingRow
+class DplImport implements ToCollection, WithHeadingRow
 {
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        return new Dpl([
-            'nama' => $row['nama'],
-            'nipy' => $row['nipy'],
-            'prodi' => $row['prodi'],
-            'jenis_plp' => $row['jenis_plp']
-        ]);
-    }
-
-    public function uniqueBy()
-    {
-        return 'id';
+        foreach($rows as $row){
+            $isDpl = Dpl::where('id', $row['id'])->first();
+            if(is_null($isDpl)){
+                Dpl::create([
+                    'id' => $row['id'],
+                    'nama' => $row['nama'],
+                    'nipy' => $row['nipy'],
+                    'prodi' => $row['prodi'],
+                    'jenis_plp' => $row['jenis_plp']
+                ]);
+            }
+            else{
+                null;
+            }
+        }
     }
 }
