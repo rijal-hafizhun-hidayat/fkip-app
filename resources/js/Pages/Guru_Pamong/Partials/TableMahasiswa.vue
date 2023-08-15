@@ -110,19 +110,19 @@ const nilaiMahasiswa = (jenisPlp, prodi, id) => {
                     <td class="border-t items-center px-6 py-4">
                         {{ setJenisPlp(mahasiswa.jenis_plp) }}
                     </td>
-                    <td v-if="user.role === 1" class="border-t items-center px-6 py-4">
+                    <td v-if="user.role == 1" class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
                             <DestroyButton @click="destroyAsosiasiMahasiswa(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <DetailButton @click="nilaiMahasiswa(mahasiswa.jenis_plp, mahasiswa.prodi, mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
                         </div>
                     </td>
-                    <td v-if="user.role === 2" class="border-t items-center px-6 py-4">
+                    <td v-if="user.role == 2" class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
                             <DetailButton @click="nilaiMahasiswa(mahasiswa.jenis_plp, mahasiswa.prodi, mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
                         </div>
                     </td>
                 </tr>
-                <tr v-if="mahasiswas.length === 0">
+                <tr v-if="mahasiswas.length == 0">
                     <td class="px-6 py-4 text-center border-t" colspan="6">No data found.</td>
                 </tr>
             </tbody>

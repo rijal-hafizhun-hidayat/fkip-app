@@ -170,9 +170,9 @@ const nameWithLang = ({nama}) => {
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
-                            <DestroyButton v-if="user.role === 1" @click="destroy(guruPamong.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                            <UpdateButton v-if="user.role === 1" @click="show(guruPamong.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
-                            <DetailButton v-if="user.role === 1 || user.role === 2" @click="addAsosiasiMahasiswa(guruPamong.id)"><i :class="user.role === 1 ? 'fa-solid fa-person-circle-plus fa-xl' : 'fa-solid fa-people-arrows fa-xl'"></i></DetailButton>
+                            <DestroyButton v-if="user.role == 1" @click="destroy(guruPamong.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
+                            <UpdateButton v-if="user.role == 1" @click="show(guruPamong.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
+                            <DetailButton v-if="user.role == 1 || user.role === 2" @click="addAsosiasiMahasiswa(guruPamong.id)"><i :class="user.role === 1 ? 'fa-solid fa-person-circle-plus fa-xl' : 'fa-solid fa-people-arrows fa-xl'"></i></DetailButton>
                         </div>
                     </td>
                 </tr>
@@ -182,6 +182,6 @@ const nameWithLang = ({nama}) => {
             </tbody>
         </table>
     </div>
-    <TailwindPagination :keepLength="true" :limit="1" v-if="user.role === 1" class="mt-6" :data="guruPamongs" @pagination-change-page="getGuruPamong" />
-    <TailwindPagination :keepLength="true" :limit="1" v-if="user.role === 2" class="mt-6" :data="guruPamongs" @pagination-change-page="getGuruPamongByIdDpl" />
+    <TailwindPagination :keepLength="true" :limit="1" v-if="user.role == 1" class="mt-6" :data="guruPamongs" @pagination-change-page="getGuruPamong" />
+    <TailwindPagination :keepLength="true" :limit="1" v-if="user.role == 2" class="mt-6" :data="guruPamongs" @pagination-change-page="getGuruPamongByIdDpl" />
 </template>
