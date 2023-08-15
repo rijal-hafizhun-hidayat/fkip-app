@@ -12,7 +12,8 @@ class GuruPamongImport implements ToCollection, WithHeadingRow
     public function collection(Collection $rows){
         foreach($rows as $row){
             $isGuruPamong = GuruPamong::where('id', $row['id'])->first();
-            if(is_null($isGuruPamong)){
+            $isSameNamaGuruPamong = GuruPamong::where('nama', $row['nama'])->first();
+            if(is_null($isGuruPamong) && is_null($isSameNamaGuruPamong)){
                 GuruPamong::create([
                     'id' => $row['id'],
                     'nama' => $row['nama'],

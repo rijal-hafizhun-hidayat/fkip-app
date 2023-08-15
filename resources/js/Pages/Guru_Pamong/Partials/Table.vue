@@ -152,7 +152,6 @@ const nameWithLang = ({nama}) => {
             <thead>
                 <tr class="text-left font-bold">
                     <th class="pb-4 pt-6 px-6">Nama</th>
-                    <th class="pb-4 pt-6 px-6">Asal</th>
                     <th class="pb-4 pt-6 px-6">Sekolah</th>
                     <th class="pb-4 pt-6 px-6">Bidang Keahlian</th>
                     <th class="pb-4 pt-6 px-6">Action</th>
@@ -162,9 +161,6 @@ const nameWithLang = ({nama}) => {
                 <tr v-for="guruPamong in guruPamongs.data" :key="guruPamong.id" class="hover:bg-gray-100">
                     <td class="border-t items-center px-6 py-4">
                         {{ guruPamong.nama }}
-                    </td>
-                    <td class="border-t items-center px-6 py-4">
-                        {{ guruPamong.asal }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ guruPamong.asal_sekolah }}
@@ -181,7 +177,7 @@ const nameWithLang = ({nama}) => {
                     </td>
                 </tr>
                 <tr v-if="length == 0">
-                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
+                    <td class="px-6 py-4 text-center border-t" colspan="4">No data found.</td>
                 </tr>
             </tbody>
         </table>
