@@ -75,7 +75,7 @@ const setIsClick = (isClick) => {
         </template>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div v-if="user.role === 3" class="flex mt-8 space-x-4">
+            <div v-if="user.role == 3" class="flex mt-8 space-x-4">
                 <div><PrimaryButton v-if="jenis_plp == 'plp_1'" @click="setIsClick('nb')">+ Nilai Nb</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2'" @click="setIsClick('ns')">+ Nilai Ns</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'teaching'" @click="setIsClick('nc')">+ Nilai Nc</PrimaryButton></div>
@@ -87,7 +87,7 @@ const setIsClick = (isClick) => {
 
             <TableNilai :id="id" :prodi="prodi" :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang"/>
 
-            <div v-if="user.role === 3">
+            <div v-if="user.role == 3">
                 <div v-if="isClickNs == true" class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
                     <FormNilaiNs :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang" :jenis_pertanyaan="'ns'" :id="id"/>
                 </div>

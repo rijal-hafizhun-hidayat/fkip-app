@@ -69,7 +69,7 @@ const getMahasiswaByIdGuruPamong = (newFilter = filter) => {
         }
     })
     .then((res) => {
-        mahasiswas.value = res.data.data
+        mahasiswas.value = res.data
         length.value = res.data.data.data.length
     })
     .catch((err) => {
