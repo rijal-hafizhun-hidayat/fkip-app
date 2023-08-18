@@ -396,10 +396,10 @@ class MahasiswaService extends Controller
         else if($resultCredential['jenis_plp'] == 'plp_1'){
             //$totalNilai = $resultCredential['nilai_nb'];
             if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] == null){
-                $totalNilai = $resultCredential['nilai_nb'] / 2;
+                $totalNilai = $resultCredential['nilai_nb'];
             }   
             else if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] != null){
-                $totalNilai = $resultCredential['nilai_nb'] / 2;
+                $totalNilai = $resultCredential['nilai_nb'];
             }
         }
         return $totalNilai;
