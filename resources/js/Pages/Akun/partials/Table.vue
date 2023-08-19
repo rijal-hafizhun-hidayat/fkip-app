@@ -19,7 +19,7 @@ onMounted(() => {
     getAkuns()
 })
 
-const getAkuns = (page = 1, nama) => {
+const getAkuns = (page = 1, nama = search.value) => {
     NProgress.start()
     axios.get(`/getAkuns?page=${page}`, {
         params: {
@@ -74,7 +74,7 @@ const formResetPass = (id) => {
 
 watch(search, async (newSearch, oldSearch) => {
     if(newSearch != null){
-        getAkuns(1, newSearch)
+        getAkuns()
     }
 })
 </script>
@@ -122,7 +122,7 @@ watch(search, async (newSearch, oldSearch) => {
                     
                     </td>
                 </tr>
-                <tr v-if="length === 0">
+                <tr v-if="length == 0">
                     <td class="px-6 py-4 text-center border-t" colspan="4">No data found.</td>
                 </tr>
             </tbody>
