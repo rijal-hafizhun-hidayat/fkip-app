@@ -21,7 +21,8 @@ const length = ref('')
 const filter = reactive({
     nama: '',
     jenis_plp: '',
-    prodi: ''
+    prodi: '',
+    is_nilai: ''
 })
 
 onMounted(() => {
@@ -37,12 +38,14 @@ onMounted(() => {
 })
 
 const getMahasiswa = (page = 1, newFilter = filter) => {
+    //console.log(newFilter)
     NProgress.start()
     axios.get(`/getMahasiswa?page=${page}`, {
         params: {
             nama: newFilter.nama,
             jenis_plp: newFilter.jenis_plp,
-            prodi: newFilter.prodi
+            prodi: newFilter.prodi,
+            is_nilai: newFilter.is_nilai
         }
     })
     .then((res) => {
@@ -63,7 +66,8 @@ const getMahasiswaByIdGuruPamong = (newFilter = filter) => {
         params: {
             nama: newFilter.nama,
             jenis_plp: newFilter.jenis_plp,
-            prodi: newFilter.prodi
+            prodi: newFilter.prodi,
+            is_nilai: newFilter.is_nilai
         }
     })
     .then((res) => {
@@ -84,7 +88,8 @@ const getMahasiswaByIdDpl = (newFilter = filter) => {
         params: {
             nama: newFilter.nama,
             jenis_plp: newFilter.jenis_plp,
-            prodi: newFilter.prodi
+            prodi: newFilter.prodi,
+            is_nilai: newFilter.is_nilai
         }
     })
     .then((res) => {
@@ -181,10 +186,16 @@ watch(filter, async (newFilter, oldSearch) => {
             <option value="plp_1">PLP 1</option>
             <option value="plp_2">PLP 2 </option>
         </SelectInput>
-        <SelectInput v-model="filter.prodi">
+        <SelectInput v-if="user.role == 1" v-model="filter.prodi">
             <option disabled value=""> -- Pilih Prodi --</option>
             <option v-for="prodi in prodis">{{ prodi.nama }}</option>
         </SelectInput>
+        <SelectInput v-model="filter.is_nilai">
+            <option disabled value=""> -- Pilih Nilai --</option>
+            <option value="ada">Ada Nilai</option>
+            <option value="tidak">Tidak Ada Nilai</option>
+        </SelectInput>
+        <!-- <InputLabel for="is_nilai" value="Nilai" /> -->
         <PrimaryButton @click="reset">Reset</PrimaryButton>
     </div>
 
@@ -196,10 +207,10 @@ watch(filter, async (newFilter, oldSearch) => {
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th class="pb-4 pt-6 px-6">Jenis PLP</th>
                     <th class="pb-4 pt-6 px-6">Prodi</th>
-                    <th class="pb-4 pt-6 px-6">Nilai</th>
+                    <th class="pb-4 pt-6 px-6">Nilai Total</th>
                     <th v-if="user.role == 1" class="pb-4 pt-6 px-6">Action</th>
-                    <th v-if="user.role == 2 || user.role == 1" class="pb-4 pt-6 px-6">Rekap Nilai</th>
-                    <th v-if="user.role == 2 || user.role == 1" class="pb-4 pt-6 px-6">Bimbingan</th>
+                    <th v-if="user.role == 2 || user.role == 1" class="pb-4 pt-6 px-6">Rincian Nilai</th>
+                    <th v-if="user.role == 2 || user.role == 1" class="pb-4 pt-6 px-6">Form Bimbingan</th>
                     <th v-if="user.role == 3" class="pb-4 pt-6 px-6">Input Nilai</th>
                 </tr>
             </thead>
@@ -226,7 +237,7 @@ watch(filter, async (newFilter, oldSearch) => {
                             <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
                         </div>
                     </td>
-                    <td v-if="user.role == 2 || user.role == 1" class="border-t items-center px-6 py-4">
+                    <td v-if="user.role == 2 || user.role == 1 || user.role == 3" class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
                             <!-- <DestroyButton v-if="user.role == 1" @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton> -->

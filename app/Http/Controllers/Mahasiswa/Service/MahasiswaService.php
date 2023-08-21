@@ -189,6 +189,12 @@ class MahasiswaService extends Controller
         if(request()->filled('prodi')){
             $dBMahasiswa->where('prodi', request()->prodi);
         }
+        if(request()->is_nilai == 'ada'){
+            $dBMahasiswa->whereNotNull('nilai');
+        }
+        if(request()->is_nilai == 'tidak'){
+            $dBMahasiswa->whereNull('nilai');
+        }
 
         return $dBMahasiswa;
     }
@@ -205,12 +211,19 @@ class MahasiswaService extends Controller
         if(request()->filled('prodi')){
             $dBMahasiswa->where('prodi', request()->prodi);
         }
+        if(request()->is_nilai == 'ada'){
+            $dBMahasiswa->whereNotNull('nilai');
+        }
+        if(request()->is_nilai == 'tidak'){
+            $dBMahasiswa->whereNull('nilai');
+        }
 
         return $dBMahasiswa;
     }
 
     private function setQueryMahasiswa(){
         $dBMahasiswa = Mahasiswa::latest();
+        //dd(request()->all());
 
         if(request()->filled('nama')){
             $dBMahasiswa->where('nama', 'like', '%'.request()->nama.'%');
@@ -220,6 +233,12 @@ class MahasiswaService extends Controller
         }
         if(request()->filled('prodi')){
             $dBMahasiswa->where('prodi', request()->prodi);
+        }
+        if(request()->is_nilai == 'ada'){
+            $dBMahasiswa->whereNotNull('nilai');
+        }
+        if(request()->is_nilai == 'tidak'){
+            $dBMahasiswa->whereNull('nilai');
         }
 
         return $dBMahasiswa;
