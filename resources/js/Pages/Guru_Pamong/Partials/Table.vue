@@ -172,7 +172,7 @@ const nameWithLang = ({nama}) => {
                         <div class="flex flex-row space-x-4">
                             <DestroyButton v-if="user.role == 1" @click="destroy(guruPamong.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton v-if="user.role == 1" @click="show(guruPamong.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
-                            <DetailButton v-if="user.role == 1 || user.role === 2" @click="addAsosiasiMahasiswa(guruPamong.id)"><i :class="user.role === 1 ? 'fa-solid fa-person-circle-plus fa-xl' : 'fa-solid fa-people-arrows fa-xl'"></i></DetailButton>
+                            <DetailButton v-if="user.role == 1 || user.role == 2" @click="addAsosiasiMahasiswa(guruPamong.id)"><i :class="user.role === 1 ? 'fa-solid fa-person-circle-plus fa-xl' : 'fa-solid fa-people-arrows fa-xl'"></i></DetailButton>
                         </div>
                     </td>
                 </tr>

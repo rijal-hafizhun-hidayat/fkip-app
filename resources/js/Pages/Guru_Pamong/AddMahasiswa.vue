@@ -10,8 +10,6 @@
         id: Number
     })
 
-    console.log(props.id)
-
     const page = usePage()
     const user = computed(() => page.props.auth.user)
 </script>

@@ -77,6 +77,6 @@ const submit = () => {
                 :name="'n_kompeten_'+index+1"
                 v-model="nilai.nilai_kompeten_ns[index]" />
         </div>
-        <PrimaryButton>Submit</PrimaryButton>
+        <PrimaryButton>Simpan</PrimaryButton>
     </form>
 </template>

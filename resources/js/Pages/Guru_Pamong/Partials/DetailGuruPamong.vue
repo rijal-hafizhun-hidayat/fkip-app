@@ -11,7 +11,6 @@ const props = defineProps({
 
 const form = reactive({
     nama: '',
-    asal: '',
     asal_sekolah: ''
 })
 
@@ -20,7 +19,6 @@ onMounted(() => {
     axios.get(`/getGuruPamongById/${props.id}`)
     .then((res) => {
         form.nama = res.data.data.nama
-        form.asal = res.data.data.asal
         form.asal_sekolah = res.data.data.asal_sekolah
     })
     .catch((err) => {
@@ -40,16 +38,6 @@ onMounted(() => {
             type="text"
             class="block w-full bg-slate-200"
             v-model="form.nama"
-        />
-    </div>
-    <div class="flex">
-        <InputLabel for="asal" class="basis-1/4 mt-7" value="Asal" />
-        <TextInput
-            disabled
-            id="asal"
-            type="text"
-            class="mt-5 block w-full bg-slate-200"
-            v-model="form.asal"
         />
     </div>
     <div class="flex">

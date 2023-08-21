@@ -16,7 +16,6 @@ const props = defineProps({
     user: Object,
     prodis: Object
 })
-
 const mahasiswas = ref([])
 const length = ref('')
 const filter = reactive({
@@ -47,7 +46,6 @@ const getMahasiswa = (page = 1, newFilter = filter) => {
         }
     })
     .then((res) => {
-        console.log(res)
         mahasiswas.value = res.data.data
         length.value = res.data.data.data.length
     })
@@ -70,7 +68,7 @@ const getMahasiswaByIdGuruPamong = (newFilter = filter) => {
     })
     .then((res) => {
         mahasiswas.value = res.data
-        length.value = res.data.data.data.length
+        length.value = res.data.data.length
     })
     .catch((err) => {
         console.log(err)
@@ -198,7 +196,11 @@ watch(filter, async (newFilter, oldSearch) => {
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th class="pb-4 pt-6 px-6">Jenis PLP</th>
                     <th class="pb-4 pt-6 px-6">Prodi</th>
-                    <th class="pb-4 pt-6 px-6">Action</th>
+                    <th class="pb-4 pt-6 px-6">Nilai</th>
+                    <th v-if="user.role == 1" class="pb-4 pt-6 px-6">Action</th>
+                    <th v-if="user.role == 2 || user.role == 1" class="pb-4 pt-6 px-6">Rekap Nilai</th>
+                    <th v-if="user.role == 2 || user.role == 1" class="pb-4 pt-6 px-6">Bimbingan</th>
+                    <th v-if="user.role == 3" class="pb-4 pt-6 px-6">Input Nilai</th>
                 </tr>
             </thead>
             <tbody>
@@ -216,16 +218,33 @@ watch(filter, async (newFilter, oldSearch) => {
                         {{ mahasiswa.prodi }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
+                        {{ mahasiswa.nilai }}
+                    </td>
+                    <td v-if="user.role == 1" class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
                             <DestroyButton v-if="user.role == 1" @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
+                        </div>
+                    </td>
+                    <td v-if="user.role == 2 || user.role == 1" class="border-t items-center px-6 py-4">
+                        <div class="flex flex-row space-x-4">
+                            <!-- <DestroyButton v-if="user.role == 1" @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
+                            <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton> -->
                             <DetailButton @click="addNilai(mahasiswa.jenis_plp, mahasiswa.prodi, mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
-                            <PrimaryButton v-if="user.role == 2 || user.role == 5" @click="goToRouteBimbingan(mahasiswa.id)"><i class="fa-solid fa-person-chalkboard fa-lg"></i></PrimaryButton>
+                            <!-- <PrimaryButton v-if="user.role == 2 || user.role == 5" @click="goToRouteBimbingan(mahasiswa.id)"><i class="fa-solid fa-person-chalkboard fa-lg"></i></PrimaryButton> -->
+                        </div>
+                    </td>
+                    <td v-if="user.role == 2 || user.role == 1" class="border-t items-center px-6 py-4">
+                        <div class="flex flex-row space-x-4">
+                            <!-- <DestroyButton v-if="user.role == 1" @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
+                            <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton> -->
+                            <!-- <DetailButton @click="addNilai(mahasiswa.jenis_plp, mahasiswa.prodi, mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton> -->
+                            <PrimaryButton v-if="user.role == 2 || user.role == 5 || user.role == 1" @click="goToRouteBimbingan(mahasiswa.id)"><i class="fa-solid fa-person-chalkboard fa-lg"></i></PrimaryButton>
                         </div>
                     </td>
                 </tr>
                 <tr v-if="length == 0">
-                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
+                    <td class="px-6 py-4 text-center border-t" colspan="8">No data found</td>
                 </tr>
             </tbody>
         </table>

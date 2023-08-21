@@ -90,7 +90,8 @@ const nilaiMahasiswa = (jenisPlp, prodi, id) => {
                     <th class="pb-4 pt-6 px-6">Prodi</th>
                     <th class="pb-4 pt-6 px-6">Email</th>
                     <th class="pb-4 pt-6 px-6">Jenis PLP</th>
-                    <th class="pb-4 pt-6 px-6">Action</th>
+                    <th class="pb-4 pt-6 px-6">Nilai</th>
+                    <th class="pb-4 pt-6 px-6">Rincian Nilai</th>
                 </tr>
             </thead>
             <tbody>
@@ -109,6 +110,9 @@ const nilaiMahasiswa = (jenisPlp, prodi, id) => {
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ setJenisPlp(mahasiswa.jenis_plp) }}
+                    </td>
+                    <td class="border-t items-center px-6 py-4">
+                        {{ mahasiswa.nilai }}
                     </td>
                     <td v-if="user.role == 1" class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">

@@ -120,8 +120,8 @@ const goToGoggleDrive = (link) => {
                         </div>
                     </td>
                 </tr>
-                <tr v-if="bimbingans.length === 0">
-                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
+                <tr v-if="bimbingans.length == 0">
+                    <td class="px-6 py-4 text-center border-t" colspan="6">No data found.</td>
                 </tr>
             </tbody>
         </table>
