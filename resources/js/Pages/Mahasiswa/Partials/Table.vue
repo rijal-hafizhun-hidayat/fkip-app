@@ -22,7 +22,10 @@ const filter = reactive({
     nama: '',
     jenis_plp: '',
     prodi: '',
-    is_nilai: ''
+    is_nilai: '',
+    orderByNim: '',
+    orderByNama: '',
+    orderByNilai: ''
 })
 
 onMounted(() => {
@@ -38,14 +41,16 @@ onMounted(() => {
 })
 
 const getMahasiswa = (page = 1, newFilter = filter) => {
-    //console.log(newFilter)
     NProgress.start()
     axios.get(`/getMahasiswa?page=${page}`, {
         params: {
             nama: newFilter.nama,
             jenis_plp: newFilter.jenis_plp,
             prodi: newFilter.prodi,
-            is_nilai: newFilter.is_nilai
+            is_nilai: newFilter.is_nilai,
+            order_by_nim: newFilter.orderByNim,
+            order_by_nama: newFilter.orderByNama,
+            order_by_nilai: newFilter.orderByNilai
         }
     })
     .then((res) => {
@@ -179,7 +184,7 @@ watch(filter, async (newFilter, oldSearch) => {
 })
 </script>
 <template>
-    <div class="min-[640px]:space-x-4 max-[640px]:grid grid-cols-1 gap-4">
+    <div class="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-4">
         <InputSearch v-model="filter.nama" placeholder="Cari Nama"/>
         <SelectInput v-model="filter.jenis_plp">
             <option disabled value=""> -- Pilih PLP --</option>
@@ -195,9 +200,24 @@ watch(filter, async (newFilter, oldSearch) => {
             <option value="ada">Ada Nilai</option>
             <option value="tidak">Tidak Ada Nilai</option>
         </SelectInput>
+        <SelectInput v-model="filter.orderByNim">
+            <option disabled value=""> -- Urut Berdasarkan Nim --</option>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </SelectInput>
+        <SelectInput v-model="filter.orderByNama">
+            <option disabled value=""> -- Urut Berdasarkan Nama --</option>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </SelectInput>
+        <SelectInput v-model="filter.orderByNilai">
+            <option disabled value=""> -- Urut Berdasarkan Nilai --</option>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+        </SelectInput>
         <!-- <InputLabel for="is_nilai" value="Nilai" /> -->
-        <PrimaryButton @click="reset">Reset</PrimaryButton>
     </div>
+    <PrimaryButton @click="reset">Reset</PrimaryButton>
 
     <div class="bg-white rounded-md shadow overflow-x-auto mt-10">
         <table class="w-full whitespace-nowrap">

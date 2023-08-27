@@ -223,7 +223,6 @@ class MahasiswaService extends Controller
 
     private function setQueryMahasiswa(){
         $dBMahasiswa = Mahasiswa::latest();
-        //dd(request()->all());
 
         if(request()->filled('nama')){
             $dBMahasiswa->where('nama', 'like', '%'.request()->nama.'%');
@@ -239,6 +238,15 @@ class MahasiswaService extends Controller
         }
         if(request()->is_nilai == 'tidak'){
             $dBMahasiswa->whereNull('nilai');
+        }
+        if(request()->filled('order_by_nim')){
+            $dBMahasiswa->orderBy('nim', request()->order_by_nim);
+        }
+        if(request()->filled('order_by_nama')){
+            $dBMahasiswa->orderBy('nama', request()->order_by_nama);
+        }
+        if(request()->filled('order_by_nilai')){
+            $dBMahasiswa->orderBy('nilai', request()->order_by_nilai);
         }
 
         return $dBMahasiswa;

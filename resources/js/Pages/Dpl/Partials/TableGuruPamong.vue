@@ -29,7 +29,7 @@ const destroy = (id) => {
             title: res.data.title,
             text: res.data.text
         })
-        router.get(`/dpl/guru-pamong/${props.id}`)
+        router.get(`/dpl/asosiasi/${props.id}`)
     })
     .catch((err) => {
         console.log(err)

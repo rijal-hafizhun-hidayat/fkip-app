@@ -32,7 +32,6 @@ class DplController extends Controller
     }
 
     public function dplGuruPamongMahasiswa($id){
-        //dd($id);
         return Inertia::render('Dpl/AddGuruPamongMahasiswa', [
             'id' => $id
         ]);
