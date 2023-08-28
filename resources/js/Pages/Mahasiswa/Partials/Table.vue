@@ -200,22 +200,11 @@ watch(filter, async (newFilter, oldSearch) => {
             <option value="ada">Ada Nilai</option>
             <option value="tidak">Tidak Ada Nilai</option>
         </SelectInput>
-        <SelectInput v-if="user.role == 1" v-model="filter.orderByNim">
-            <option disabled value=""> -- Urut Berdasarkan Nim --</option>
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-        </SelectInput>
         <SelectInput v-if="user.role == 1" v-model="filter.orderByNama">
             <option disabled value=""> -- Urut Berdasarkan Nama --</option>
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
         </SelectInput>
-        <SelectInput v-if="user.role == 1" v-model="filter.orderByNilai">
-            <option disabled value=""> -- Urut Berdasarkan Nilai --</option>
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-        </SelectInput>
-        <!-- <InputLabel for="is_nilai" value="Nilai" /> -->
     </div>
     <PrimaryButton @click="reset">Reset</PrimaryButton>
 

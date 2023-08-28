@@ -99,7 +99,6 @@ const setUsername = (nama, role, asosiasi) => {
 }
 
 const setUsernameToReactiveForm = (firstName, role, prodiBidangKeahlian, nim) => {
-    //console.log(firstName, role, asosiasi.singkatan)
     if(role == 2){
         form.username = firstName+'-'+prodiBidangKeahlian.singkatan
     }

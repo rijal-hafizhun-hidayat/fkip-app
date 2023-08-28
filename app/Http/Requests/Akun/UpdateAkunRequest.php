@@ -21,8 +21,7 @@ class UpdateAkunRequest extends FormRequest
         return [
             'required' => 'Wajib diisi',
             'string' => 'Wajib dalam bentuk teks',
-            'numeric' => 'Wajib dalam bentuk angka',
-            'email' => 'Wajib format email'
+            'numeric' => 'Wajib dalam bentuk angka'
         ];
     }
 
@@ -36,7 +35,6 @@ class UpdateAkunRequest extends FormRequest
         return [
             'nama' => 'required|string',
             'username' => 'required|string',
-            'email' => 'required|email:rfc,dns',
             'role' => 'required|numeric',
             'id_dpl' => 'nullable|numeric',
             'id_guru_pamong' => 'nullable|numeric'

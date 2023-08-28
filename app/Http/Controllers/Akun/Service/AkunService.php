@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Hash;
 class AkunService extends Controller
 {
     public function getAkuns(Request $request){
-        // $akuns = User::latest()->paginate(2);
         $queryAkun = User::latest();
         if($request->filled('nama')){
             $queryAkun->where('nama', 'like', '%'.$request->nama.'%');
@@ -25,7 +24,6 @@ class AkunService extends Controller
     }
 
     public function store(StoreAkunRequest $request){
-        //dd($request->validated());
         User::create($request->validated());
         return $this->responseService(null, 200, true, 'Berhasil', 'Tambah Akun Berhasil');
     }
@@ -111,7 +109,6 @@ class AkunService extends Controller
         $user = User::find($id);
         $user->nama = $credential['nama'];
         $user->username = $credential['username'];
-        $user->email = $credential['email'];
         $user->role = $credential['role'];
         $user->id_dpl = $credential['id_dpl'];
         $user->id_guru_pamong = null;
@@ -123,7 +120,6 @@ class AkunService extends Controller
         $user = User::find($id);
         $user->nama = $credential['nama'];
         $user->username = $credential['username'];
-        $user->email = $credential['email'];
         $user->role = $credential['role'];
         $user->id_dpl = null;
         $user->id_guru_pamong = $credential['id_guru_pamong'];
