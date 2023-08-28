@@ -2,7 +2,6 @@
 import { ref, reactive, onMounted } from 'vue'
 import TextInput from '@/Components/TextInput.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import axios from 'axios';
 import { router } from '@inertiajs/vue3';
@@ -17,7 +16,6 @@ const props = defineProps({
 onMounted(() => {
     getDplById(props.id)
     getGuruPamongs()
-    getMahasiswa()
 })
 
 const form = reactive({
@@ -29,9 +27,7 @@ const form = reactive({
     id_mahasiswa: ''
 })
 
-const validation = ref([])
 const guruPamongs = ref([])
-const mahasiswas = ref([])
 
 const submit = () => {
     axios.put(`/storeGuruPamong/${props.id}`, {
@@ -68,16 +64,6 @@ const getGuruPamongs = () => {
     axios.get('/getGuruPamongsIsNull')
     .then((res) => {
         guruPamongs.value = res.data.data
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-}
-
-const getMahasiswa = () => {
-    axios.get('/getMahasiswaNoPaginate')
-    .then((res) => {
-        mahasiswas.value = res.data.data
     })
     .catch((err) => {
         console.log(err)
@@ -133,11 +119,6 @@ const nameWithLang = ({nama}) => {
         <div class="flex">
             <InputLabel class="basis-1/4 mt-3" for="id_dpl" value="Guru Pamong"/>
             <Multiselect v-model="form.id_guru_pamong" :custom-label="nameWithLang" :options="guruPamongs"></Multiselect>
-            <!-- <InputError v-if="validation.id_guru_pamong" :message="validation.id_guru_pamong[0]" class="mt-2" /> -->
-        </div>
-        <div class="flex">
-            <InputLabel class="basis-1/4 mt-3" for="id_mahasiswa" value="Mahasiswa"/>
-            <Multiselect v-model="form.id_mahasiswa" :custom-label="nameWithLang" :options="mahasiswas"></Multiselect>
             <!-- <InputError v-if="validation.id_guru_pamong" :message="validation.id_guru_pamong[0]" class="mt-2" /> -->
         </div>
         <PrimaryButton>Submit</PrimaryButton>

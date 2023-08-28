@@ -16,7 +16,6 @@ const dpls = ref([])
 const search = reactive({
     nama: '',
     prodi: '',
-    jenis_plp: ''
 })
 const length = ref('')
 
@@ -28,21 +27,6 @@ const props = defineProps({
 onMounted(() => {
     getDpl()      
 })
-
-const getDplByDkl = (page = 1, nama = search.value) => {
-    axios.get(`/getDpls?page=${page}`, {
-        params: {
-            dkl: props.user.id_dpl,
-            nama: nama
-        }
-    })
-    .then((res) => {
-        console.log(res)
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-}
 
 const destroy = (id) => {
     NProgress.start()
@@ -84,25 +68,6 @@ const getDpl = (page = 1, filter = search) => {
     })
 }
 
-const getDplByProdi = (page = 1, nama) => {
-    NProgress.start()
-    axios.get(`/getDplByProdi/${props.user.prodi}?page=${page}`, {
-        params: {
-            nama: nama
-        }
-    })
-    .then((res) => {
-        dpls.value = res.data.data
-        length.value = res.data.data.data.length
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-    .finally(() => {
-        NProgress.done()
-    })
-}
-
 const update = (id) => {
     router.get(`/dpl/${id}`)
 }
@@ -115,17 +80,6 @@ const reset = () => {
     router.visit('/dpl', {
         method: 'get'
     })
-}
-
-const setJenisPlp = (jenisPlp) => {
-    let setPlp = ''
-    if(jenisPlp == 'plp_2'){
-        setPlp = 'PLP 2'
-    }
-    else{
-        setPlp = 'PLP 1'
-    }
-    return setPlp
 }
 
 watch(search, async (newSearch, oldSearch) => {
@@ -142,11 +96,6 @@ watch(search, async (newSearch, oldSearch) => {
             <option selected disabled value="">-- Pilih Prodi --</option>
             <option v-for="prodi in prodis">{{ prodi.nama }}</option>
         </SelectInput>
-        <SelectInput v-model="search.jenis_plp">
-            <option selected disabled value="">-- Pilih PLP --</option>
-            <option value="plp_1">PLP 1</option>
-            <option value="plp_2">PLP 2</option>
-        </SelectInput>
         <PrimaryButton @click="reset" class="py-3">Reset</PrimaryButton>
     </div>
     
@@ -158,7 +107,6 @@ watch(search, async (newSearch, oldSearch) => {
                     <th class="pb-4 pt-6 px-6">Nip / Niy</th>
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th class="pb-4 pt-6 px-6">Prodi</th>
-                    <th class="pb-4 pt-6 px-6">Jenis PLP</th>
                     <th class="pb-4 pt-6 px-6">Action</th>
                 </tr>
             </thead>
@@ -174,9 +122,6 @@ watch(search, async (newSearch, oldSearch) => {
                         {{ dpl.prodi }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
-                        {{ setJenisPlp(dpl.jenis_plp) }}
-                    </td>
-                    <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
                             <DestroyButton @click="destroy(dpl.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton @click="update(dpl.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
@@ -184,7 +129,7 @@ watch(search, async (newSearch, oldSearch) => {
                         </div>
                     </td>
                 </tr>
-                <tr v-if="length === 0">
+                <tr v-if="length == 0">
                     <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
                 </tr>
             </tbody>

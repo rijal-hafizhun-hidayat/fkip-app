@@ -9,10 +9,7 @@ import { router } from '@inertiajs/vue3';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import Swal from 'sweetalert2'
-import Multiselect from 'vue-multiselect'
-import 'vue-multiselect/dist/vue-multiselect.css'
 
-const dkl = ref([])
 const form = reactive({
     nipy: '',
     nama: '',
@@ -28,11 +25,9 @@ const validation = ref([])
 const submit = () => {
     NProgress.start()
     axios.post('/dpl', {
-        dkl: dkl.value,
         nipy: form.nipy,
         nama: form.nama,
         prodi: form.prodi,
-        asal: form.asal
     })
     .then((res) => {
         Swal.fire({
@@ -69,10 +64,6 @@ const numOnly = (evt) => {
         return true;
     }
 }
-
-const nameWithLang = ({nama}) => {
-    return nama
-}
 </script>
 <template>
     <form @submit.prevent="submit" class="mt-6 space-y-6">
@@ -108,17 +99,6 @@ const nameWithLang = ({nama}) => {
                 <option v-for="prodi in prodis">{{ prodi.nama }}</option>
             </SelectInput>
             <InputError v-if="validation.prodi" :message="validation.prodi[0]" class="mt-2" />
-        </div>
-
-        <div>
-            <InputLabel for="dkl" value="Dkl" />
-            <Multiselect
-                v-model="dkl"
-                :custom-label="nameWithLang"
-                :options="dpls"
-                :class="{ 'border-rose-600': validation.dkl }">
-            </Multiselect>
-            <InputError v-if="validation.dkl" :message="validation.dkl[0]" class="mt-2" />
         </div>
 
         <div class="flex items-center gap-4">

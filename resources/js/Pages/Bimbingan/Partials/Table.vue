@@ -34,7 +34,7 @@ const getBimbinganByIdMahasiswa = () => {
 }
 
 const destroy = (id) => {
-    axios.delete(`/bimbingans/${id}`)
+    axios.delete(`/bimbingan/${id}`)
     .then((res) => {
         Swal.fire({
             icon: 'success',

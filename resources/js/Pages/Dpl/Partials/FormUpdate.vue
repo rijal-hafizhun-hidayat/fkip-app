@@ -9,8 +9,6 @@ import { router } from '@inertiajs/vue3';
 import axios from 'axios';
 import NProgress from 'nprogress';
 import Swal from 'sweetalert2'
-import Multiselect from 'vue-multiselect'
-import 'vue-multiselect/dist/vue-multiselect.css'
 
 const props = defineProps({
     prodis: Object,
@@ -26,13 +24,11 @@ const form = reactive({
 })
 
 const validation = ref([])
-const dklId = ref([])
 
 onMounted(() => {
     NProgress.start()
     axios.get(`/getDplById/${props.id}`)
     .then((res) => {
-        form.dkl = res.data.data.dkl
         form.nipy = res.data.data.nipy
         form.nama = res.data.data.nama
         form.prodi = res.data.data.prodi
@@ -45,12 +41,9 @@ onMounted(() => {
     })
 })
 
-console.log(form)
-
 const submit = () => {
     NProgress.start()
     axios.put(`/dpl/${props.id}`, {
-        dkl: setIdDkl(),
         nipy: form.nipy,
         nama: form.nama,
         prodi: form.prodi,
@@ -81,15 +74,6 @@ const submit = () => {
     })
 }
 
-const setIdDkl = () => {
-    if(dklId.value.id != null){
-        return dklId.value.id
-    }
-    else{
-        return form.dkl
-    }
-}
-
 const numOnly = (evt) => {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
@@ -99,10 +83,6 @@ const numOnly = (evt) => {
     else {
         return true;
     }
-}
-
-const nameWithLang = ({nama}) => {
-    return nama
 }
 </script>
 <template>
@@ -139,16 +119,6 @@ const nameWithLang = ({nama}) => {
                 <option v-for="prodi in prodis">{{ prodi.nama }}</option>
             </SelectInput>
             <InputError v-if="validation.prodi" :message="validation.prodi[0]" class="mt-2" />
-        </div>
-
-        <div>
-            <InputLabel for="dkl" value="Dkl" />
-            <Multiselect
-                v-model="dklId"
-                :custom-label="nameWithLang"
-                :options="dpls"
-                placeholder="pilih dkl">
-            </Multiselect>
         </div>
 
         <div class="flex items-center gap-4">

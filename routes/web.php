@@ -114,6 +114,7 @@ Route::middleware('auth')->group(function () {
             Route::delete('/destroyAsosiasiDpl/{id}', [MahasiswaService::class, 'destroyAsosiasiDpl'])->name('mahasiswa.destroyAsosiasiDpl');
             Route::get('/getDplMahasiswaById/{id}', [MahasiswaService::class, 'getDplMahasiswaById'])->name('mahasiswa.getDplMahasiswaById');
         });
+        Route::get('/getMahasiswaBimbinganByIdDpl/{id}', [MahasiswaService::class, 'getMahasiswaBimbinganByIdDpl'])->name('mahasiswa.getMahasiswaBimbinganByIdDpl');
         Route::get('/getMahasiswaByIdDpl/{id}', [MahasiswaService::class, 'getMahasiswaByIdDpl'])->name('mahasiswa.getMahasiswaByIdDpl');
         Route::get('/getNilaiKomponenByIdMahasiswa/{jenis_plp}/{id}', [MahasiswaService::class, 'getNilaiKomponenByIdMahasiswa'])->name('mahasiswa.getNilaiKomponenByIdMahasiswa');
         Route::get('/getMahasiswaByIdAkun/{id}', [MahasiswaService::class, 'getMahasiswaByIdAkun'])->name('mahasiswa.getMahasiswaByIdAkun')->middleware('isGuruPamong');

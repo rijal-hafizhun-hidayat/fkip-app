@@ -67,7 +67,6 @@ class DplService extends Controller
     }
 
     public function storeGuruPamong(Request $request, $id){
-        //dd($request->all());
         try {
             if($request->filled('id_guru_pamong')){
                 GuruPamong::where('id', $request->id_guru_pamong)->update(['id_dpl' => $id]);
@@ -117,15 +116,12 @@ class DplService extends Controller
     }
 
     private function storeDpl($request){
-        //return $request['dkl']['id'];
         try {
-            Dpl::create([
-                'dkl' => $request['dkl']['id'],
+            return Dpl::create([
                 'nama' => $request['nama'],
                 'nipy' => $request['nipy'],
                 'prodi' => $request['prodi']
             ]);
-            return true;
         } catch (\Illuminate\Database\QueryException $e) {
             return $e->getMessage();            
         }

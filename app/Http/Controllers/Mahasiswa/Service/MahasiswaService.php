@@ -8,6 +8,7 @@ use App\Http\Requests\Mahasiswa\UpdateIdDplRequest;
 use App\Http\Requests\Mahasiswa\UpdateMahasiswaRequest;
 use App\Models\Bimbingan;
 use App\Models\Dpl;
+use App\Models\GuruPamong;
 use App\Models\Mahasiswa;
 use App\Models\Nilai;
 use App\Models\Pertanyaan;
@@ -41,6 +42,16 @@ class MahasiswaService extends Controller
             return $this->responseService($mahasiswa, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e);
+        }
+    }
+
+    public function getMahasiswaBimbinganByIdDpl($id){
+        try {
+            $queryMahasiswa = $this->setQueryMahasiswaBimbinganByIdDpl($id);
+            $mahasiswa = $queryMahasiswa->get();
+            return $this->responseService($mahasiswa, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, $e->getMessage());
         }
     }
 
@@ -216,6 +227,22 @@ class MahasiswaService extends Controller
         }
         if(request()->is_nilai == 'tidak'){
             $dBMahasiswa->whereNull('nilai');
+        }
+
+        return $dBMahasiswa;
+    }
+
+    private function setQueryMahasiswaBimbinganByIdDpl($id){
+        $dBMahasiswa = GuruPamong::join('mahasiswa', 'guru_pamong.id', '=', 'mahasiswa.id_guru_pamong')->where('guru_pamong.id_dpl', $id);
+
+        if(request()->is_nilai == 'ada'){
+            $dBMahasiswa->whereNotNull('nilai');
+        }
+        if(request()->is_nilai == 'tidak'){
+            $dBMahasiswa->whereNull('nilai');
+        }
+        if(request()->filled('jenis_plp')){
+            $dBMahasiswa->where('jenis_plp', request()->jenis_plp);
         }
 
         return $dBMahasiswa;

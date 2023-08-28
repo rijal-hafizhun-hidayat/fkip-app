@@ -11,13 +11,12 @@ const props = defineProps({
 })
 
 onMounted(() => {
-    getMahasiswaByIdDpl()
+    getMahasiswaBimbinganByIdDpl()
 })
 
-const getMahasiswaByIdDpl = () => {
-    axios.get(`/getMahasiswaByIdDpl/${props.id}`)
+const getMahasiswaBimbinganByIdDpl = () => {
+    axios.get(`/getMahasiswaBimbinganByIdDpl/${props.id}`)
     .then((res) => {
-        console.log(res)
         mahasiswas.value = res.data.data
     })
     .catch((err) => {
@@ -50,7 +49,6 @@ const destroy = (id) => {
                     <th class="pb-4 pt-6 px-6">Nim</th>
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th class="pb-4 pt-6 px-6">Prodi</th>
-                    <th class="pb-4 pt-6 px-6">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -64,14 +62,9 @@ const destroy = (id) => {
                     <td class="border-t items-center px-6 py-4">
                         {{ mahasiswa.prodi }}
                     </td>
-                    <td class="border-t items-center px-6 py-4">
-                        <div class="flex flex-row space-x-4">
-                            <DestroyButton @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                        </div>
-                    </td>
                 </tr>
                 <tr v-if="mahasiswas.length == 0">
-                    <td class="px-6 py-4 text-center border-t" colspan="4">No data found.</td>
+                    <td class="px-6 py-4 text-center border-t" colspan="3">No data found.</td>
                 </tr>
             </tbody>
         </table>

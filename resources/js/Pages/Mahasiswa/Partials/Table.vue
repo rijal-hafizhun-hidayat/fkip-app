@@ -33,7 +33,7 @@ onMounted(() => {
         getMahasiswaByIdGuruPamong(props.user.id_guru_pamong)
     }
     else if(props.user.role == 2){
-        getMahasiswaByIdDpl(props.user.id_dpl)
+        getMahasiswaBimbinganByIdDpl(props.user.id_dpl)
     }
     else{
         getMahasiswa()
@@ -87,9 +87,9 @@ const getMahasiswaByIdGuruPamong = (newFilter = filter) => {
     })
 }
 
-const getMahasiswaByIdDpl = (newFilter = filter) => {
+const getMahasiswaBimbinganByIdDpl = (newFilter = filter) => {
     NProgress.start()
-    axios.get(`/getMahasiswaByIdDpl/${props.user.id_dpl}`, {
+    axios.get(`/getMahasiswaBimbinganByIdDpl/${props.user.id_dpl}`, {
         params: {
             nama: newFilter.nama,
             jenis_plp: newFilter.jenis_plp,
@@ -176,7 +176,7 @@ watch(filter, async (newFilter, oldSearch) => {
         getMahasiswa()
     }
     else if(props.user.role == 2){
-        getMahasiswaByIdDpl()
+        getMahasiswaBimbinganByIdDpl()
     }
     else{
         getMahasiswaByIdGuruPamong()
@@ -185,7 +185,7 @@ watch(filter, async (newFilter, oldSearch) => {
 </script>
 <template>
     <div class="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-4">
-        <InputSearch v-model="filter.nama" placeholder="Cari Nama"/>
+        <InputSearch v-if="user.role == 1" v-model="filter.nama" placeholder="Cari Nama"/>
         <SelectInput v-model="filter.jenis_plp">
             <option disabled value=""> -- Pilih PLP --</option>
             <option value="plp_1">PLP 1</option>
@@ -200,17 +200,17 @@ watch(filter, async (newFilter, oldSearch) => {
             <option value="ada">Ada Nilai</option>
             <option value="tidak">Tidak Ada Nilai</option>
         </SelectInput>
-        <SelectInput v-model="filter.orderByNim">
+        <SelectInput v-if="user.role == 1" v-model="filter.orderByNim">
             <option disabled value=""> -- Urut Berdasarkan Nim --</option>
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
         </SelectInput>
-        <SelectInput v-model="filter.orderByNama">
+        <SelectInput v-if="user.role == 1" v-model="filter.orderByNama">
             <option disabled value=""> -- Urut Berdasarkan Nama --</option>
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
         </SelectInput>
-        <SelectInput v-model="filter.orderByNilai">
+        <SelectInput v-if="user.role == 1" v-model="filter.orderByNilai">
             <option disabled value=""> -- Urut Berdasarkan Nilai --</option>
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
