@@ -43,4 +43,10 @@ class MahasiswaController extends Controller
             'dpls' => Dpl::all()
         ]);
     }
+
+    public function asosiasiMahasiswa($id){
+        return Inertia::render('Mahasiswa/AsosiasiMahasiswa', [
+            'id' => $id
+        ]);
+    }
 }

@@ -171,6 +171,10 @@ const goToRouteBimbingan = (id) => {
     router.get(`/bimbingans/${id}`)
 }
 
+const asosiasiMahasiswa = (id) => {
+    router.get(`/mahasiswa/asosiasi/${id}`)
+}
+
 watch(filter, async (newFilter, oldSearch) => {
     if(props.user.role == 1){
         getMahasiswa()
@@ -244,6 +248,7 @@ watch(filter, async (newFilter, oldSearch) => {
                         <div class="flex flex-row space-x-4">
                             <DestroyButton v-if="user.role == 1" @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                             <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
+                            <PrimaryButton v-if="user.role == 1" @click="asosiasiMahasiswa(mahasiswa.id)"><i class="fa-solid fa-circle-info"></i></PrimaryButton>
                         </div>
                     </td>
                     <td v-if="user.role == 2 || user.role == 1 || user.role == 3" class="border-t items-center px-6 py-4">

@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Akun\AkunController;
 use App\Http\Controllers\Akun\Service\AkunService;
+use App\Http\Controllers\Akun\Service\AkunImportService;
 use App\Http\Controllers\Mahasiswa\MahasiswaController;
 use App\Http\Controllers\Mahasiswa\Service\MahasiswaService;
 use App\Http\Controllers\Mahasiswa\Service\MahasiswaImportService;
@@ -72,6 +73,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/destroyAsosiasiDpl/{id}', [AkunService::class, 'destroyAsosiasiDpl'])->name('akun.destroyAsosiasiDpl');
         Route::put('/resetPass/{id}', [AkunService::class, 'resetPass'])->name('akun.resetPass');
         Route::get('/getProdi/{prodi}', [AkunService::class, 'getProdi'])->name('akun.getProdi');
+        Route::post('/akun/import', [AkunImportService::class, 'import'])->name('akun.import');
 
         //route dpl
         Route::get('/dpl', [DplController::class, 'index'])->name('dpl.index');
@@ -83,6 +85,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/getDpls', [DplService::class, 'getDpls'])->name('dpl.getDpls');
         Route::get('/getDplById/{id}', [DplService::class, 'getDplById'])->name('dpl.getDplById');
         Route::get('/getDplGuruPamongById/{id}', [DplService::class, 'getDplGuruPamongById'])->name('dpl.getDplGuruPamongById');
+        Route::get('/getDplByIdMahasiswa/{id}', [DplService::class, 'getDplByIdMahasiswa'])->name('dpl.getDplByIdMahasiswa');
         Route::post('/dpl', [DplService::class, 'store'])->name('dpl.store');
         Route::delete('/dpl/{id}', [DplService::class, 'destroy'])->name('dpl.destroy');
         Route::put('/dpl/{id}', [DplService::class, 'update'])->name('dpl.update');
@@ -102,6 +105,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/mahasiswa/create', [MahasiswaController::class, 'create'])->name('mahasiswa.create');
             Route::get('/mahasiswa/{id}', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
             Route::get('/mahasiswa/dpl/{id}', [MahasiswaController::class, 'addAsosiasiDpl'])->name('mahasiswa.addAsosiasiDpl');
+            Route::get('/mahasiswa/asosiasi/{id}', [MahasiswaController::class, 'asosiasiMahasiswa'])->name('mahasiswa.asosiasiMahasiswa');
 
             //service mahasiswa
             Route::get('/getMahasiswa', [MahasiswaService::class, 'getMahasiswa'])->name('mahasiswa.getMahasiswa');

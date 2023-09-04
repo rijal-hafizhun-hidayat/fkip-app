@@ -8,8 +8,6 @@ const props = defineProps({
     isConfirm: Number
 })
 
-console.log(props.isCon)
-
 const setIsConfirm = () => {
     if(props.isConfirm == 1){
         confirm.value = 'ACC'

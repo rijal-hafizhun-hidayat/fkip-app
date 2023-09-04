@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers\Dpl\Service;
+namespace App\Http\Controllers\Akun\Service;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Dpl\ImportDplRequest;
-use App\Imports\DplImport;
+use App\Http\Requests\Akun\ImportAkunRequest;
+use App\Imports\AkunImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
-class DplImportService extends Controller
+class AkunImportService extends Controller
 {
-    public function import(ImportDplRequest $request){
-        Excel::import(new DplImport, $request->excel);
+    public function import(ImportAkunRequest $request){
+        Excel::import(new AkunImport, $request->excel);
         return $this->responseService(null, 200, true, 'Berhasil', 'berhasil import data');
     }
 

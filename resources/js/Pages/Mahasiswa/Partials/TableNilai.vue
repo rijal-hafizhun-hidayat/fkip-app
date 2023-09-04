@@ -40,11 +40,9 @@ const getMahasiswaById = () => {
         console.log(err)
     })
 }
-console.log(mahasiswa, props.jenis_plp, props.jenis_bidang)
 </script>
 <template>
     <div class="bg-white rounded-md shadow overflow-x-auto mt-3">
-        <!-- <div><h2 class="font-semibold text-xl text-gray-800 ml-6">Detail Nilai Mahasiswa</h2></div> -->
         <table class="w-full whitespace-nowrap">
             <thead>
                 <tr class="text-left font-bold">

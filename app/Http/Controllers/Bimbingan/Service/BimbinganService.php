@@ -7,6 +7,7 @@ use App\Http\Requests\Bimbingan\StoreBimbinganRequest;
 use App\Http\Requests\Bimbingan\StoreCatatanPembimbingRequest;
 use App\Http\Requests\Bimbingan\UpdateBimbinganRequest;
 use App\Models\Bimbingan;
+use App\Models\GuruPamong;
 use App\Models\Mahasiswa;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,9 +15,7 @@ use Illuminate\Http\Request;
 class BimbinganService extends Controller
 {
     public function store(StoreBimbinganRequest $request, $id){
-        //dd($request->all(), $id);
         $isIdDplValue = $this->isIdDplNull($id);
-        //dd($request->all(), $id, $isIdDplValue);
         if($isIdDplValue == null){
             return $this->sendResponse(false, 404, false, 'Gagal', 'mahasiswa belum diasosiakan dengan dpl');
         }
@@ -26,7 +25,6 @@ class BimbinganService extends Controller
     }
 
     public function storeCatatanPembimbing(StoreCatatanPembimbingRequest $request, $id){
-        //dd($request->all(), $id);
         try {
             Bimbingan::where('id', $id)->update([
                 'catatan_pembimbing' => $request->catatan_pembimbing
@@ -116,8 +114,14 @@ class BimbinganService extends Controller
     }
 
     private function isIdDplNull($id){
-        $mahasiswa = Mahasiswa::find($id);
-        return $mahasiswa->id_dpl;
+        $Mahasiswa = Mahasiswa::find($id);
+        $GuruPamong = GuruPamong::find($Mahasiswa->id_guru_pamong);
+        if($GuruPamong){
+            return $GuruPamong->id_dpl;
+        }
+        else{
+            return null;
+        }
     }
 
     private function sendResponse($data, $code, $status, $title, $text){

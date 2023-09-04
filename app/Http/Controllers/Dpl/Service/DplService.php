@@ -99,6 +99,18 @@ class DplService extends Controller
         }
     }
 
+    public function getDplByIdMahasiswa($id){
+        try {
+            $mahasiswa = Mahasiswa::find($id);
+            $guruPamong = GuruPamong::find($mahasiswa->id_guru_pamong);
+            $dpl = Dpl::find($guruPamong->id_dpl);
+            
+            return $this->responseService($dpl, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, null);
+        }
+    }
+
     private function setQueryGetDpl(){
         $dBDpls = Dpl::latest();
 

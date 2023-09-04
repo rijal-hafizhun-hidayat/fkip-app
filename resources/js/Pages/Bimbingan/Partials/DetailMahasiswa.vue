@@ -51,7 +51,7 @@ const getMahasiswaById = () => {
         </div>
         
         <div class="flex">
-            <InputLabel for="nim" class="basis-1/4 mt-5" value="Nim" />
+            <InputLabel for="jenis_plp" class="basis-1/4 mt-5" value="Jenis Plp" />
             <TextInput
                 disabled
                 id="nim"
