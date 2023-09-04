@@ -106,6 +106,16 @@ class GuruPamongService extends Controller
         }
     }
 
+    public function getGuruPamongByIdMahasiswa($id){
+        try {
+            $mahasiswa = Mahasiswa::find($id);
+            $guruPamong = GuruPamong::find($mahasiswa->id_guru_pamong);
+            return $this->responseService($guruPamong, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, $e->getMessage());
+        }
+    }
+
     private function setQueryGetGuruPamongByIdDpl($id){
         $dBGuruPamongsByIdDpl = GuruPamong::where('id_dpl', $id)->latest();
 

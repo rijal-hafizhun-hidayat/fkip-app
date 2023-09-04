@@ -19,7 +19,8 @@ class AkunImport implements ToCollection, WithHeadingRow
         if(request()->jenis_akun == 1){
             foreach($rows as $row){
                 $idDpl = Dpl::where('nama', $row['nama'])->first();
-                if(!is_null($idDpl)){
+                $isUserExist = User::where('nama', $row['nama'])->exists();
+                if(!is_null($idDpl) && $isUserExist == false){
                     User::create([
                         'nama' => $row['nama'],
                         'username' => rand(1000, 9999),
@@ -35,14 +36,15 @@ class AkunImport implements ToCollection, WithHeadingRow
         }
         else if(request()->jenis_akun == 2){
             foreach($rows as $row){
-                $idGuruPamong = GuruPamong::where('nama', $row['nama'])->first();
-                if(!is_null($idGuruPamong)){
+                $guruPamong = GuruPamong::where('nama', $row['nama'])->first();
+                $isUserExist = User::where('nama', $row['nama'])->exists();
+                if(!is_null($guruPamong) && $isUserExist == false){
                     User::create([
                         'nama' => $row['nama'],
                         'username' => rand(1000, 9999),
                         'password' => '@guru',
                         'role' => 3,
-                        'id_guru_pamong' => $idGuruPamong->id,
+                        'id_guru_pamong' => $guruPamong->id,
                     ]);
                 }
                 else{
@@ -53,7 +55,8 @@ class AkunImport implements ToCollection, WithHeadingRow
         else if(request()->jenis_akun == 3){
             foreach($rows as $row){
                 $idMahasiswa = Mahasiswa::where('nama', $row['nama'])->first();
-                if(!is_null($idMahasiswa)){
+                $isUserExist = User::where('nama', $row['nama'])->exists();
+                if(!is_null($idMahasiswa) && $isUserExist == false){
                     User::create([
                         'nama' => $row['nama'],
                         'username' => rand(1000, 9999),

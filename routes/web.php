@@ -156,6 +156,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/getGuruPamongByIdDpl/{id}', [GuruPamongService::class, 'getGuruPamongByIdDpl'])->name('guru_pamong.getGuruPamongByIdDpl');
         Route::get('/getMahasiswaByIdGuruPamong/{id}', [GuruPamongService::class, 'getMahasiswaByIdGuruPamong'])->name('guru_pamong.getMahasiswaByIdGuruPamong');
         Route::get('/getMahasiswaIsNull', [GuruPamongService::class, 'getMahasiswaIsNull'])->name('guru_pamong.getMahasiswaIsNull');
+        Route::get('/getGuruPamongByIdMahasiswa/{id}', [GuruPamongService::class, 'getGuruPamongByIdMahasiswa'])->name('guru_pamong.getGuruPamongByIdMahasiswa');
     });
 
     //route bimbingan

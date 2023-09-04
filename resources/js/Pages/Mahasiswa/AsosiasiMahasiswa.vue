@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import DetailMahasiswa from './Partials/DetailMahasiswa.vue';
 import { Head } from '@inertiajs/vue3';
 import DetailDpl from './Partials/DetailDpl.vue';
+import DetailGuruPamong from './Partials/DetailGuruPamong.vue';
 
 const props = defineProps({
     id: Number
@@ -23,6 +24,7 @@ console.log(props.id)
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <DetailMahasiswa :id="id"/>
             <DetailDpl :id="id"/>
+            <DetailGuruPamong :id="id"/>
         </div>
     </AuthenticatedLayout>
 </template>
