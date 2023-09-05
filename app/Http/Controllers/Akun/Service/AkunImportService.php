@@ -4,14 +4,28 @@ namespace App\Http\Controllers\Akun\Service;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Akun\ImportAkunRequest;
-use App\Imports\AkunImport;
-use Illuminate\Http\Request;
+use App\Imports\AkunDplImport;
+use App\Imports\AkunGuruPamongImport;
+use App\Imports\AkunMahasiswaImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AkunImportService extends Controller
 {
-    public function import(ImportAkunRequest $request){
-        Excel::import(new AkunImport, $request->excel);
+    public function importAkunDpl(ImportAkunRequest $request){
+        //dd('ini import akun dpl', $request->excel);
+        Excel::import(new AkunDplImport, $request->excel);
+        return $this->responseService(null, 200, true, 'Berhasil', 'berhasil import data');
+    }
+
+    public function importAkunGuruPamong(ImportAkunRequest $request){
+        //dd('ini import akun guru pamong', $request->excel);
+        Excel::import(new AkunGuruPamongImport, $request->excel);
+        return $this->responseService(null, 200, true, 'Berhasil', 'berhasil import data');
+    }
+
+    public function importAkunMahasiswa(ImportAkunRequest $request){
+        //dd('ini import akun mahasiswa', $request->excel);
+        Excel::import(new AkunMahasiswaImport, $request->excel);
         return $this->responseService(null, 200, true, 'Berhasil', 'berhasil import data');
     }
 

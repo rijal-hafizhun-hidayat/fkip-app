@@ -10,6 +10,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 class GuruPamongImport implements ToCollection, WithHeadingRow
 {
     public function collection(Collection $rows){
+        //dd($rows);
         foreach($rows as $row){
             $isSameNamaGuruPamong = GuruPamong::where('nama', $row['nama'])->first();
             if(is_null($isSameNamaGuruPamong)){

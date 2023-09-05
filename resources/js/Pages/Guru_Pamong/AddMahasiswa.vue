@@ -1,17 +1,17 @@
 <script setup>
-    import { computed } from 'vue';
-    import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-    import FormAddMahasiswa from './Partials/FormAddMahasiswa.vue';
-    import TableMahasiswa from './Partials/TableMahasiswa.vue';
-    import DetailGuruPamong from './Partials/DetailGuruPamong.vue';
-    import { Head, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import FormAddMahasiswa from './Partials/FormAddMahasiswa.vue';
+import TableMahasiswa from './Partials/TableMahasiswa.vue';
+import DetailGuruPamong from './Partials/DetailGuruPamong.vue';
+import { Head, usePage } from '@inertiajs/vue3';
 
-    const props = defineProps({
-        id: Number
-    })
+const props = defineProps({
+    id: Number
+})
 
-    const page = usePage()
-    const user = computed(() => page.props.auth.user)
+const page = usePage()
+const user = computed(() => page.props.auth.user)
 </script>
 
 <template>

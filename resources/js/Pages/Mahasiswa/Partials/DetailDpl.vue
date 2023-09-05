@@ -5,7 +5,6 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { router } from '@inertiajs/vue3'
 import nprogress from 'nprogress';
 
-const isErr = ref('')
 const props = defineProps({
     id: Number
 })
@@ -22,7 +21,7 @@ const getDplByIdMahasiswa = () => {
         dpls.value = res.data
     })
     .catch((err) => {
-        isErr.value = err.response
+        console.log(err)
     })
     .finally(() => {
         nprogress.done()
