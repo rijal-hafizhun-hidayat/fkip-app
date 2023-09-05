@@ -2,22 +2,74 @@
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import SelectInput from '@/Components/SelectInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
+import axios from 'axios';
+import nprogress from 'nprogress';
+import Swal from 'sweetalert2';
+import { ref, reactive } from 'vue'
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.css'
 
-const form = useForm({
-    name: '',
-    email: '',
+const validation = ref([])
+const form = reactive({
+    nama_depan: '',
+    nama_lengkap: '',
+    nim: '',
+    role: '',
+    username: '',
     password: '',
-    password_confirmation: '',
+    id_mahasiswa: '',
+    id_guru_pamong: ''
 });
+const props = defineProps({
+    mahasiswas: Array,
+    guru_pamongs: Array
+})
 
 const submit = () => {
-    form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
-};
+    nprogress.start()
+    axios.post('/register', {
+        nama_depan: form.nama_depan,
+        nama: form.nama_lengkap,
+        username: form.username,
+        password: form.password,
+        role: form.role,
+        id_mahasiswa: form.id_mahasiswa.id,
+        id_guru_pamong: form.id_guru_pamong.id
+    })
+    .then((res) => {
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+        router.get('/dashboard')
+    })
+    .catch((err) => {
+        validation.value = err.response.data.errors
+    })
+    .finally(() => {
+        nprogress.done()
+    })
+}
+
+const nameWithLang = ({nama}) => {
+    return nama
+}
+
+const setUsernamePassword = () => {
+    if(form.role == 3){
+        form.username = form.nama_depan + Math.floor(1000 + Math.random() * 9000) + '@guru';
+        form.password = '@guru'
+    }
+    else if(form.role == 4){
+        form.username = form.nim + '@mahasiswa'
+        form.password = Math.floor(1000 + Math.random() * 9000) + '@mahasiswa'
+    }
+}
 </script>
 
 <template>
@@ -26,34 +78,114 @@ const submit = () => {
 
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="nama_depan" value="Nama Depan" />
 
                 <TextInput
-                    id="name"
+                    @change="setUsernamePassword()"
+                    id="nama_depan"
                     type="text"
                     class="mt-1 block w-full"
-                    v-model="form.name"
-                    required
+                    :class="{ 'border-rose-600': validation.nama_depan }"
+                    v-model="form.nama_depan"
                     autofocus
-                    autocomplete="name"
+                    required
+                    autocomplete="nama"
                 />
 
-                <InputError class="mt-2" :message="form.errors.name" />
+                <InputError v-if="validation.nama_depan" class="mt-2" :message="validation.nama_depan[0]" />
             </div>
 
             <div class="mt-4">
-                <InputLabel for="email" value="Email" />
+                <InputLabel for="nama_lengkap" value="Nama Lengkap" />
 
                 <TextInput
-                    id="email"
-                    type="email"
+                    @change="setUsernamePassword()"
+                    id="nama_lengkap"
+                    type="text"
                     class="mt-1 block w-full"
-                    v-model="form.email"
+                    :class="{ 'border-rose-600': validation.nama }"
+                    v-model="form.nama_lengkap"
+                    autofocus
                     required
-                    autocomplete="username"
+                    autocomplete="nama"
                 />
 
-                <InputError class="mt-2" :message="form.errors.email" />
+                <InputError v-if="validation.nama" class="mt-2" :message="validation.nama[0]" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="role" value="Role" />
+
+                <SelectInput
+                    @change="setUsernamePassword()"
+                    class="mt-1 blobk w-full"
+                    :class="{ 'border-rose-600': validation.role }"
+                    v-model="form.role"
+                    required>
+                    <option selected disabled value="">-- Pilih --</option>
+                    <option value="3">Guru Pamong</option>
+                    <option value="4">Mahasiswa</option>
+                </SelectInput>
+
+                <InputError v-if="validation.role" class="mt-2" :message="validation.role[0]" />
+            </div>
+
+            <div v-if="form.role == 4" class="mt-4">
+                <InputLabel for="nim" value="Nim" />
+
+                <TextInput
+                    @change="setUsernamePassword()"
+                    id="nim"
+                    type="text"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-rose-600': validation.nim }"
+                    v-model="form.nim"
+                    required/>
+
+                <InputError v-if="validation.nim" class="mt-2" :message="validation.nim[0]" />
+
+                <!-- <InputError class="mt-2" :message="form.errors.email" /> -->
+            </div>
+
+            <div v-if="form.role == 4" class="mt-4">
+                <InputLabel for="id_mahasiswa" value="Asosiasi Akun dengan Data Mahasiswa"/>
+                
+                <Multiselect
+                    @change="setUsernamePassword()"
+                    v-model="form.id_mahasiswa"
+                    :custom-label="nameWithLang"
+                    :options="mahasiswas"
+                    required
+                    :class="{ 'border-rose-600': validation.id_mahasiswa }">
+                </Multiselect>
+
+                <InputError v-if="validation.id_mahasiswa" class="mt-2" :message="validation.id_mahasiswa[0]" />
+            </div>
+
+            <div v-if="form.role == 3" class="mt-4">
+                <InputLabel for="id_guru_pamong" value="Asosiasi Akun dengan Data Guru Pamong"/>
+                <Multiselect
+                    @change="setUsernamePassword()"
+                    v-model="form.id_guru_pamong"
+                    :custom-label="nameWithLang"
+                    :options="guru_pamongs"
+                    required>
+                </Multiselect>
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="username" value="Username" />
+
+                <TextInput
+                    id="username"
+                    type="text"
+                    class="mt-1 block w-full bg-slate-200"
+                    v-model="form.username"
+                    disabled
+                    autocomplete="username"
+                    required />
+
+                <!-- <InputError class="mt-2" :message="form.errors.password" /> -->
             </div>
 
             <div class="mt-4">
@@ -61,29 +193,15 @@ const submit = () => {
 
                 <TextInput
                     id="password"
-                    type="password"
-                    class="mt-1 block w-full"
+                    type="text"
+                    class="mt-1 block w-full bg-slate-200"
                     v-model="form.password"
+                    disabled
                     required
                     autocomplete="new-password"
                 />
 
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password_confirmation" value="Confirm Password" />
-
-                <TextInput
-                    id="password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password_confirmation"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password_confirmation" />
+                <!-- <InputError class="mt-2" :message="form.errors.password" /> -->
             </div>
 
             <div class="flex items-center justify-end mt-4">

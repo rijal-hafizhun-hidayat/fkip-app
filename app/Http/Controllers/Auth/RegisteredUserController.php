@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Akun\RegisterAkunRequest;
+use App\Models\GuruPamong;
+use App\Models\Mahasiswa;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -21,32 +18,38 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/Register', [
+            'mahasiswas' => Mahasiswa::all(),
+            'guru_pamongs' => GuruPamong::all()
+        ]);
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request): RedirectResponse
+    public function store(RegisterAkunRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:'.User::class,
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-        ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'nama' => $request->nama,
+            'username' => $request->username,
+            'password' => $request->password,
+            'role' => $request->role,
+            'id_guru_pamong' => $request->id_guru_pamong ?? null,
+            'id_mahasiswa' => $request->id_mahasiswa ?? null
         ]);
-
-        event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return $this->sendResponse(null, 200, true, 'Berhasil', 'Berhasil membuat Akun');
+    }
+
+    private function sendResponse($data, $code, $status, $title, $text){
+        $response = [
+            'data' => $data,
+            'code' => $code,
+            'status' => $status,
+            'title' => $title,
+            'text' => $text
+        ];
+
+        return response()->json($response, $code);
     }
 }
