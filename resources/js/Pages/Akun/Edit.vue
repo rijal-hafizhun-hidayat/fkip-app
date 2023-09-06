@@ -28,8 +28,8 @@ defineProps({
             <div class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
                 <FormUpdate :id="id" :prodis="prodis" :guruPamongs="guruPamongs" :dpls="dpls" :mahasiswas="mahasiswas"/>
             </div>
-            <!-- <TableDpl v-if="roleAkun == 2" :id="id"/>
-            <TableGuruPamong v-if="roleAkun == 3" :id="id"/> -->
+            <TableDpl v-if="roleAkun == 2" :id="id"/>
+            <TableGuruPamong v-if="roleAkun == 3" :id="id"/>
         </div>
     </AuthenticatedLayout>
 </template>

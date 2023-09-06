@@ -23,6 +23,7 @@ class AkunDplImport implements ToModel, WithHeadingRow, WithChunkReading
             'nama' => $rows['nama'],
             'username' => $rows['niy'] . '@dpl',
             'password' => '@dpl',
+            'email' => $rows['email'],
             'role' => 2,
             'id_dpl' => $dpl->id ?? null
         ]);  

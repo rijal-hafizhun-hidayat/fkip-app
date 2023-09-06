@@ -19,7 +19,8 @@ class RegisterAkunRequest extends FormRequest
         return [
             'required' => 'Wajib diisi',
             'string' => 'Wajib dalam bentuk teks',
-            'numeric' => 'error'
+            'numeric' => 'Error',
+            'email' => 'Format Email Salah'
         ];
     }
 
@@ -35,6 +36,7 @@ class RegisterAkunRequest extends FormRequest
             'nama' => 'required|string',
             'username' => 'required|string',
             'password' => 'required|string',
+            'email' => 'nullable|email:rfc,dns',
             'role' => 'required|numeric',
             'id_guru_pamong' => 'nullable|numeric',
             'id_mahasiswa' => 'nullable|numeric'

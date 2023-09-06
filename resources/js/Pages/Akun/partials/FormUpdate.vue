@@ -21,9 +21,12 @@ const props = defineProps({
 })
 
 const form = reactive({
+    nama_depan: '',
     nama: '',
     username: '',
+    email: '',
     role: '',
+    niy: '',
     id_guru_pamong: '',
     id_dpl: '',
     id_mahasiswa: ''
@@ -31,14 +34,15 @@ const form = reactive({
 
 const disabled = ref(true)
 const validation = ref([])
-const asosiasi = ref([])
 
 onMounted(() => {
     NProgress.start()
     axios.get(`/getAkunById/${props.id}`)
     .then((res) => {
+        form.nama_depan = res.data.data.nama_depan
         form.nama = res.data.data.nama
         form.username = res.data.data.username
+        form.email = res.data.data.email
         form.role = res.data.data.role
     })
     .catch((err) => {
@@ -50,11 +54,12 @@ onMounted(() => {
 })
 
 const submit = () => {
-    //console.log(form)
     NProgress.start()
     axios.put(`/akun/${props.id}`, {
+        nama_depan: form.nama_depan,
         nama: form.nama,
         username: form.username,
+        email: form.email,
         role: form.role,
         id_dpl: form.id_dpl,
         id_guru_pamong: form.id_guru_pamong,
@@ -76,88 +81,96 @@ const submit = () => {
     })
 }
 
-const setUsername = (nama, role, asosiasi) => {
-    let firstName = nama.split(" ")[0].toLowerCase()
-    let prodiBidangKeahlian = role == 2 ? asosiasi.prodi : asosiasi.bidang_keahlian
-    if(role == 2 || role == 3){
-        axios.get(`/getProdi/${prodiBidangKeahlian}`)
-        .then((res) => {
-            setUsernameToReactiveForm(firstName, role, res.data.data, asosiasi.nim)
-            setIdDplGuruPamongToReactiveForm(role, asosiasi)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+const isChangeMahasiswa = () => {
+    axios.get(`/getMahasiswaById/${form.id_mahasiswa.id}`)
+    .then((res) => {
+        form.nim = res.data.data.nim
+        setUsername()
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
+const isChangeDpl = () => {
+    axios.get(`/getDplById/${form.id_dpl.id}`)
+    .then((res) => {
+        form.niy = res.data.data.nipy
+        setUsername()
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
+const setUsername = () => {
+    if(form.role == 1){
+        form.username = form.nama_depan + Math.floor(1000 + Math.random() * 9000) + '@admin'
     }
-    else if(role == 1){
-        setUsernameToReactiveForm(firstName, role, null, asosiasi.nim)
+    else if(form.role == 2){
+        form.username = form.nama_depan + form.niy + '@dpl'
     }
-    else{
-        setUsernameToReactiveForm(firstName, role, null, asosiasi.nim)
-        setIdDplGuruPamongToReactiveForm(role, asosiasi)
+    else if(form.role == 3){
+        form.username = form.nama_depan + Math.floor(1000 + Math.random() * 9000) + '@guru';
+    }
+    else if(form.role == 4){
+        form.username = form.nim + '@mahasiswa'
     }
 }
 
-const setUsernameToReactiveForm = (firstName, role, prodiBidangKeahlian, nim) => {
-    if(role == 2){
-        form.username = firstName+'-'+prodiBidangKeahlian.singkatan
-    }
-    else if(role == 3){
-        form.username = firstName+'-'+prodiBidangKeahlian.bidang_keahlian
-    }
-    else if(role == 1){
-        form.username = firstName+Math.floor(Math.random()*(999-100+1)+100)+'@admin'
-    }
-    else{
-        form.username = firstName+nim
-    }
-}
-
-const setIdDplGuruPamongToReactiveForm = (role, asosiasi) => {
-    if(role == 2){
-        form.id_dpl = asosiasi.id
-        form.id_guru_pamong = null
-        form.id_mahasiswa = null
-    }
-    else if(role == 3){
-        form.id_dpl = null
-        form.id_guru_pamong = asosiasi.id
-        form.id_mahasiswa = null
-    }
-    else if(role == 1){
-        form.id_dpl = null
-        form.id_guru_pamong = null
-        form.id_mahasiswa = null
-    }
-    else{
-        form.id_dpl = null
-        form.id_guru_pamong = null
-        form.id_mahasiswa = asosiasi.id
-    }
-}
-
-const nameWithLang = ({nama}) => {
+const nameMahasiswaWithLang = ({nama}) => {
     return nama
 }
 
-const updateValueAction = ({ commit }, value) => {
-    commit('updateValue', value)
+const nameDplWithLang = ({nama, prodi}) => {
+    return `${nama} - ${prodi}`
+}
+
+const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
+    return `${nama} - ${bidang_keahlian}`
 }
 </script>
 <template>
     <form @submit.prevent="submit" class="mt-6 space-y-6">
         <div>
-            <InputLabel for="nama" value="Nama" />
+            <InputLabel for="nama_depan" value="Nama Depan" />
+            <TextInput
+                id="nama_depan"
+                ref="nama_depan"
+                type="text"
+                class="mt-1 block w-full"
+                v-model="form.nama_depan"
+                @change="setUsername()"
+                :class="{ 'border-rose-600': validation.nama_depan }"
+            />
+            <InputError v-if="validation.nama_depan" :message="validation.nama_depan[0]" class="mt-2" />
+        </div>
+        <div>
+            <InputLabel for="nama_lengkap" value="Nama Lengkap" />
             <TextInput
                 id="nama"
                 ref="nama"
                 type="text"
                 class="mt-1 block w-full"
                 v-model="form.nama"
+                @change="setUsername()"
                 :class="{ 'border-rose-600': validation.nama }"
-                @change="setUsername(form.nama, form.role, asosiasi)"
             />
             <InputError v-if="validation.nama" :message="validation.nama[0]" class="mt-2" />
+        </div>
+
+        <div>
+            <InputLabel for="email" value="Email" />
+            <TextInput
+                id="email"
+                ref="email"
+                type="email"
+                class="mt-1 block w-full"
+                v-model="form.email"
+                @change="setUsername()"
+                :class="{ 'border-rose-600': validation.email }"
+            />
+            <InputError v-if="validation.email" :message="validation.email[0]" class="mt-2" />
         </div>
 
         <div>
@@ -166,7 +179,7 @@ const updateValueAction = ({ commit }, value) => {
                 class="mt-1 w-full"
                 v-model="form.role"
                 :class="{ 'border-rose-600': validation.role }"
-                @change="setUsername(form.nama, form.role, asosiasi)">
+                @change="setUsername()">
                 <option selected disabled value="">-- Pilih --</option>
                 <option value="1">Admin</option>
                 <option value="2">DPL</option>
@@ -180,11 +193,11 @@ const updateValueAction = ({ commit }, value) => {
             <InputLabel for="id_mahasiswa" value="Mahasiswa"/>
             <Multiselect
                 :class="{ 'border-rose-600': validation.id_mahasiswa }"
-                v-model="asosiasi"
-                :custom-label="nameWithLang"
+                @select="isChangeMahasiswa"
+                v-model="form.id_mahasiswa"
+                :custom-label="nameMahasiswaWithLang"
                 label="nama"
-                :options="mahasiswas"
-                @select="setUsername(form.nama, form.role, asosiasi)">
+                :options="mahasiswas">
             </Multiselect>
             <InputError v-if="validation.id_mahasiswa" :message="validation.id_mahasiswa[0]" class="mt-2" />
         </div>
@@ -193,11 +206,10 @@ const updateValueAction = ({ commit }, value) => {
             <InputLabel for="id_guru_pamong" value="Guru Pamong"/>
             <Multiselect
                 :class="{ 'border-rose-600': validation.id_guru_pamong }"
-                v-model="asosiasi"
-                :custom-label="nameWithLang"
+                v-model="form.id_guru_pamong"
+                :custom-label="nameGuruPamongWithLang"
                 label="nama"
-                :options="guruPamongs"
-                @select="setUsername(form.nama, form.role, asosiasi)">
+                :options="guruPamongs">
             </Multiselect>
             <InputError v-if="validation.id_guru_pamong" :message="validation.id_guru_pamong[0]" class="mt-2" />
         </div>
@@ -206,11 +218,11 @@ const updateValueAction = ({ commit }, value) => {
             <InputLabel for="id_dpl" value="Dpl"/>
             <Multiselect
                 :class="{ 'border-rose-600': validation.id_dpl }"
-                v-model="asosiasi"
-                :custom-label="nameWithLang"
+                @select="isChangeDpl"
+                v-model="form.id_dpl"
+                :custom-label="nameDplWithLang"
                 label="nama"
-                :options="dpls"
-                @select="setUsername(form.nama, form.role, asosiasi)">
+                :options="dpls">
             </Multiselect>
             <InputError v-if="validation.id_dpl" :message="validation.id_dpl[0]" class="mt-2" />
         </div>
@@ -218,7 +230,6 @@ const updateValueAction = ({ commit }, value) => {
         <div>
             <InputLabel for="username" value="Username" />
             <TextInput
-                @change="setUsername(form.nama, form.role, asosiasi)"
                 :disabled="disabled"
                 id="username"
                 ref="username"

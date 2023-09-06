@@ -51,9 +51,6 @@ const changeRouteApiImport = (jenisAkun) => {
     else if(jenisAkun == 2){
         routeApiImportAkun.value = '/akun/import/guru-pamong'
     }
-    else if(jenisAkun == 3){
-        routeApiImportAkun.value = '/akun/import/mahasiswa'
-    }
     else{
         false
     }
@@ -71,7 +68,6 @@ const changeRouteApiImport = (jenisAkun) => {
                 <option selected disabled value="">-- Pilih --</option>
                 <option value="1">Dpl</option>
                 <option value="2">Guru Pamong</option>
-                <option value="3">Mahasiswa</option>
             </SelectInput>
             <InputError v-if="validation.jenis_akun" :message="validation.jenis_akun[0]" class="mt-2" />
         </div>

@@ -24,6 +24,7 @@ class AkunMahasiswaImport implements ToModel, WithHeadingRow, WithChunkReading
             'nama' => $rows['nama'],
             'username' => $rows['nim'] . '@mahasiswa',
             'password' => '@mahasiswa',
+            'email' => $rows['email'],
             'role' => 4,
             'id_mahasiswa' => $mahasiswa->id ?? null
         ]);

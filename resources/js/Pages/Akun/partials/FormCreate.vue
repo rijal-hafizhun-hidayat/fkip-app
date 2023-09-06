@@ -16,8 +16,10 @@ const form = reactive({
     nama: '',
     username: '',
     password: '',
+    email: '',
     role: '',
     nim: '',
+    niy: '',
     id_guru_pamong: '',
     id_dpl: '',
     id_mahasiswa: ''
@@ -35,15 +37,18 @@ const props = defineProps({
 })
 
 const submit = () => {
+    //console.log(form)
     NProgress.start()
     axios.post('/akun', {
+        nama_depan: form.nama_depan,
         nama: form.nama,
         username: form.username,
         password: form.password,
+        email: form.email,
         role: form.role,
-        id_guru_pamong: form.id_guru_pamong,
-        id_dpl: form.id_dpl,
-        id_mahasiswa: form.id_mahasiswa
+        id_guru_pamong: form.id_guru_pamong.id,
+        id_dpl: form.id_dpl.id,
+        id_mahasiswa: form.id_mahasiswa.id
     })
     .then((res) => {
         Swal.fire({
@@ -61,107 +66,108 @@ const submit = () => {
     })
 }
 
-const setIdDplGuruPamong = (role, uniq) => {
-    console.log(uniq.idq)
-    if(role == 2){
-        form.id_dpl = uniq.id
-        form.id_guru_pamong = null
-        form.id_mahasiswa = null
+const isChangeDpl = () => {
+    axios.get(`/getDplById/${form.id_dpl.id}`)
+    .then((res) => {    
+        form.niy = res.data.data.nipy
+        setUsernamePassword()
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
+const isChangeMahasiswa = () => {
+    axios.get(`/getMahasiswaById/${form.id_mahasiswa.id}`)
+    .then((res) => {
+        form.nim = res.data.data.nim
+        setUsernamePassword()
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+}
+
+const setUsernamePassword = () => {
+    if(form.role == 1){
+        form.username = form.nama_depan + Math.floor(1000 + Math.random() * 9000) + '@admin'
+        form.password = Math.floor(1000 + Math.random() * 9000) + '@admin'
     }
-    else if(role == 3){
-        form.id_dpl = null
-        form.id_guru_pamong = uniq.id
-        form.id_mahasiswa = null
+    else if(form.role == 2){
+        form.username = form.nama_depan + form.niy + '@dpl'
+        form.password = Math.floor(1000 + Math.random() * 9000) + '@dpl'
     }
-    else if(role == 4){
-        form.id_dpl = null
-        form.id_guru_pamong = null
-        form.id_mahasiswa = uniq.id
+    else if(form.role == 3){
+        form.username = form.nama_depan + Math.floor(1000 + Math.random() * 9000) + '@guru'
+        form.password = Math.floor(1000 + Math.random() * 9000) + '@guru'
     }
-    else{
-        form.id_dpl = null
-        form.id_guru_pamong = null
-        form.id_mahasiswa = null
+    else if(form.role == 4){
+        form.username = form.nama_depan + form.nim + '@mahasiswa'
+        form.password = Math.floor(1000 + Math.random() * 9000) + '@mahasiswa'
     }
 }
 
-const setUsername = (firstName, role, singkatanProdi, bidang_keahlian) => {
-    if(role == 2){
-        form.username = firstName.toLowerCase()+'-'+singkatanProdi
-    }
-    else if(role == 3){
-        form.username = firstName.toLowerCase()+'-'+bidang_keahlian.toLowerCase()
-    }
-    else{
-        form.username = firstName+Math.floor(Math.random()*(999-100+1)+100)
-    }
-}
-
-const setPassword = (firstName, role, uniq) => {
-    if(role == 2){
-        form.password = firstName.toLowerCase()+Math.floor(Math.random() * 90 + 10)
-    }
-    else if(role == 3){
-        form.password = firstName.toLowerCase()+Math.floor(Math.random() * 90 + 10)
-    }
-    else if(role == 1){
-        form.password = Math.floor(Math.random() * 9000 + 1000)+'@admin'
-    }
-    else{
-        form.password = Math.floor(Math.random() * 9000 + 1000)+'@mahasiswa'
-    }
-}
-
-const setUsernamePasswordIdDplGuruPamong = (nama, role, uniq) => {
-    let firstName = nama.split(" ")[0]
-    let prodiBidangKeahlian = role == 2 ? uniq.prodi : uniq.bidang_keahlian
-    if(role == 2 || role == 3){
-        axios.get(`/getProdi/${prodiBidangKeahlian}`)
-        .then((res) => {
-            setUsername(firstName, role, res.data.data.singkatan, uniq.bidang_keahlian)
-            setPassword(firstName, role, uniq)
-            setIdDplGuruPamong(role, uniq)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    }
-    else if(role == 1){
-        form.username = firstName.toLowerCase()+Math.floor(Math.random()*(999-100+1)+100)+'@admin'
-        form.password = Math.floor(Math.random()*(999-100+1)+100)+'@admin'
-    }
-    else{
-        form.username = firstName.toLowerCase()+uniq.nim
-        form.password = Math.floor(100000 + Math.random() * 900000)+'@mahasiswa'
-        setIdDplGuruPamong(role, uniq)
-    }
-}
-
-const nameWithLang = ({nama}) => {
+const nameMahasiswaWithLang = ({nama}) => {
     return nama
+}
+
+const nameDplWithLang = ({nama}) => {
+    return nama
+}
+
+const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
+    return `${nama} - ${bidang_keahlian}`
 }
 </script>
 <template>
     <form @submit.prevent="submit" class="space-y-6">
         <div>
+            <InputLabel for="nama_depan" value="Nama Depan" />
+            <TextInput
+                id="nama"
+                type="text"
+                class="mt-1 block w-full"
+                v-model="form.nama_depan"
+                @change="setUsernamePassword"
+                required
+                :class="{ 'border-rose-600': validation.nama_depan }"/>
+            <InputError v-if="validation.nama_depan" :message="validation.nama_depan[0]" class="mt-2" />
+        </div>
+
+        <div>
             <InputLabel for="nama" value="Nama" />
             <TextInput
-                id="nama_depan"
+                id="nama"
                 type="text"
                 class="mt-1 block w-full"
                 v-model="form.nama"
-                :class="{ 'border-rose-600': validation.nama }"
-                @change="setUsernamePasswordIdDplGuruPamong(form.nama, form.role, asosiasi)" />
+                @change="setUsernamePassword"
+                required
+                :class="{ 'border-rose-600': validation.nama }"/>
             <InputError v-if="validation.nama" :message="validation.nama[0]" class="mt-2" />
+        </div>
+
+        <div>
+            <InputLabel for="email" value="Email" />
+            <TextInput
+                id="email"
+                type="email"
+                class="mt-1 block w-full"
+                v-model="form.email"
+                @change="setUsernamePassword"
+                :class="{ 'border-rose-600': validation.email }"
+                required/>
+            <InputError v-if="validation.email" :message="validation.email[0]" />
         </div>
 
         <div>
             <InputLabel for="role" value="Role" />
             <SelectInput
-                @change="setUsernamePasswordIdDplGuruPamong(form.nama, form.role, asosiasi)"
                 class="mt-1 blobk w-full"
                 v-model="form.role"
-                :class="{ 'border-rose-600': validation.role }">
+                @change="setUsernamePassword"
+                :class="{ 'border-rose-600': validation.role }"
+                required>
                 <option selected disabled value="">-- Pilih --</option>
                 <option value="1">Admin</option>
                 <option value="2">DPL</option>
@@ -175,9 +181,9 @@ const nameWithLang = ({nama}) => {
         <div v-if="form.role == 4">
             <InputLabel for="id_mahasiswa" value="Mahasiswa"/>
             <Multiselect
-                @select="setUsernamePasswordIdDplGuruPamong(form.nama, form.role, asosiasi)"
-                v-model="asosiasi"
-                :custom-label="nameWithLang"
+                v-model="form.id_mahasiswa"
+                @select="isChangeMahasiswa"
+                :custom-label="nameMahasiswaWithLang"
                 :options="mahasiswas">
             </Multiselect>
             <InputError v-if="validation.id_guru_pamong" :message="validation.id_guru_pamong[0]" class="mt-2" />
@@ -186,9 +192,8 @@ const nameWithLang = ({nama}) => {
         <div v-if="form.role == 3">
             <InputLabel for="id_guru_pamong" value="Guru Pamong"/>
             <Multiselect
-                @select="setUsernamePasswordIdDplGuruPamong(form.nama, form.role, asosiasi)"
-                v-model="asosiasi"
-                :custom-label="nameWithLang"
+                v-model="form.id_guru_pamong"
+                :custom-label="nameGuruPamongWithLang"
                 :options="guruPamongs">
             </Multiselect>
             <InputError v-if="validation.id_guru_pamong" :message="validation.id_guru_pamong[0]" class="mt-2" />
@@ -197,9 +202,9 @@ const nameWithLang = ({nama}) => {
         <div v-if="form.role == 2">
             <InputLabel for="id_dpl" value="Dpl"/>
             <Multiselect
-                @select="setUsernamePasswordIdDplGuruPamong(form.nama, form.role, asosiasi)"
-                v-model="asosiasi"
-                :custom-label="nameWithLang"
+                v-model="form.id_dpl"
+                @select="isChangeDpl"
+                :custom-label="nameDplWithLang"
                 :options="dpls">
             </Multiselect>
             <InputError v-if="validation.id_dpl" :message="validation.id_dpl[0]" class="mt-2" />
@@ -208,13 +213,14 @@ const nameWithLang = ({nama}) => {
         <div>
             <InputLabel for="username" value="Username" />
             <TextInput
-                :disabled="disabled"
+                disabled
+                required
                 id="username"
                 ref="username"
                 type="text"
-                class="mt-1 block w-full"
+                class="mt-1 block w-full bg-slate-200"
                 v-model="form.username"
-                :class="{ 'border-rose-600': validation.username, 'bg-slate-200': disabled }" />
+                :class="{ 'border-rose-600': validation.username }" />
             <InputError v-if="validation.username" :message="validation.username[0]" class="mt-2" />
         </div>
 
@@ -224,8 +230,10 @@ const nameWithLang = ({nama}) => {
                 <div class="basis-full">
                     <TextInput
                         id="password"
+                        disabled
+                        required
                         :type="isSeePass == false ? 'password' : 'text'"
-                        class="mt-1 block w-full"
+                        class="mt-1 block w-full bg-slate-200"
                         v-model="form.password"
                         :class="{ 'border-rose-600': validation.password }" />
                     <InputError v-if="validation.password" :message="validation.password[0]" class="mt-2" />

@@ -6,6 +6,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
 import ResetButton from '@/Components/ResetButton.vue';
+import EmailButton from '@/Components/EmailButton.vue';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 import { TailwindPagination } from 'laravel-vue-pagination';
@@ -72,6 +73,23 @@ const formResetPass = (id) => {
     router.get(`/akun/reset-pass/${id}`)
 }
 
+const setRoleStatus = (role) => {
+    if(role == 1){
+        role = 'Admin'
+    }
+    else if(role == 2){
+        role = 'Dpl'
+    }
+    else if(role == 3){
+        role = 'Guru Pamong'
+    }
+    else if(role == 4){
+        role = 'Mahasiswa'
+    }
+
+    return role
+}
+
 watch(search, async (newSearch, oldSearch) => {
     if(newSearch != null){
         getAkuns()
@@ -90,6 +108,7 @@ watch(search, async (newSearch, oldSearch) => {
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th class="pb-4 pt-6 px-6">Username</th>
                     <th class="pb-4 pt-6 px-6">Hak Akses</th>
+                    <th class="pb-4 pt-6 px-6">Email</th>
                     <th class="pb-4 pt-6 px-6">Action</th>
                 </tr>
             </thead>
@@ -101,23 +120,18 @@ watch(search, async (newSearch, oldSearch) => {
                     <td class="border-t items-center px-6 py-4">
                         {{ akun.username }}
                     </td>
-                    <td v-if="akun.role == 1" class="border-t items-center px-6 py-4">
-                        Admin
+                    <td class="border-t items-center px-6 py-4">
+                        {{ setRoleStatus(akun.role) }}
                     </td>
-                    <td v-else-if="akun.role == 2" class="border-t items-center px-6 py-4">
-                        DPL
-                    </td>
-                    <td v-else-if="akun.role == 3" class="border-t items-center px-6 py-4">
-                        Guru Pamong
-                    </td>
-                    <td v-else class="border-t items-center px-6 py-4">
-                        Mahasiswa
+                    <td class="border-t items-center px-6 py-4">
+                        {{ akun.email }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                     <div class="flex flex-row space-x-4">
                         <DestroyButton @click="destroy(akun.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                         <UpdateButton @click="update(akun.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
                         <ResetButton @click="formResetPass(akun.id)"><i class="fa-solid fa-unlock text-white fa-lg"></i></ResetButton>
+                        <EmailButton @click="sendEmail(akun.email)"><i class="fa-solid fa-envelope fa-lg"></i></EmailButton>
                     </div>
                     
                     </td>

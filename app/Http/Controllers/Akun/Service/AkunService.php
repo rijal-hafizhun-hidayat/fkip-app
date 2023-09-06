@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Akun\ResetPassAkunRequest;
 use App\Http\Requests\Akun\StoreAkunRequest;
 use App\Http\Requests\Akun\UpdateAkunRequest;
+use App\Models\GuruPamong;
 use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -24,17 +25,35 @@ class AkunService extends Controller
     }
 
     public function store(StoreAkunRequest $request){
-        User::create($request->validated());
+        if($request->role == User::ROLE_ID_ADMIN){
+            $this->storeAkunAdmin($request->all());
+        }
+        else if($request->role == User::ROLE_DPL_ID){
+            $this->storeAkunDpl($request->all());
+        }
+        else if($request->role == User::ROLE_ID_GURU_PAMONG){
+            $this->storeAkunGuruPamong($request->all());
+        }
+        else if($request->role == User::ROLE_ID_MAHASISWA){
+            $this->storeAkunMahasiswa($request->all());
+        }
+        
         return $this->responseService(null, 200, true, 'Berhasil', 'Tambah Akun Berhasil');
     }
 
     public function update(UpdateAkunRequest $request,$id){
         $credential = $request->validated();
-        if(isset($request->id_dpl)){
-            $this->updateIdDpl($credential, $id);
+        if($request->role == User::ROLE_ID_ADMIN){
+            $this->updateAkunAdmin($credential, $id);
         }
-        else{
-            $this->updateIdGuruPamong($credential, $id);
+        else if($request->role == User::ROLE_DPL_ID){
+            $this->updateAkunDpl($credential, $id);
+        }
+        else if($request->role == User::ROLE_ID_GURU_PAMONG){
+            $this->updateAkunGuruPamong($credential, $id);
+        }
+        else if($request->role == User::ROLE_ID_MAHASISWA){
+            $this->updateAkunMahasiswa($credential, $id);
         }
         return $this->responseService(null, 200, true, 'Berhasil', 'Ubah Data Berhasil');
     }
@@ -51,7 +70,8 @@ class AkunService extends Controller
 
     public function getGuruPamongByIdGuruPamong($id){
         try {
-            $guruPamong = DB::table('guru_pamong')->join('users', 'guru_pamong.id', '=', 'users.id_guru_pamong')->select('guru_pamong.id', 'guru_pamong.nama', 'guru_pamong.asal', 'guru_pamong.asal_sekolah')->where('users.id', $id)->get();
+            $user = User::find($id);
+            $guruPamong = GuruPamong::find($user->id_guru_pamong);
             return $this->responseService($guruPamong, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, null);
@@ -105,24 +125,113 @@ class AkunService extends Controller
         }
     }
 
-    private function updateIdDpl($credential, $id){
+    private function storeAkunAdmin($credential){
+        return User::create([
+            'nama_depan' => $credential['nama_depan'],
+            'nama' => $credential['nama'],
+            'username' => $credential['username'],
+            'password' => $credential['password'],
+            'email' => $credential['email'],
+            'role' => $credential['role'],
+            'id_dpl' => null,
+            'id_guru_pamong' => null,
+            'id_mahasiswa' => null
+        ]);
+    }
+
+    private function storeAkunDpl($credential){
+        return User::create([
+            'nama_depan' => $credential['nama_depan'],
+            'nama' => $credential['nama'],
+            'username' => $credential['username'],
+            'password' => $credential['password'],
+            'email' => $credential['email'],
+            'role' => $credential['role'],
+            'id_dpl' => $credential['id_dpl'],
+            'id_guru_pamong' => null,
+            'id_mahasiswa' => null
+        ]);
+    }
+
+    private function storeAkunGuruPamong($credential){
+        return User::create([
+            'nama_depan' => $credential['nama_depan'],
+            'nama' => $credential['nama'],
+            'username' => $credential['username'],
+            'password' => $credential['password'],
+            'email' => $credential['email'],
+            'role' => $credential['role'],
+            'id_dpl' => null,
+            'id_guru_pamong' => $credential['id_guru_pamong'],
+            'id_mahasiswa' => null
+        ]);
+    }
+
+    private function storeAkunMahasiswa($credential){
+        return User::create([
+            'nama_depan' => $credential['nama_depan'],
+            'nama' => $credential['nama'],
+            'username' => $credential['username'],
+            'email' => $credential['email'],
+            'role' => $credential['role'],
+            'id_dpl' => null,
+            'id_guru_pamong' => null,
+            'id_mahasiswa' => $credential['id_mahasiswa']
+        ]);
+    }
+
+    private function updateAkunAdmin($credential, $id){
         $user = User::find($id);
+        $user->nama_depan = $credential['nama_depan'];
         $user->nama = $credential['nama'];
         $user->username = $credential['username'];
+        $user->email = $credential['email'];
         $user->role = $credential['role'];
-        $user->id_dpl = $credential['id_dpl'];
+        $user->id_dpl = null;
         $user->id_guru_pamong = null;
+        $user->id_mahasiswa = null;
 
         return $user->save();
     }
 
-    private function updateIdGuruPamong($credential, $id){
+    private function updateAkunDpl($credential, $id){
         $user = User::find($id);
+        $user->nama_depan = $credential['nama_depan'];
         $user->nama = $credential['nama'];
         $user->username = $credential['username'];
+        $user->email = $credential['email'];
+        $user->role = $credential['role'];
+        $user->id_dpl = $credential['id_dpl'];
+        $user->id_guru_pamong = null;
+        $user->id_mahasiswa = null;
+
+        return $user->save();
+    }
+
+    private function updateAkunGuruPamong($credential, $id){
+        $user = User::find($id);
+        $user->nama_depan = $credential['nama_depan'];
+        $user->nama = $credential['nama'];
+        $user->username = $credential['username'];
+        $user->email = $credential['email'];
         $user->role = $credential['role'];
         $user->id_dpl = null;
         $user->id_guru_pamong = $credential['id_guru_pamong'];
+        $user->id_mahasiswa = null;
+
+        return $user->save();
+    }
+
+    private function updateAkunMahasiswa($credential, $id){
+        $user = User::find($id);
+        $user->nama_depan = $credential['nama_depan'];
+        $user->nama = $credential['nama'];
+        $user->username = $credential['username'];
+        $user->email = $credential['email'];
+        $user->role = $credential['role'];
+        $user->id_dpl = null;
+        $user->id_guru_pamong = null;
+        $user->id_mahasiswa = $credential['id_mahasiswa'];  
 
         return $user->save();
     }

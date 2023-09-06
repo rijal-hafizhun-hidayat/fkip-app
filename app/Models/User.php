@@ -21,6 +21,7 @@ class User extends Authenticatable
         'username',
         'role',
         'password',
+        'email',
         'prodi',
         'id_dpl',
         'id_guru_pamong',

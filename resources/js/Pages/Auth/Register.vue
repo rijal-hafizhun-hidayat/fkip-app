@@ -21,6 +21,7 @@ const form = reactive({
     role: '',
     username: '',
     password: '',
+    email: '',
     id_mahasiswa: '',
     id_guru_pamong: ''
 });
@@ -36,6 +37,7 @@ const submit = () => {
         nama: form.nama_lengkap,
         username: form.username,
         password: form.password,
+        email: form.email,
         role: form.role,
         id_mahasiswa: form.id_mahasiswa.id,
         id_guru_pamong: form.id_guru_pamong.id
@@ -56,8 +58,12 @@ const submit = () => {
     })
 }
 
-const nameWithLang = ({nama}) => {
+const nameMahasiswaWithLang = ({nama}) => {
     return nama
+}
+
+const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
+    return `${nama} - ${bidang_keahlian}`
 }
 
 const setUsernamePassword = () => {
@@ -114,6 +120,24 @@ const setUsernamePassword = () => {
             </div>
 
             <div class="mt-4">
+                <InputLabel for="email" value="Email" />
+
+                <TextInput
+                    @change="setUsernamePassword()"
+                    id="email"
+                    type="email"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-rose-600': validation.email }"
+                    v-model="form.email"
+                    autofocus
+                    required
+                    autocomplete="nama"
+                />
+
+                <InputError v-if="validation.email" class="mt-2" :message="validation.email[0]" />
+            </div>
+
+            <div class="mt-4">
                 <InputLabel for="role" value="Role" />
 
                 <SelectInput
@@ -153,7 +177,7 @@ const setUsernamePassword = () => {
                 <Multiselect
                     @change="setUsernamePassword()"
                     v-model="form.id_mahasiswa"
-                    :custom-label="nameWithLang"
+                    :custom-label="nameMahasiswaWithLang"
                     :options="mahasiswas"
                     required
                     :class="{ 'border-rose-600': validation.id_mahasiswa }">
@@ -167,7 +191,7 @@ const setUsernamePassword = () => {
                 <Multiselect
                     @change="setUsernamePassword()"
                     v-model="form.id_guru_pamong"
-                    :custom-label="nameWithLang"
+                    :custom-label="nameGuruPamongWithLang"
                     :options="guru_pamongs"
                     required>
                 </Multiselect>
@@ -180,12 +204,13 @@ const setUsernamePassword = () => {
                     id="username"
                     type="text"
                     class="mt-1 block w-full bg-slate-200"
+                    :class="{ 'border-rose-600': validation.username }"
                     v-model="form.username"
                     disabled
                     autocomplete="username"
                     required />
 
-                <!-- <InputError class="mt-2" :message="form.errors.password" /> -->
+                <InputError v-if="validation.username" class="mt-2" :message="validation.username[0]" />
             </div>
 
             <div class="mt-4">
@@ -195,13 +220,14 @@ const setUsernamePassword = () => {
                     id="password"
                     type="text"
                     class="mt-1 block w-full bg-slate-200"
+                    :class="{ 'border-rose-600': validation.password }"
                     v-model="form.password"
                     disabled
                     required
                     autocomplete="new-password"
                 />
 
-                <!-- <InputError class="mt-2" :message="form.errors.password" /> -->
+                <InputError v-if="validation.password" class="mt-2" :message="validation.password[0]" />
             </div>
 
             <div class="flex items-center justify-end mt-4">
