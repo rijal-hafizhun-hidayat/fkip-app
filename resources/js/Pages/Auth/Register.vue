@@ -18,6 +18,7 @@ const form = reactive({
     nama_depan: '',
     nama_lengkap: '',
     nim: '',
+    niy: '',
     role: '',
     username: '',
     password: '',
@@ -27,7 +28,8 @@ const form = reactive({
 });
 const props = defineProps({
     mahasiswas: Array,
-    guru_pamongs: Array
+    guru_pamongs: Array,
+    dpls: Array
 })
 
 const submit = () => {
@@ -58,6 +60,11 @@ const submit = () => {
     })
 }
 
+const setNamaDepanToLowerCase = () => {
+    let namaDepan = form.nama_depan
+    return namaDepan.toLowerCase()
+}
+
 const nameMahasiswaWithLang = ({nama}) => {
     return nama
 }
@@ -66,9 +73,17 @@ const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
     return `${nama} - ${bidang_keahlian}`
 }
 
+const nameDplWithLang = ({nama, prodi}) => {
+    return `${nama} - ${prodi}`
+}
+
 const setUsernamePassword = () => {
-    if(form.role == 3){
-        form.username = form.nama_depan + Math.floor(1000 + Math.random() * 9000) + '@guru';
+    if(form.role == 2){
+        form.username = setNamaDepanToLowerCase() + form.niy + '@dpl'
+        form.password = '@dpl'
+    }
+    else if(form.role == 3){
+        form.username = setNamaDepanToLowerCase() + Math.floor(1000 + Math.random() * 9000) + '@guru';
         form.password = '@guru'
     }
     else if(form.role == 4){
@@ -147,6 +162,7 @@ const setUsernamePassword = () => {
                     v-model="form.role"
                     required>
                     <option selected disabled value="">-- Pilih --</option>
+                    <option value="2">Dpl</option>
                     <option value="3">Guru Pamong</option>
                     <option value="4">Mahasiswa</option>
                 </SelectInput>
@@ -168,7 +184,22 @@ const setUsernamePassword = () => {
 
                 <InputError v-if="validation.nim" class="mt-2" :message="validation.nim[0]" />
 
-                <!-- <InputError class="mt-2" :message="form.errors.email" /> -->
+            </div>
+
+            <div v-if="form.role == 2" class="mt-4">
+                <InputLabel for="niy" value="Niy" />
+
+                <TextInput
+                    @change="setUsernamePassword()"
+                    id="niy"
+                    type="text"
+                    class="mt-1 block w-full"
+                    :class="{ 'border-rose-600': validation.niy }"
+                    v-model="form.niy"
+                    required/>
+
+                <InputError v-if="validation.niy" class="mt-2" :message="validation.niy[0]" />
+
             </div>
 
             <div v-if="form.role == 4" class="mt-4">
@@ -193,6 +224,17 @@ const setUsernamePassword = () => {
                     v-model="form.id_guru_pamong"
                     :custom-label="nameGuruPamongWithLang"
                     :options="guru_pamongs"
+                    required>
+                </Multiselect>
+            </div>
+
+            <div v-if="form.role == 2" class="mt-4">
+                <InputLabel for="id_dpl" value="Asosiasi Akun dengan Data Dpl"/>
+                <Multiselect
+                    @change="setUsernamePassword()"
+                    v-model="form.id_dpl"
+                    :custom-label="nameDplWithLang"
+                    :options="dpls"
                     required>
                 </Multiselect>
             </div>

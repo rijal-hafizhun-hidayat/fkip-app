@@ -37,6 +37,8 @@ class RegisterAkunRequest extends FormRequest
             'username' => 'required|string',
             'password' => 'required|string',
             'email' => 'nullable|email:rfc,dns',
+            'nim' => 'sometimes|required|numeric',
+            'niy' => 'sometimes|required|numeric',
             'role' => 'required|numeric',
             'id_guru_pamong' => 'nullable|numeric',
             'id_mahasiswa' => 'nullable|numeric'

@@ -92,7 +92,6 @@ const setIsClick = (isClick) => {
         isClickNg.value = true
     }
 
-
     return true
 }
 
