@@ -132,14 +132,12 @@ class AkunService extends Controller
             'username' => $credential['username'],
             'password' => $credential['password'],
             'email' => $credential['email'],
-            'role' => $credential['role'],
-            'id_dpl' => null,
-            'id_guru_pamong' => null,
-            'id_mahasiswa' => null
+            'role' => $credential['role']
         ]);
     }
 
     private function storeAkunDpl($credential){
+        //dd($credential, $credential['nama_depan']);
         return User::create([
             'nama_depan' => $credential['nama_depan'],
             'nama' => $credential['nama'],
@@ -147,9 +145,7 @@ class AkunService extends Controller
             'password' => $credential['password'],
             'email' => $credential['email'],
             'role' => $credential['role'],
-            'id_dpl' => $credential['id_dpl'],
-            'id_guru_pamong' => null,
-            'id_mahasiswa' => null
+            'id_dpl' => $credential['id_dpl']
         ]);
     }
 
@@ -161,9 +157,7 @@ class AkunService extends Controller
             'password' => $credential['password'],
             'email' => $credential['email'],
             'role' => $credential['role'],
-            'id_dpl' => null,
-            'id_guru_pamong' => $credential['id_guru_pamong'],
-            'id_mahasiswa' => null
+            'id_guru_pamong' => $credential['id_guru_pamong']
         ]);
     }
 
@@ -174,8 +168,6 @@ class AkunService extends Controller
             'username' => $credential['username'],
             'email' => $credential['email'],
             'role' => $credential['role'],
-            'id_dpl' => null,
-            'id_guru_pamong' => null,
             'id_mahasiswa' => $credential['id_mahasiswa']
         ]);
     }

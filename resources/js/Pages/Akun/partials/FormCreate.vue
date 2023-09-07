@@ -88,21 +88,26 @@ const isChangeMahasiswa = () => {
     })
 }
 
+const setNamaDepanToLowerCase = () => {
+    let namaDepan = form.nama_depan
+    return namaDepan.toLowerCase()
+}
+
 const setUsernamePassword = () => {
     if(form.role == 1){
-        form.username = form.nama_depan + Math.floor(1000 + Math.random() * 9000) + '@admin'
+        form.username = setNamaDepanToLowerCase() + Math.floor(1000 + Math.random() * 9000) + '@admin'
         form.password = Math.floor(1000 + Math.random() * 9000) + '@admin'
     }
     else if(form.role == 2){
-        form.username = form.nama_depan + form.niy + '@dpl'
+        form.username = setNamaDepanToLowerCase() + form.niy + '@dpl'
         form.password = Math.floor(1000 + Math.random() * 9000) + '@dpl'
     }
     else if(form.role == 3){
-        form.username = form.nama_depan + Math.floor(1000 + Math.random() * 9000) + '@guru'
-        form.password = Math.floor(1000 + Math.random() * 9000) + '@guru'
+        form.username = Math.floor(1000 + Math.random() * 9000) + '@guru'
+        form.password = '@guru'
     }
     else if(form.role == 4){
-        form.username = form.nama_depan + form.nim + '@mahasiswa'
+        form.username = setNamaDepanToLowerCase() + form.nim + '@mahasiswa'
         form.password = Math.floor(1000 + Math.random() * 9000) + '@mahasiswa'
     }
 }
@@ -135,7 +140,7 @@ const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
         </div>
 
         <div>
-            <InputLabel for="nama" value="Nama" />
+            <InputLabel for="nama" value="Nama Lengkap" />
             <TextInput
                 id="nama"
                 type="text"

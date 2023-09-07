@@ -10,7 +10,9 @@ const mahasiswa = reactive({
     nilai_nc: '',
     nilai_nd: '',
     nilai_ne: '',
-    nilai_ns: ''
+    nilai_ns: '',
+    nilai_nf: '',
+    nilai_ng: ''
 })
 const props = defineProps({
     id: Number,
@@ -25,7 +27,6 @@ onMounted(() => {
 const getMahasiswaById = () => {
     axios.get(`/getMahasiswaById/${props.id}`)
     .then((res) => {
-        console.log(res)
         mahasiswa.nim = res.data.data.nim
         mahasiswa.nama = res.data.data.nama
         mahasiswa.nilai_nb = res.data.data.nilai_nb
@@ -33,6 +34,8 @@ const getMahasiswaById = () => {
         mahasiswa.nilai_nd = res.data.data.nilai_nd
         mahasiswa.nilai_ne = res.data.data.nilai_ne
         mahasiswa.nilai_ns = res.data.data.nilai_ns
+        mahasiswa.nilai_nf = res.data.data.nilai_nf
+        mahasiswa.nilai_ng = res.data.data.nilai_ng
         mahasiswa.jenis_plp = res.data.data.jenis_plp
         mahasiswa.nilai = res.data.data.nilai
     })
@@ -50,11 +53,14 @@ const getMahasiswaById = () => {
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th v-if="jenis_plp == 'plp_2'" class="pb-4 pt-6 px-6">Ns</th>
                     <th v-if="jenis_plp == 'plp_1'" class="pb-4 pt-6 px-6">Nb</th>
+                    <th v-if="jenis_plp == 'plp_2'" class="pb-4 pt-6 px-6">Nb</th>
                     <th v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" class="pb-4 pt-6 px-6">Nc</th>
                     <th v-if="jenis_plp == 'plp_2' && jenis_bidang == 'teaching'" class="pb-4 pt-6 px-6">Nc</th>
                     <th v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" class="pb-4 pt-6 px-6">Nd</th>
                     <th v-if="jenis_plp == 'plp_2' && jenis_bidang == 'pgpaud'" class="pb-4 pt-6 px-6">Nd</th>
                     <th v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" class="pb-4 pt-6 px-6">Ne</th>
+                    <th v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" class="pb-4 pt-6 px-6">Nf</th>
+                    <th v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" class="pb-4 pt-6 px-6">Ng</th>
                     <th class="pb-4 pt-6 px-6">Nilai Total</th>
                 </tr>
             </thead>
@@ -72,6 +78,9 @@ const getMahasiswaById = () => {
                     <td v-if="jenis_plp == 'plp_1'" class="border-t items-center px-6 py-4">
                         {{ mahasiswa.nilai_nb }}
                     </td>
+                    <td v-if="jenis_plp == 'plp_2'" class="border-t items-center px-6 py-4">
+                        {{ mahasiswa.nilai_nb }}
+                    </td>
                     <td v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" class="border-t items-center px-6 py-4">
                         {{ mahasiswa.nilai_nc }}
                     </td>
@@ -86,6 +95,12 @@ const getMahasiswaById = () => {
                     </td>
                     <td v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" class="border-t items-center px-6 py-4">
                         {{ mahasiswa.nilai_ne }}
+                    </td>
+                    <td v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" class="border-t items-center px-6 py-4">
+                        {{ mahasiswa.nilai_nf }}
+                    </td>
+                    <td v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" class="border-t items-center px-6 py-4">
+                        {{ mahasiswa.nilai_ng }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         {{ mahasiswa.nilai }}

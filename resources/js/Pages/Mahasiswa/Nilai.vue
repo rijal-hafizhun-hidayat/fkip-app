@@ -6,6 +6,8 @@ import FormNilaiNc from './Partials/FormNilaiNc.vue';
 import FormNilaiNd from './Partials/FormNilaiNd.vue';
 import FormNilaiNe from './Partials/FormNilaiNe.vue';
 import FormNilaiNs from './Partials/FormNilaiNs.vue'
+import FormNilaiNf from './Partials/FormNilaiNf.vue';
+import FormNilaiNg from './Partials/FormNilaiNg.vue';
 import TableNilai from './Partials/TableNilai.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { computed, ref } from 'vue'
@@ -15,6 +17,8 @@ const isClickNc = ref(false)
 const isClickNd = ref(false)
 const isClickNe = ref(false)
 const isClickNs = ref(false)
+const isClickNf = ref(false)
+const isClickNg = ref(false)
 const page = usePage()
 const user = computed(() => page.props.auth.user)
 const props = defineProps({
@@ -30,6 +34,8 @@ const setIsClick = (isClick) => {
         isClickNd.value = false
         isClickNe.value = false
         isClickNs.value = false
+        isClickNf.value = false
+        isClickNg.value = false
     }
     else if(isClick == 'nc'){
         isClickNb.value = false
@@ -37,6 +43,8 @@ const setIsClick = (isClick) => {
         isClickNd.value = false
         isClickNe.value = false
         isClickNs.value = false
+        isClickNf.value = false
+        isClickNg.value = false
     }
     else if(isClick == 'nd'){
         isClickNb.value = false
@@ -44,6 +52,8 @@ const setIsClick = (isClick) => {
         isClickNd.value = true
         isClickNe.value = false
         isClickNs.value = false
+        isClickNf.value = false
+        isClickNg.value = false
     }
     else if(isClick == 'ne'){
         isClickNb.value = false
@@ -51,14 +61,37 @@ const setIsClick = (isClick) => {
         isClickNd.value = false
         isClickNe.value = true
         isClickNs.value = false
+        isClickNf.value = false
+        isClickNg.value = false
     }
-    else{
+    else if(isClick == 'ns'){
         isClickNb.value = false
         isClickNc.value = false
         isClickNd.value = false
         isClickNe.value = false
         isClickNs.value = true
+        isClickNf.value = false
+        isClickNg.value = false
     }
+    else if(isClick == 'nf'){
+        isClickNb.value = false
+        isClickNc.value = false
+        isClickNd.value = false
+        isClickNe.value = false
+        isClickNs.value = false
+        isClickNf.value = true
+        isClickNg.value = false
+    }
+    else if(isClick == 'ng'){
+        isClickNb.value = false
+        isClickNc.value = false
+        isClickNd.value = false
+        isClickNe.value = false
+        isClickNs.value = false
+        isClickNf.value = false
+        isClickNg.value = true
+    }
+
 
     return true
 }
@@ -77,12 +110,15 @@ const setIsClick = (isClick) => {
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div v-if="user.role == 3" class="flex mt-8 space-x-4">
                 <div><PrimaryButton v-if="jenis_plp == 'plp_1'" @click="setIsClick('nb')">+ Nilai Nb</PrimaryButton></div>
+                <div><PrimaryButton v-if="jenis_plp == 'plp_2'" @click="setIsClick('nb')">+ Nilai Nb</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2'" @click="setIsClick('ns')">+ Nilai Ns</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'teaching'" @click="setIsClick('nc')">+ Nilai Nc</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" @click="setIsClick('nc')">+ Nilai Nc</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'pgpaud'" @click="setIsClick('nd')">+ Nilai Nd</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" @click="setIsClick('nd')">+ Nilai Nd</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" @click="setIsClick('ne')">+ Nilai Ne</PrimaryButton></div>
+                <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" @click="setIsClick('nf')">+ Nilai Nf</PrimaryButton></div>
+                <div><PrimaryButton v-if="jenis_plp == 'plp_2' && jenis_bidang == 'bk'" @click="setIsClick('ng')">+ Nilai Ng</PrimaryButton></div>
             </div>
 
             <TableNilai :id="id" :prodi="prodi" :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang"/>
@@ -102,6 +138,12 @@ const setIsClick = (isClick) => {
                 </div>
                 <div v-if="isClickNe == true" class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
                     <FormNilaiNe :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang" :jenis_pertanyaan="'ne'" :id="id"/>
+                </div>
+                <div v-if="isClickNf == true" class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
+                    <FormNilaiNf :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang" :jenis_pertanyaan="'nf'" :id="id"/>
+                </div>
+                <div v-if="isClickNg == true" class="bg-white py-8 px-10 mt-10 rounded-md shadow-md">
+                    <FormNilaiNg :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang" :jenis_pertanyaan="'ng'" :id="id"/>
                 </div>
             </div>
         </div>
