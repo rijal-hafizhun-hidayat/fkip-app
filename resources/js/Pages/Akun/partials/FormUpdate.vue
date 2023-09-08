@@ -61,9 +61,9 @@ const submit = () => {
         username: form.username,
         email: form.email,
         role: form.role,
-        id_dpl: form.id_dpl,
-        id_guru_pamong: form.id_guru_pamong,
-        id_mahasiswa: form.id_mahasiswa
+        id_dpl: form.id_dpl.id,
+        id_guru_pamong: form.id_guru_pamong.id,
+        id_mahasiswa: form.id_mahasiswa.id
     })
     .then((res) => {
         Swal.fire({
