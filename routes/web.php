@@ -87,7 +87,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/getDpls', [DplService::class, 'getDpls'])->name('dpl.getDpls');
         Route::get('/getDplById/{id}', [DplService::class, 'getDplById'])->name('dpl.getDplById');
         Route::get('/getDplGuruPamongById/{id}', [DplService::class, 'getDplGuruPamongById'])->name('dpl.getDplGuruPamongById');
-        Route::get('/getDplByIdMahasiswa/{id}', [DplService::class, 'getDplByIdMahasiswa'])->name('dpl.getDplByIdMahasiswa');
         Route::post('/dpl', [DplService::class, 'store'])->name('dpl.store');
         Route::delete('/dpl/{id}', [DplService::class, 'destroy'])->name('dpl.destroy');
         Route::put('/dpl/{id}', [DplService::class, 'update'])->name('dpl.update');
@@ -159,7 +158,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/getGuruPamongByIdDpl/{id}', [GuruPamongService::class, 'getGuruPamongByIdDpl'])->name('guru_pamong.getGuruPamongByIdDpl');
         Route::get('/getMahasiswaByIdGuruPamong/{id}', [GuruPamongService::class, 'getMahasiswaByIdGuruPamong'])->name('guru_pamong.getMahasiswaByIdGuruPamong');
         Route::get('/getMahasiswaIsNull', [GuruPamongService::class, 'getMahasiswaIsNull'])->name('guru_pamong.getMahasiswaIsNull');
-        Route::get('/getGuruPamongByIdMahasiswa/{id}', [GuruPamongService::class, 'getGuruPamongByIdMahasiswa'])->name('guru_pamong.getGuruPamongByIdMahasiswa');
     });
 
     //route bimbingan
@@ -191,6 +189,10 @@ Route::middleware('auth')->group(function () {
     Route::put('/sekolah/{id}', [SekolahService::class, 'update'])->name('sekolah.update');
     Route::delete('/sekolah/{id}', [SekolahService::class, 'destroy'])->name('sekolah.destroy');
     Route::post('/sekolah/import', [SekolahImportService::class, 'import'])->name('sekolah.import');
+
+    //service all role
+    Route::get('/getGuruPamongByIdMahasiswa/{id}', [GuruPamongService::class, 'getGuruPamongByIdMahasiswa'])->name('guru_pamong.getGuruPamongByIdMahasiswa');
+    Route::get('/getDplByIdMahasiswa/{id}', [DplService::class, 'getDplByIdMahasiswa'])->name('dpl.getDplByIdMahasiswa');
 });
 
 require __DIR__.'/auth.php';

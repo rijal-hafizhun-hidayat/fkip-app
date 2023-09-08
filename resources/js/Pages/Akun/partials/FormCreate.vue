@@ -37,7 +37,6 @@ const props = defineProps({
 })
 
 const submit = () => {
-    //console.log(form)
     NProgress.start()
     axios.post('/akun', {
         nama_depan: form.nama_depan,

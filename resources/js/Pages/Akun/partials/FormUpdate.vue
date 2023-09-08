@@ -31,11 +31,13 @@ const form = reactive({
     id_dpl: '',
     id_mahasiswa: ''
 })
-
-const disabled = ref(true)
 const validation = ref([])
 
 onMounted(() => {
+    getAkunById()
+})
+
+const getAkunById = () => {
     NProgress.start()
     axios.get(`/getAkunById/${props.id}`)
     .then((res) => {
@@ -51,7 +53,7 @@ onMounted(() => {
     .finally(() => {
         NProgress.done()
     })
-})
+}
 
 const submit = () => {
     NProgress.start()
@@ -85,7 +87,6 @@ const isChangeMahasiswa = () => {
     axios.get(`/getMahasiswaById/${form.id_mahasiswa.id}`)
     .then((res) => {
         form.nim = res.data.data.nim
-        setUsername()
     })
     .catch((err) => {
         console.log(err)
@@ -96,7 +97,6 @@ const isChangeDpl = () => {
     axios.get(`/getDplById/${form.id_dpl.id}`)
     .then((res) => {
         form.niy = res.data.data.nipy
-        setUsername()
     })
     .catch((err) => {
         console.log(err)
@@ -108,7 +108,7 @@ const setUsername = () => {
         form.username = form.nama_depan + Math.floor(1000 + Math.random() * 9000) + '@admin'
     }
     else if(form.role == 2){
-        form.username = form.nama_depan + form.niy + '@dpl'
+        form.username = form.niy + '@dpl'
     }
     else if(form.role == 3){
         form.username = Math.floor(1000 + Math.random() * 9000) + '@guru';
@@ -118,8 +118,8 @@ const setUsername = () => {
     }
 }
 
-const nameMahasiswaWithLang = ({nama}) => {
-    return nama
+const nameMahasiswaWithLang = ({nama, prodi}) => {
+    return `${nama} - ${prodi}`
 }
 
 const nameDplWithLang = ({nama, prodi}) => {
@@ -141,8 +141,7 @@ const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
                 class="mt-1 block w-full"
                 v-model="form.nama_depan"
                 @change="setUsername()"
-                :class="{ 'border-rose-600': validation.nama_depan }"
-            />
+                :class="{ 'border-rose-600': validation.nama_depan }"/>
             <InputError v-if="validation.nama_depan" :message="validation.nama_depan[0]" class="mt-2" />
         </div>
         <div>
@@ -154,8 +153,7 @@ const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
                 class="mt-1 block w-full"
                 v-model="form.nama"
                 @change="setUsername()"
-                :class="{ 'border-rose-600': validation.nama }"
-            />
+                :class="{ 'border-rose-600': validation.nama }"/>
             <InputError v-if="validation.nama" :message="validation.nama[0]" class="mt-2" />
         </div>
 
@@ -168,8 +166,7 @@ const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
                 class="mt-1 block w-full"
                 v-model="form.email"
                 @change="setUsername()"
-                :class="{ 'border-rose-600': validation.email }"
-            />
+                :class="{ 'border-rose-600': validation.email }"/>
             <InputError v-if="validation.email" :message="validation.email[0]" class="mt-2" />
         </div>
 
@@ -193,7 +190,7 @@ const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
             <InputLabel for="id_mahasiswa" value="Mahasiswa"/>
             <Multiselect
                 :class="{ 'border-rose-600': validation.id_mahasiswa }"
-                @select="isChangeMahasiswa"
+                @select="isChangeMahasiswa()"
                 v-model="form.id_mahasiswa"
                 :custom-label="nameMahasiswaWithLang"
                 label="nama"
@@ -206,7 +203,7 @@ const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
             <InputLabel for="id_guru_pamong" value="Guru Pamong"/>
             <Multiselect
                 :class="{ 'border-rose-600': validation.id_guru_pamong }"
-                @select="setUsername"
+                @select="setUsername()"
                 v-model="form.id_guru_pamong"
                 :custom-label="nameGuruPamongWithLang"
                 label="nama"
@@ -219,7 +216,7 @@ const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
             <InputLabel for="id_dpl" value="Dpl"/>
             <Multiselect
                 :class="{ 'border-rose-600': validation.id_dpl }"
-                @select="isChangeDpl"
+                @select="isChangeDpl()"
                 v-model="form.id_dpl"
                 :custom-label="nameDplWithLang"
                 label="nama"
@@ -231,14 +228,12 @@ const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
         <div>
             <InputLabel for="username" value="Username" />
             <TextInput
-                :disabled="disabled"
                 id="username"
                 ref="username"
                 type="text"
                 class="mt-1 block w-full"
                 v-model="form.username"
-                :class="{ 'border-rose-600': validation.username, 'bg-slate-200': disabled }"
-            />
+                :class="{ 'border-rose-600': validation.username }"/>
             <InputError v-if="validation.username" :message="validation.username[0]" class="mt-2" />
         </div>
 

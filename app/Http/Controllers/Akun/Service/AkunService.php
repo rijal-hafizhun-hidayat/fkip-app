@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Akun\ResetPassAkunRequest;
 use App\Http\Requests\Akun\StoreAkunRequest;
 use App\Http\Requests\Akun\UpdateAkunRequest;
+use App\Models\Dpl;
 use App\Models\GuruPamong;
 use App\Models\Prodi;
 use App\Models\User;
@@ -80,7 +81,8 @@ class AkunService extends Controller
 
     public function getDplByIdDpl($id){
         try {
-            $dpl = DB::table('dpl')->join('users', 'dpl.id', '=', 'users.id_dpl')->select('dpl.id', 'dpl.nipy', 'dpl.nama', 'dpl.email', 'dpl.prodi')->where('users.id', $id)->get();
+            $user = User::find($id);
+            $dpl = Dpl::find($user->id_dpl);
             return $this->responseService($dpl, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, null);

@@ -1,6 +1,14 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import WelcomeMessage from './Partials/WelcomeMessage.vue'
+import TableGuruPamong from './Partials/TableGuruPamong.vue';
+import TableDpl from './Partials/TableDpl.vue';
+import { Head, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue'
+
+const page = usePage()
+const user = computed(() => page.props.auth.user)
+
 </script>
 <template>
     <Head title="Dashboard" />
@@ -13,9 +21,9 @@ import { Head } from '@inertiajs/vue3';
         </template>
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white mt-10 px-4 py-6 rounded shadow-md">
-                <p>Selamat Datang {{ $page.props.auth.user.nama }}</p>
-            </div>
+            <WelcomeMessage :nama="user.nama"/>
+            <TableGuruPamong v-if="user.role == 4" :id_mahasiswa="user.id_mahasiswa"/>
+            <TableDpl v-if="user.role == 4" :id_mahasiswa="user.id_mahasiswa"/>
         </div>
     </AuthenticatedLayout>
 </template>

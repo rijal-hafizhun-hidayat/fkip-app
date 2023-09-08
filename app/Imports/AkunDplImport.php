@@ -21,7 +21,7 @@ class AkunDplImport implements ToModel, WithHeadingRow, WithChunkReading
         $dpl = $this->dpl->where('nama', $rows['nama'])->first();
         return new User([
             'nama' => $rows['nama'],
-            'username' => $rows['niy'] . '@dpl',
+            'username' => rand(1000, 9999) . '@dpl',
             'password' => '@dpl',
             'email' => $rows['email'],
             'role' => 2,
