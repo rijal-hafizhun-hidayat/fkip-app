@@ -12,12 +12,11 @@ class DplImport implements ToCollection, WithHeadingRow
     public function collection(Collection $rows)
     {
         foreach($rows as $row){
-            $isDpl = Dpl::where('id', $row['id'])->first();
+            $isDpl = Dpl::where('nama', $row['nama'])->first();
             if(is_null($isDpl)){
                 Dpl::create([
-                    'id' => $row['id'],
                     'nama' => $row['nama'],
-                    'nipy' => $row['nipy'],
+                    'nipy' => rand(1000, 9999),
                     'prodi' => $row['prodi'],
                     'jenis_plp' => $row['jenis_plp']
                 ]);
