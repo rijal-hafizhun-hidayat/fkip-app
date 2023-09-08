@@ -105,10 +105,10 @@ const isChangeDpl = () => {
 
 const setUsername = () => {
     if(form.role == 1){
-        form.username = form.nama_depan + Math.floor(1000 + Math.random() * 9000) + '@admin'
+        form.username = Math.floor(1000 + Math.random() * 9000) + '@admin'
     }
     else if(form.role == 2){
-        form.username = form.niy + '@dpl'
+        form.username = Math.floor(1000 + Math.random() * 9000) + '@dpl'
     }
     else if(form.role == 3){
         form.username = Math.floor(1000 + Math.random() * 9000) + '@guru';

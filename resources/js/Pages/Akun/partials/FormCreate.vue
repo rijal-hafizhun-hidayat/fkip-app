@@ -24,11 +24,8 @@ const form = reactive({
     id_dpl: '',
     id_mahasiswa: ''
 })
-
-const disabled = ref(true)
 const validation = ref([])
 const isSeePass = ref(false)
-const asosiasi = ref([])
 const props = defineProps({
     guruPamongs: Object,
     prodis: Object,
@@ -87,26 +84,21 @@ const isChangeMahasiswa = () => {
     })
 }
 
-const setNamaDepanToLowerCase = () => {
-    let namaDepan = form.nama_depan
-    return namaDepan.toLowerCase()
-}
-
 const setUsernamePassword = () => {
     if(form.role == 1){
-        form.username = setNamaDepanToLowerCase() + Math.floor(1000 + Math.random() * 9000) + '@admin'
+        form.username = Math.floor(1000 + Math.random() * 9000) + '@admin'
         form.password = Math.floor(1000 + Math.random() * 9000) + '@admin'
     }
     else if(form.role == 2){
-        form.username = setNamaDepanToLowerCase() + form.niy + '@dpl'
-        form.password = Math.floor(1000 + Math.random() * 9000) + '@dpl'
+        form.username = Math.floor(1000 + Math.random() * 9000) + '@dpl'
+        form.password = '@dpl'
     }
     else if(form.role == 3){
         form.username = Math.floor(1000 + Math.random() * 9000) + '@guru'
         form.password = '@guru'
     }
     else if(form.role == 4){
-        form.username = setNamaDepanToLowerCase() + form.nim + '@mahasiswa'
+        form.username = form.nim + '@mahasiswa'
         form.password = Math.floor(1000 + Math.random() * 9000) + '@mahasiswa'
     }
 }
