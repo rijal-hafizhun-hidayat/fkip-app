@@ -111,7 +111,7 @@ const setUsername = () => {
         form.username = form.nama_depan + form.niy + '@dpl'
     }
     else if(form.role == 3){
-        form.username = form.nama_depan + Math.floor(1000 + Math.random() * 9000) + '@guru';
+        form.username = Math.floor(1000 + Math.random() * 9000) + '@guru';
     }
     else if(form.role == 4){
         form.username = form.nim + '@mahasiswa'
@@ -206,6 +206,7 @@ const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
             <InputLabel for="id_guru_pamong" value="Guru Pamong"/>
             <Multiselect
                 :class="{ 'border-rose-600': validation.id_guru_pamong }"
+                @select="setUsername"
                 v-model="form.id_guru_pamong"
                 :custom-label="nameGuruPamongWithLang"
                 label="nama"

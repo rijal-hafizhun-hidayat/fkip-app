@@ -160,8 +160,7 @@ const nameGuruPamongWithLang = ({nama, bidang_keahlian}) => {
                 class="mt-1 block w-full"
                 v-model="form.email"
                 @change="setUsernamePassword"
-                :class="{ 'border-rose-600': validation.email }"
-                required/>
+                :class="{ 'border-rose-600': validation.email }"/>
             <InputError v-if="validation.email" :message="validation.email[0]" />
         </div>
 
