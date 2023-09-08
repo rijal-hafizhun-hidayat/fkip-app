@@ -21,7 +21,7 @@ class UpdateAkunRequest extends FormRequest
         return [
             'required' => 'Wajib diisi',
             'string' => 'Wajib dalam bentuk teks',
-            'numeric' => 'Wajib dalam bentuk angka',
+            'numeric' => 'Error',
             'email' => 'Format Email Salah'
         ];
     }
