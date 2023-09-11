@@ -168,6 +168,7 @@ class AkunService extends Controller
             'nama_depan' => $credential['nama_depan'],
             'nama' => $credential['nama'],
             'username' => $credential['username'],
+            'password' => $credential['password'],
             'email' => $credential['email'],
             'role' => $credential['role'],
             'id_mahasiswa' => $credential['id_mahasiswa']
