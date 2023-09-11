@@ -4,6 +4,7 @@ import { Head } from '@inertiajs/vue3';
 import FormUpdate from './partials/FormUpdate.vue';
 import TableDpl from './partials/TableDpl.vue';
 import TableGuruPamong from './partials/TableGuruPamong.vue';
+import TableMahasiswa from './partials/TableMahasiswa.vue';
 
 defineProps({
     id: Number,
@@ -30,6 +31,7 @@ defineProps({
             </div>
             <TableDpl v-if="roleAkun == 2" :id="id"/>
             <TableGuruPamong v-if=" roleAkun == 3" :id="id"/>
+            <TableMahasiswa v-if="roleAkun == 4" :id="id" />
         </div>
     </AuthenticatedLayout>
 </template>

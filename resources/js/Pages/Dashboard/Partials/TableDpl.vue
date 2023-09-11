@@ -2,7 +2,9 @@
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Notification from '@/Components/Notification.vue';
 
+const dpl = ref([])
 const props = defineProps({
     id_mahasiswa: Number
 })
@@ -14,7 +16,7 @@ onMounted(() => {
 const getDplByIdMahasiswa = () => {
     axios.get(`/getDplByIdMahasiswa/${props.id_mahasiswa}`)
     .then((res) => {
-        console.log(res)
+        dpl.value = res.data.data
     })
     .catch((err) => {
         console.log(err)
@@ -22,7 +24,14 @@ const getDplByIdMahasiswa = () => {
 }
 </script>
 <template>
-<div class="bg-white rounded-md shadow-md overflow-x-auto mt-10">
+    <Notification v-if="!dpl" :level="'dpl'"/>
+    <div class="bg-white mt-10 px-4 py-6 rounded shadow-md">
+        <div class="flex justify-between ms-5 mb-5">
+            <div><p class="font-semibold text-xl text-gray-800">Terhubung DPL</p></div>
+            <div v-if="dpl"><PrimaryButton>Ubah DPL</PrimaryButton></div>
+            <div v-else><PrimaryButton>Hubungkan DPL</PrimaryButton></div>
+        </div>
+        <hr>
         <table class="w-full whitespace-nowrap">
             <thead>
                 <tr class="text-left font-bold">
@@ -34,7 +43,7 @@ const getDplByIdMahasiswa = () => {
                 </tr>
             </thead>
             <tbody>
-                <!-- <tr v-for="dpl in dplByIdDpl" :key="dpl.id" class="hover:bg-gray-100">
+                <tr v-if="dpl" class="hover:bg-gray-100">
                     <td class="border-t items-center px-6 py-4">
                         {{ dpl.nipy }}
                     </td>
@@ -52,10 +61,10 @@ const getDplByIdMahasiswa = () => {
                             <DestroyButton @click="destroyAsosiasiDpl"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                         </div>
                     </td>
-                </tr> -->
-                <!-- <tr v-if="dplByIdDpl.length == 0">
-                    <td class="px-6 py-4 text-center border-t" colspan="5">No data found.</td>
-                </tr> -->
+                </tr>
+                <tr v-else>
+                    <td class="py-4 text-center border-t" colspan="5">No data found.</td>
+                </tr>
             </tbody>
         </table>
     </div>

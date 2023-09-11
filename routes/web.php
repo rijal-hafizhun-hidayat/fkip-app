@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/akun/{id}', [AkunService::class, 'update'])->name('akun.update');
         Route::get('/getGuruPamongByIdGuruPamong/{id}', [AkunService::class, 'getGuruPamongByIdGuruPamong'])->name('akun.getGuruPamongByIdGuruPamong');
         Route::get('/getDplByIdDpl/{id}', [AkunService::class, 'getDplByIdDpl'])->name('akun.getDplByIdDpl');
+        Route::get('/getMahasiswaByIdMahasiswa/{id}', [AkunService::class, 'getMahasiswaByIdMahasiswa'])->name('akun.getMahasiswaByIdMahasiswa');
         Route::put('/destroyAsosiasiGuruPamong/{id}', [AkunService::class, 'destroyAsosiasiGuruPamong'])->name('akun.destroyAsosiasiGuruPamong');
         Route::put('/destroyAsosiasiDpl/{id}', [AkunService::class, 'destroyAsosiasiDpl'])->name('akun.destroyAsosiasiDpl');
         Route::put('/resetPass/{id}', [AkunService::class, 'resetPass'])->name('akun.resetPass');

@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import Notification from '@/Components/Notification.vue';
 
 const guruPamong = ref([])
 const props = defineProps({
@@ -15,7 +16,7 @@ onMounted(() => {
 const getGuruPamongByIdMahasiswa = () => {
     axios.get(`/getGuruPamongByIdMahasiswa/${props.id_mahasiswa}`)
     .then((res) => {
-        guruPamong.value = res.data
+        guruPamong.value = res.data.data
     })
     .catch((err) => {
         console.log(err)
@@ -23,10 +24,12 @@ const getGuruPamongByIdMahasiswa = () => {
 }
 </script>
 <template>
+    <Notification v-if="!guruPamong" :level="'guru-pamong'"/>
     <div class="bg-white mt-10 px-4 py-6 rounded shadow-md">
         <div class="flex justify-between ms-5 mb-5">
             <div><p class="font-semibold text-xl text-gray-800">Terhubung Guru Pamong</p></div>
-            <div><PrimaryButton>Ubah Guru Pamong</PrimaryButton></div>
+            <div v-if="guruPamong"><PrimaryButton>Ubah Guru Pamong</PrimaryButton></div>
+            <div v-else><PrimaryButton>Hubungkan Guru Pamong</PrimaryButton></div>
         </div>
         
         <hr>
@@ -39,20 +42,20 @@ const getGuruPamongByIdMahasiswa = () => {
                 </tr>
             </thead>
             <tbody>
-                <tr v-if="guruPamong.data" class="hover:bg-gray-100">
+                <tr v-if="guruPamong" class="hover:bg-gray-100">
                     <td class="border-t items-center px-6 py-4">
-                        {{ guruPamong.data.nama }}
+                        {{ guruPamong.nama }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
-                        {{ guruPamong.data.asal_sekolah }}
+                        {{ guruPamong.asal_sekolah }}
                     </td>
                     <td class="border-t items-center px-6 py-4">
-                        {{ guruPamong.data.bidang_keahlian }}
+                        {{ guruPamong.bidang_keahlian }}
                     </td>
                 </tr>
-            <!-- <tr v-if="dplGuruPamongById.length == 0">
-                <td class="px-6 py-4 text-center border-t" colspan="4">No data found.</td>
-            </tr> -->
+                <tr v-else>
+                    <td class="py-4 text-center border-t" colspan="4">No data found.</td>
+                </tr>
             </tbody>
         </table>
     </div>

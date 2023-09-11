@@ -8,6 +8,7 @@ use App\Http\Requests\Akun\StoreAkunRequest;
 use App\Http\Requests\Akun\UpdateAkunRequest;
 use App\Models\Dpl;
 use App\Models\GuruPamong;
+use App\Models\Mahasiswa;
 use App\Models\Prodi;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -84,6 +85,16 @@ class AkunService extends Controller
             $user = User::find($id);
             $dpl = Dpl::find($user->id_dpl);
             return $this->responseService($dpl, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, null, null);
+        }
+    }
+
+    public function getMahasiswaByIdMahasiswa($id){
+        try {
+            $user = User::find($id);
+            $mahasiswa = Mahasiswa::find($user->id_mahasiswa);
+            return $this->responseService($mahasiswa, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, null);
         }
