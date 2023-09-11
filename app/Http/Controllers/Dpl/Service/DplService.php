@@ -13,6 +13,15 @@ use Illuminate\Http\Request;
 
 class DplService extends Controller
 {
+    public function getDpl(){
+        try {
+            $dpl = Dpl::all();
+            return $this->responseService($dpl, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->responseService(null, 400, false, 'Gagal', $e);
+        }
+    }
+
     public function getDpls(){
         try {
             $queryDpl = $this->setQueryGetDpl();

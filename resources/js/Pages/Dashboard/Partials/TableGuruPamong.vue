@@ -1,8 +1,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Notification from '@/Components/Notification.vue';
+import AddAsosiasi from './AddAsosiasi.vue';
 
 const guruPamong = ref([])
 const props = defineProps({
@@ -28,8 +28,8 @@ const getGuruPamongByIdMahasiswa = () => {
     <div class="bg-white mt-10 px-4 py-6 rounded shadow-md">
         <div class="flex justify-between ms-5 mb-5">
             <div><p class="font-semibold text-xl text-gray-800">Terhubung Guru Pamong</p></div>
-            <div v-if="guruPamong"><PrimaryButton>Ubah Guru Pamong</PrimaryButton></div>
-            <div v-else><PrimaryButton>Hubungkan Guru Pamong</PrimaryButton></div>
+            <div v-if="guruPamong"><AddAsosiasi :asosiasi="'guru-pamong'" :keterangan="'Ubah Guru Pamong'"/></div>
+            <div v-else><AddAsosiasi :asosiasi="'guru-pamong'" :keterangan="'Hubungkan Guru Pamong'"/></div>
         </div>
         
         <hr>

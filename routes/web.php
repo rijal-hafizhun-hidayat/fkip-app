@@ -93,7 +93,6 @@ Route::middleware('auth')->group(function () {
         Route::put('/dpl/{id}', [DplService::class, 'update'])->name('dpl.update');
         Route::post('/dpl/import', [DplImportService::class, 'import'])->name('dpl.import');
         Route::put('/storeGuruPamong/{id}', [DplService::class, 'storeGuruPamong'])->name('dpl.storeGuruPamong');
-        Route::get('/getGuruPamongsIsNull', [DplService::class, 'getGuruPamongsIsNull'])->name('dpl.getGuruPamongsIsNull');
         Route::put('/destroyAssociationGuruPamong/{id}', [DplService::class, 'destroyAssociationGuruPamong'])->name('dpl.destroyAssociationGuruPamong');
         Route::get('/getDplByProdi/{prodi}', [DplService::class, 'getDplByProdi'])->name('guru_pamong.getDplByProdi');
     });
@@ -192,6 +191,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/sekolah/import', [SekolahImportService::class, 'import'])->name('sekolah.import');
 
     //service all role
+    Route::get('/getDpl', [DplService::class, 'getDpl'])->name('dpl.getDpl');
+    Route::get('/getGuruPamongsIsNull', [DplService::class, 'getGuruPamongsIsNull'])->name('dpl.getGuruPamongsIsNull');
     Route::get('/getGuruPamongByIdMahasiswa/{id}', [GuruPamongService::class, 'getGuruPamongByIdMahasiswa'])->name('guru_pamong.getGuruPamongByIdMahasiswa');
     Route::get('/getDplByIdMahasiswa/{id}', [DplService::class, 'getDplByIdMahasiswa'])->name('dpl.getDplByIdMahasiswa');
 });

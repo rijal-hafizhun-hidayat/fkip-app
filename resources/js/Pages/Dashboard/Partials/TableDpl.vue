@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import AddAsosiasi from './AddAsosiasi.vue';
 import Notification from '@/Components/Notification.vue';
 
 const dpl = ref([])
@@ -28,8 +28,8 @@ const getDplByIdMahasiswa = () => {
     <div class="bg-white mt-10 px-4 py-6 rounded shadow-md">
         <div class="flex justify-between ms-5 mb-5">
             <div><p class="font-semibold text-xl text-gray-800">Terhubung DPL</p></div>
-            <div v-if="dpl"><PrimaryButton>Ubah DPL</PrimaryButton></div>
-            <div v-else><PrimaryButton>Hubungkan DPL</PrimaryButton></div>
+            <div v-if="dpl"><AddAsosiasi :asosiasi="'dpl'" :keterangan="'Ubah Dpl'"/></div>
+            <div v-else><AddAsosiasi :asosiasi="'dpl'" :keterangan="'Hubungkan Dpl'"/></div>
         </div>
         <hr>
         <table class="w-full whitespace-nowrap">
