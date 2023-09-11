@@ -81,7 +81,7 @@ class GuruPamongService extends Controller
 
     public function getMahasiswaIsNull(){
         try {
-            $mahasiswaIsNull = Mahasiswa::whereNull('id_guru_pamong')->get();
+            $mahasiswaIsNull = Mahasiswa::all();
             return $this->responseService($mahasiswaIsNull, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, 'Gagal', $e);

@@ -92,7 +92,7 @@ class DplService extends Controller
 
     public function getGuruPamongsIsNull(){
         try {
-            $guruPamongs = GuruPamong::whereNull('id_dpl')->get();
+            $guruPamongs = GuruPamong::all();
             return $this->responseService($guruPamongs, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->responseService(null, 400, false, null, null);

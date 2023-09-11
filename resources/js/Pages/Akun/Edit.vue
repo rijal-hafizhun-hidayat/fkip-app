@@ -29,7 +29,7 @@ defineProps({
                 <FormUpdate :id="id" :prodis="prodis" :guruPamongs="guruPamongs" :dpls="dpls" :mahasiswas="mahasiswas"/>
             </div>
             <TableDpl v-if="roleAkun == 2" :id="id"/>
-            <TableGuruPamong v-if="roleAkun == 3" :id="id"/>
+            <TableGuruPamong v-if=" roleAkun == 3" :id="id"/>
         </div>
     </AuthenticatedLayout>
 </template>

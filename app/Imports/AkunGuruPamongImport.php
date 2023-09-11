@@ -17,7 +17,6 @@ class AkunGuruPamongImport implements ToModel, WithHeadingRow, WithChunkReading
     }
     public function model(array $rows)
     {
-        //dd($rows);
         $guruPamong = $this->guruPamong->where('nama', $rows['nama'])->first();
         return new User([
             'nama' => $rows['nama'],
