@@ -3,6 +3,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import SelectInput from '@/Components/SelectInput.vue';
 import TextInput from '@/Components/TextInput.vue';
+import TextAreaInput from '@/Components/TextAreaInput.vue'
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
 import { reactive, ref, onMounted, computed } from 'vue';
@@ -102,9 +103,9 @@ const showModal = () => {
             <div class="p-3">
                 <form @submit.prevent="submit" class="px-3 space-y-6">
 
-                    <div v-if="user.role == 4">
+                    <div>
                         <InputLabel for="keterangan_bimbingan" value="Keterangan Bimbingan" />
-                        <TextInput
+                        <TextAreaInput
                             id="nama"
                             type="text"
                             class="block w-full"
@@ -112,7 +113,7 @@ const showModal = () => {
                         <InputError v-if="validation.keterangan_bimbingan" :message="validation.keterangan_bimbingan[0]" class="mt-2" />
                     </div>
 
-                    <div v-if="user.role == 4">
+                    <div>
                         <InputLabel for="link" value="Link" />
                         <TextInput
                             id="matakuliah"
@@ -138,7 +139,7 @@ const showModal = () => {
 
                     <div v-if="user.role == 2">
                         <InputLabel for="catatan_pembimbing" value="catatan pembimbing" />
-                        <TextInput
+                        <TextAreaInput
                             id="catatan_pembimbing"
                             type="text"
                             class="block w-full"

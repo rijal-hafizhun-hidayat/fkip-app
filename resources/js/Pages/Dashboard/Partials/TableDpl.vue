@@ -25,7 +25,7 @@ const getDplByIdMahasiswa = () => {
 </script>
 <template>
     <Notification v-if="!dpl" :level="'dpl'"/>
-    <div class="bg-white mt-10 px-4 py-6 rounded shadow-md">
+    <div class="bg-white mt-10 px-4 py-6 rounded shadow-md overflow-x-auto">
         <div class="flex justify-between ms-5 mb-5">
             <div><p class="font-semibold text-xl text-gray-800">Terhubung DPL</p></div>
             <div v-if="dpl"><AddAsosiasi :asosiasi="'dpl'" :keterangan="'Ubah Dpl'"/></div>

@@ -1,8 +1,8 @@
 <script setup>
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-import TextInput from '@/Components/TextInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import TextAreaInput from '@/Components/TextAreaInput.vue'
 import { reactive, ref } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -67,7 +67,7 @@ const showModal = () => {
 
                     <div>
                         <InputLabel for="catatan_pembimbing" value="catatan_pembimbing" />
-                        <TextInput
+                        <TextAreaInput
                             id="nama"
                             type="text"
                             class="mt-1 block w-full"

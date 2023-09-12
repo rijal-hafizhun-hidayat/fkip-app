@@ -25,7 +25,7 @@ const getGuruPamongByIdMahasiswa = () => {
 </script>
 <template>
     <Notification v-if="!guruPamong" :level="'guru-pamong'"/>
-    <div class="bg-white mt-10 px-4 py-6 rounded shadow-md">
+    <div class="bg-white mt-10 px-4 py-6 rounded shadow-md overflow-x-auto">
         <div class="flex justify-between ms-5 mb-5">
             <div><p class="font-semibold text-xl text-gray-800">Terhubung Guru Pamong</p></div>
             <div v-if="guruPamong"><AddAsosiasi :asosiasi="'guru-pamong'" :keterangan="'Ubah Guru Pamong'"/></div>

@@ -20,7 +20,7 @@ const props = defineProps({
             <div class="flex justify-between">
                 <div><h2 class="font-semibold text-xl text-gray-800 leading-tight">Bimbingan Mahasiswa</h2></div>
                 <!-- <div><PrimaryButton class="order-1 mt-[-10px]">Tambah Kelas</PrimaryButton></div> -->
-                <div v-if="user.role == 4" class="order-1"><ModalCreateBimbingan :id="id"/></div>
+                <div v-if="user.role == 4 || user.role == 2" class="order-1"><ModalCreateBimbingan :id="id"/></div>
             </div>
         </template>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -168,9 +168,9 @@ Route::middleware('auth')->group(function () {
         //service
         Route::middleware('isDpl')->group(function(){
             Route::put('/bimbingan/catatan-pemimbing/{id}', [BimbinganService::class, 'storeCatatanPembimbing'])->name('bimbingan.storeCatatanPembimbing');
-            Route::delete('/bimbingan/{id}', [BimbinganService::class, 'destroy'])->name('bimbingan.destroy');
             Route::put('/bimbingan/confirmed/{id}', [BimbinganService::class, 'confirmed'])->name('bimbingan.confirmed');
         });
+        Route::delete('/bimbingan/{id}', [BimbinganService::class, 'destroy'])->name('bimbingan.destroy');
         Route::put('/bimbingan/{id}', [BimbinganService::class, 'update'])->name('bimbingan.update');
         Route::get('/bimbingan/{id}', [BimbinganService::class, 'getBimbinganById'])->name('bimbingan.getBimbinganById');
         Route::get('/getBimbinganByIdMahasiswa/{id}', [BimbinganService::class, 'getBimbinganByIdMahasiswa'])->name('bimbingan.getBimbinganByIdMahasiswa');
