@@ -38,10 +38,9 @@ class RegisterAkunRequest extends FormRequest
             'password' => 'required|string',
             'email' => 'nullable|email:rfc,dns',
             'nim' => 'sometimes|required|numeric',
-            'niy' => 'sometimes|required|numeric',
             'role' => 'required|numeric',
-            'id_guru_pamong' => 'nullable|numeric',
-            'id_mahasiswa' => 'nullable|numeric'
+            'id_guru_pamong' => 'exclude_unless:id_mahasiswa,null|required|numeric',
+            'id_mahasiswa' => ' exclude_unless:id_guru_pamong,null|required|numeric'
         ];
     }
 }

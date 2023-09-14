@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Akun\RegisterAkunRequest;
-use App\Models\Dpl;
 use App\Models\GuruPamong;
 use App\Models\Mahasiswa;
 use App\Models\User;
@@ -21,8 +20,7 @@ class RegisteredUserController extends Controller
     {
         return Inertia::render('Auth/Register', [
             'mahasiswas' => Mahasiswa::all(),
-            'guru_pamongs' => GuruPamong::all(),
-            'dpls' => Dpl::all()
+            'guru_pamongs' => GuruPamong::all()
         ]);
     }
 
