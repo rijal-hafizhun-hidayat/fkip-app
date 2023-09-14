@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import WelcomeMessage from './Partials/WelcomeMessage.vue'
 import WarningMessage from './Partials/WarningMessage.vue';
 import TableGuruPamong from './Partials/TableGuruPamong.vue';
+import NilaiMahasiswa from './Partials/NilaiMahasiswa.vue';
 import TableDpl from './Partials/TableDpl.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue'
@@ -23,7 +24,8 @@ const user = computed(() => page.props.auth.user)
 
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <WelcomeMessage :nama="user.nama"/>
-            <WarningMessage />
+            <NilaiMahasiswa v-if="user.role == 4" :id_mahasiswa="user.id_mahasiswa"/>
+            <WarningMessage v-if="user.role == 4" />
             <TableGuruPamong v-if="user.role == 4" :id_mahasiswa="user.id_mahasiswa"/>
             <TableDpl v-if="user.role == 4" :id_mahasiswa="user.id_mahasiswa"/>
         </div>

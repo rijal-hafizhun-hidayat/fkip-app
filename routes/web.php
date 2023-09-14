@@ -191,14 +191,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/sekolah/{id}', [SekolahService::class, 'destroy'])->name('sekolah.destroy');
     Route::post('/sekolah/import', [SekolahImportService::class, 'import'])->name('sekolah.import');
 
-    //service all role
+    //dashboard
+    //service dashboard
     Route::put('/storeAsosiasi/{id}', [DashboardServiceController::class, 'storeAsosiasi'])->name('dashboard.storeAsosiasi');
+    Route::get('/getNilai/{id}', [DashboardServiceController::class, 'getNilai'])->name('dashboard.getNilai');
+
+    //service all role
     Route::get('/getDpl', [DplService::class, 'getDpl'])->name('dpl.getDpl');
     Route::get('/getGuruPamongsIsNull', [DplService::class, 'getGuruPamongsIsNull'])->name('dpl.getGuruPamongsIsNull');
-
-    //service dashboard
-    
-
     Route::get('/getGuruPamongByIdMahasiswa/{id}', [GuruPamongService::class, 'getGuruPamongByIdMahasiswa'])->name('guru_pamong.getGuruPamongByIdMahasiswa');
     Route::get('/getDplByIdMahasiswa/{id}', [DplService::class, 'getDplByIdMahasiswa'])->name('dpl.getDplByIdMahasiswa');
 });

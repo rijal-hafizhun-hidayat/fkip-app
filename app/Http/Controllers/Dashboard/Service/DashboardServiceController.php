@@ -20,6 +20,15 @@ class DashboardServiceController extends Controller
         }
     }
 
+    public function getNilai($id){
+        try {
+            $mahasiswa = Mahasiswa::find($id);
+            return $this->sendResponse($mahasiswa, 200, true, null, null);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return $this->sendResponse(null, 400, false, 'Gagal', $e->getMessage());
+        }
+    }
+
     private function storeAsosiasiDpl($id_mahasiswa, $id_dpl){
         try {
             $mahasiswa = Mahasiswa::find($id_mahasiswa);
