@@ -18,7 +18,7 @@ class DplService extends Controller
             $dpl = Dpl::all();
             return $this->responseService($dpl, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
-            return $this->responseService(null, 400, false, 'Gagal', $e);
+            return $this->responseService(null, 400, false, 'Gagal', $e->getMessage());
         }
     }
 
@@ -28,7 +28,7 @@ class DplService extends Controller
             $dpl = $queryDpl->paginate(10);
             return $this->responseService($dpl, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
-            return $this->responseService(null, 400, false, 'Gagal', $e);
+            return $this->responseService(null, 400, false, 'Gagal', $e->getMessage());
         }
     }
 
@@ -37,7 +37,7 @@ class DplService extends Controller
             $dpl = Dpl::where('prodi', $prodi)->get();
             return $this->responseService($dpl, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {
-            return $this->responseService($dpl, 400, false, 'Gagal', $e);
+            return $this->responseService($dpl, 400, false, 'Gagal', $e->getMessage());
         }
     }
 
@@ -111,8 +111,13 @@ class DplService extends Controller
     public function getDplByIdMahasiswa($id){
         try {
             $mahasiswa = Mahasiswa::find($id);
-            $guruPamong = GuruPamong::find($mahasiswa->id_guru_pamong);
-            $dpl = Dpl::find($guruPamong->id_dpl);
+            if(is_null($mahasiswa->id_guru_pamong)){
+                $dpl = null;
+            }
+            else{
+                $guruPamong = GuruPamong::find($mahasiswa->id_guru_pamong);
+                $dpl = Dpl::find($guruPamong->id_dpl);
+            }
             
             return $this->responseService($dpl, 200, true, null, null);
         } catch (\Illuminate\Database\QueryException $e) {

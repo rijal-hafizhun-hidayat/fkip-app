@@ -14,7 +14,7 @@ const isHidden = ref(true)
 const validation = ref([])
 const jenisPlp = ref('')
 const tahapanBimbinganPlpI = ['Pra Pelaksanaan', 'Perangkat', 'Praktik Pembelajaran', 'Luaran']
-const tahapanBimbinganPlpII = ['Pra Pelaksanaan', 'Obesrvasu ke Sekolah', 'Luaran']
+const tahapanBimbinganPlpII = ['Pra Pelaksanaan', 'Obesrvasi ke Sekolah', 'Luaran']
 const props = defineProps({
     id: Number,
     jenisPlp: String

@@ -18,6 +18,8 @@ const props = defineProps({
     user: Array
 })
 
+console.log(props.id)
+
 onMounted(() => {
     moment.locale('id')
     getBimbinganByIdMahasiswa()
@@ -26,7 +28,6 @@ onMounted(() => {
 const getBimbinganByIdMahasiswa = () => {
     axios.get(`/getBimbinganByIdMahasiswa/${props.id}`)
     .then((res) => {
-        console.log(res)
         bimbingans.value = res.data.data
     })
     .catch((err) => {
@@ -119,7 +120,7 @@ const goToGoggleDrive = (link) => {
                             <ModalUpdateBimbingan v-if="user.role == 4 || user.role == 2" :id="bimbingan.id" :id_mahasiswa="id"/>
                             <GoogleDriveButton v-if="user.role == 4 || user.role == 2" @click="goToGoggleDrive(bimbingan.link)"><i class="fa-brands fa-google-drive text-white"></i></GoogleDriveButton>
                             <!-- <DetailButton v-if="user.role == 2" @click="confirmed(bimbingan.id)"><i class="fa-solid fa-square-check fa-lg"></i></DetailButton> -->
-                            <ModalUpdateStatus v-if="user.role == 4 || user.role == 2" :id="bimbingan.id" />
+                            <ModalUpdateStatus v-if="user.role == 4 || user.role == 2" :id="bimbingan.id" :id_mahasiswa="id" />
                         </div>
                     </td>
                 </tr>

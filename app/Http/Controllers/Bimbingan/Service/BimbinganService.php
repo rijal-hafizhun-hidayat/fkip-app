@@ -80,16 +80,10 @@ class BimbinganService extends Controller
     public function confirmed(Request $request, $id){
         try {
             $bimbingan = Bimbingan::find($id);
-            if($bimbingan->confirmed == 0){
-                $bimbingan->confirmed = $request->confirmed;
-                $bimbingan->save();
-                return $this->sendResponse(null, 200, true, 'berhasil', 'berhasil ACC Bimbingan');
-            }
-            else if($bimbingan->confirmed == 1){
-                $bimbingan->confirmed = 0;
-                $bimbingan->save();
-                return $this->sendResponse(null, 200, true, 'berhasil', 'berhasil Batalkan ACC Bimbingan');
-            }
+            $bimbingan->confirmed = $request->confirmed;
+            $bimbingan->save();
+
+            return $this->sendResponse(null, 200, true, 'berhasil', 'berhasil Konfirmasi status bimbingan');
         } catch (\Illuminate\Database\QueryException $e) {
             return $this->sendResponse(null, 400, false, null, $e->getMessage());
         }

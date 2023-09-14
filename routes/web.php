@@ -16,6 +16,7 @@ use App\Http\Controllers\Dpl\Service\DplService;
 use App\Http\Controllers\Dpl\Service\DplImportService;
 use App\Http\Controllers\Bimbingan\BimbinganController;
 use App\Http\Controllers\Bimbingan\Service\BimbinganService;
+use App\Http\Controllers\Dashboard\Service\DashboardServiceController;
 use App\Http\Controllers\Sekolah\SekolahController;
 use App\Http\Controllers\Sekolah\Service\SekolahService;
 use App\Http\Controllers\Sekolah\Service\SekolahImportService;
@@ -143,13 +144,13 @@ Route::middleware('auth')->group(function () {
             Route::get('/guru-pamong/{id}', [GuruPamongController::class, 'show'])->name('guru_pamong.show');
 
             //service guru pamong
+            Route::put('/storeAsosiasiMahasiswa/{id}', [GuruPamongService::class, 'storeAsosiasiMahasiswa'])->name('guru_pamong.storeAsosiasiMahasiswa');
             Route::get('/getGuruPamongs', [GuruPamongService::class, 'getGuruPamongs'])->name('guru_pamong.getGuruPamongs');
             Route::post('/guru-pamong', [GuruPamongService::class, 'store'])->name('guru_pamong.store');
             Route::put('/guru-pamong/{id}', [GuruPamongService::class, 'update'])->name('guru_pamong.update');
             Route::delete('/guru-pamong/{id}', [GuruPamongService::class, 'destroy'])->name('guru_pamong.destroy');
             Route::post('/guru-pamong/import', [GuruPamongImportService::class, 'import'])->name('guru_pamong.import');
             Route::put('/guru-pamong/import/asosiasi', [GuruPamongImportService::class, 'importAsosiasiMahasiswa'])->name('guru_pamong.importAsosiasiMahasiswa');
-            Route::put('/storeAsosiasiMahasiswa/{id}', [GuruPamongService::class, 'storeAsosiasiMahasiswa'])->name('guru_pamong.storeAsosiasiMahasiswa');
             Route::put('/destroyAsosiasiMahasiswa/{id}', [GuruPamongService::class, 'destroyAsosiasiMahasiswa'])->name('guru_pamong.destroyAsosiasiMahasiswa');
             Route::get('/getBidangKeahlian', [GuruPamongService::class, 'getBidangKeahlian'])->name('guru_pamong.getBidangKeahlian');
         });
@@ -191,8 +192,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/sekolah/import', [SekolahImportService::class, 'import'])->name('sekolah.import');
 
     //service all role
+    Route::put('/storeAsosiasi/{id}', [DashboardServiceController::class, 'storeAsosiasi'])->name('dashboard.storeAsosiasi');
     Route::get('/getDpl', [DplService::class, 'getDpl'])->name('dpl.getDpl');
     Route::get('/getGuruPamongsIsNull', [DplService::class, 'getGuruPamongsIsNull'])->name('dpl.getGuruPamongsIsNull');
+
+    //service dashboard
+    
+
     Route::get('/getGuruPamongByIdMahasiswa/{id}', [GuruPamongService::class, 'getGuruPamongByIdMahasiswa'])->name('guru_pamong.getGuruPamongByIdMahasiswa');
     Route::get('/getDplByIdMahasiswa/{id}', [DplService::class, 'getDplByIdMahasiswa'])->name('dpl.getDplByIdMahasiswa');
 });

@@ -10,8 +10,10 @@ import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3'
 
 const props = defineProps({
-    id: Number  
+    id: Number,
+    id_mahasiswa: Number
 })
+
 const confirm = ref()
 const isHidden = ref(true)
 const showModal = () => {
@@ -23,7 +25,13 @@ const submit = () => {
         confirmed: confirm.value
     })
     .then((res) => {
-        console.log(res)
+        Swal.fire({
+            icon: 'success',
+            title: res.data.title,
+            text: res.data.text
+        })
+
+        router.get(`/bimbingans/${props.id_mahasiswa}`)
     })
     .catch((err) => {
         console.log(err)
@@ -49,8 +57,8 @@ const submit = () => {
                         <SelectInput v-model="confirm" class="block w-full">
                             <option selected disabled value="">-- Pilih --</option>
                             <option value="2">ACC</option>
-                            <option value="1">Revis</option>
-                            <option value="0">Belum ACC</option>
+                            <option value="1">Revisi</option>
+                            <option value="3">Di Tolak</option>
                         </SelectInput>
                         <!-- <InputError v-if="validation.email" :message="validation.email[0]" /> -->
                     </div>

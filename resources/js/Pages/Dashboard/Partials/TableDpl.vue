@@ -4,6 +4,7 @@ import axios from 'axios'
 import AddAsosiasi from './AddAsosiasi.vue';
 import Notification from '@/Components/Notification.vue';
 
+const status =ref()
 const dpl = ref([])
 const props = defineProps({
     id_mahasiswa: Number
@@ -28,8 +29,8 @@ const getDplByIdMahasiswa = () => {
     <div class="bg-white mt-10 px-4 py-6 rounded shadow-md overflow-x-auto">
         <div class="flex justify-between ms-5 mb-5">
             <div><p class="font-semibold text-xl text-gray-800">Terhubung DPL</p></div>
-            <div v-if="dpl"><AddAsosiasi :asosiasi="'dpl'" :keterangan="'Ubah Dpl'"/></div>
-            <div v-else><AddAsosiasi :asosiasi="'dpl'" :keterangan="'Hubungkan Dpl'"/></div>
+            <div v-if="dpl"><AddAsosiasi :keterangan="'Ubah Dpl'" :id="id_mahasiswa" :jenisAsosiasi="2"/></div>
+            <div v-else-if="!dpl"><AddAsosiasi :keterangan="'Hubungkan Dpl'" :id="id_mahasiswa" :jenisAsosiasi="2"/></div>
         </div>
         <hr>
         <table class="w-full whitespace-nowrap">
@@ -39,7 +40,6 @@ const getDplByIdMahasiswa = () => {
                     <th class="pb-4 pt-6 px-6">Nama</th>
                     <th class="pb-4 pt-6 px-6">Prodi</th>
                     <th class="pb-4 pt-6 px-6">Email</th>
-                    <th class="pb-4 pt-6 px-6">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,14 +56,9 @@ const getDplByIdMahasiswa = () => {
                     <td class="border-t items-center px-6 py-4">
                         {{ dpl.email }}
                     </td>
-                    <td class="border-t items-center px-6 py-4">
-                        <div class="flex flex-row space-x-4">
-                            <DestroyButton @click="destroyAsosiasiDpl"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                        </div>
-                    </td>
                 </tr>
                 <tr v-else>
-                    <td class="py-4 text-center border-t" colspan="5">No data found.</td>
+                    <td class="py-4 text-center border-t" colspan="4">No data found.</td>
                 </tr>
             </tbody>
         </table>

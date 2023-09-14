@@ -17,10 +17,10 @@ const setIsConfirm = () => {
         classConfirm.value = 'bg-amber-500'
     }
     else if(props.isConfirm == 2){
-        confirm.value = 'ACC'
+        confirm.value = 'Di Setujui'
         classConfirm.value = 'bg-green-500'
     }
-    else if(props.isConfirm == 4){
+    else if(props.isConfirm == 3){
         confirm.value = 'Di Tolak'
         classConfirm.value = 'bg-rose-500'
     }

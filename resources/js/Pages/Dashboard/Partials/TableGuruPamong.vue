@@ -28,8 +28,8 @@ const getGuruPamongByIdMahasiswa = () => {
     <div class="bg-white mt-10 px-4 py-6 rounded shadow-md overflow-x-auto">
         <div class="flex justify-between ms-5 mb-5">
             <div><p class="font-semibold text-xl text-gray-800">Terhubung Guru Pamong</p></div>
-            <div v-if="guruPamong"><AddAsosiasi :asosiasi="'guru-pamong'" :keterangan="'Ubah Guru Pamong'"/></div>
-            <div v-else><AddAsosiasi :asosiasi="'guru-pamong'" :keterangan="'Hubungkan Guru Pamong'"/></div>
+            <div v-if="guruPamong"><AddAsosiasi :keterangan="'Ubah Guru Pamong'" :id="id_mahasiswa" :jenisAsosiasi="3"/></div>
+            <div v-else-if="!guruPamong"><AddAsosiasi :keterangan="'Hubungkan Guru Pamong'" :id="id_mahasiswa" :jenisAsosiasi="3"/></div>
         </div>
         
         <hr>
