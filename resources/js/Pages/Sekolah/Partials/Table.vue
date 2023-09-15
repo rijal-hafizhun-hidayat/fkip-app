@@ -69,8 +69,14 @@ const setJenisPlp = (jenisPlp) => {
     if(jenisPlp == 'plp_1'){
         jenisPlp = 'PLP 1'
     }
-    else{
+    else if(jenisPlp == 'plp_2'){
         jenisPlp = 'PLP 2'
+    }
+    else if(jenisPlp == 'km_plp_1'){
+        jenisPlp = 'Kampus Merdeka (PLP 1)'
+    }
+    else if(jenisPlp == 'km_plp_2'){
+        jenisPlp = 'Kampus Merdeka (PLP 2)'
     }
     return jenisPlp
 }
