@@ -55,23 +55,6 @@ const destroy = (id) => {
     })
 }
 
-const confirmed = (id) => {
-    axios.put(`/bimbingan/confirmed/${id}`, {
-        confirmed: 1  
-    })
-    .then((res) => {
-        Swal.fire({
-            icon: 'success',
-            title: res.data.title,
-            text: res.data.text
-        })
-        router.get(`/bimbingans/${props.id}`)
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-}
-
 const setDateToIndo = (date) => {
     return moment(date).format('LLL');
 }
@@ -99,7 +82,7 @@ const goToGoggleDrive = (link) => {
                         {{ setDateToIndo(bimbingan.created_at) }}
                     </td>
                     <td class="border-t items-center px-6 py-4 ">
-                        <p class="break-all">{{ bimbingan.keterangan_bimbingan }}</p>
+                        <p>{{ bimbingan.keterangan_bimbingan }}</p>
                         
                     </td>
                     <td v-if="bimbingan.catatan_pembimbing" class="border-t items-center px-6 py-4">
@@ -116,11 +99,10 @@ const goToGoggleDrive = (link) => {
                     </td>
                     <td class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
-                            <DestroyButton v-if="user.role == 4 || user.role == 2" @click="destroy(bimbingan.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                            <ModalUpdateBimbingan v-if="user.role == 4 || user.role == 2" :id="bimbingan.id" :id_mahasiswa="id"/>
-                            <GoogleDriveButton v-if="user.role == 4 || user.role == 2" @click="goToGoggleDrive(bimbingan.link)"><i class="fa-brands fa-google-drive text-white"></i></GoogleDriveButton>
-                            <!-- <DetailButton v-if="user.role == 2" @click="confirmed(bimbingan.id)"><i class="fa-solid fa-square-check fa-lg"></i></DetailButton> -->
-                            <ModalUpdateStatus v-if="user.role == 4 || user.role == 2" :id="bimbingan.id" :id_mahasiswa="id" />
+                            <DestroyButton @click="destroy(bimbingan.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
+                            <ModalUpdateBimbingan :id="bimbingan.id" :id_mahasiswa="id"/>
+                            <GoogleDriveButton @click="goToGoggleDrive(bimbingan.link)"><i class="fa-brands fa-google-drive text-white"></i></GoogleDriveButton>
+                            <ModalUpdateStatus :id="bimbingan.id" :id_mahasiswa="id" />
                         </div>
                     </td>
                 </tr>

@@ -75,6 +75,8 @@ const submit = () =>{
                 <option selected disabled value="">-- Pilih --</option>
                 <option value="plp_1">PLP 1</option>
                 <option value="plp_2">PLP 2</option>
+                <option value="km_plp_1">Kampus Mengajar (PLP 1)</option>
+                <option value="km_plp_2">Kampus Mengajar (PLP 2)</option>
             </SelectInput>
         </div>
 

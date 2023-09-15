@@ -27,6 +27,23 @@ const getMahasiswaById = () => {
         console.log(err)
     })
 }
+
+const setJenisPlp = (jenisPlp) => {
+    if(jenisPlp == 'plp_1'){
+        jenisPlp = 'PLP 1'
+    }
+    else if(jenisPlp == 'plp_2'){
+        jenisPlp = 'PLP 2'
+    }
+    else if(jenisPlp == 'km_plp_1'){
+        jenisPlp = 'Kampus Mengajar PLP 1'
+    }
+    else if(jenisPlp == 'km_plp_2'){
+        jenisPlp = 'Kampus Mengajar PLP 2'
+    }
+
+    return jenisPlp
+}
 </script>
 <template>
     <div class="bg-white rounded-md shadow overflow-x-auto py-8 px-10 mt-10">
@@ -57,7 +74,7 @@ const getMahasiswaById = () => {
                 id="nim"
                 type="text"
                 class="mt-3 block w-full bg-slate-200"
-                v-model="mahasiswa.jenis_plp"/>
+                :value="setJenisPlp(mahasiswa.jenis_plp)"/>
         </div>   
     </div>
 </template>

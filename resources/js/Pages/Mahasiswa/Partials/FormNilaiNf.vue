@@ -24,7 +24,7 @@ onMounted(() => {
 })
 
 const getNilaiKomponenByIdMahasiswa = () => {
-    axios.get(`/getNilaiKomponenByIdMahasiswa/${props.jenis_plp}/${props.id}`)
+    axios.get(`/getNilaiKomponenByIdMahasiswa/${props.id}`)
     .then((res) => {
         if(res.data.data.nilai_kompeten_nf != null){
             nilai.nilai_kompeten_nf = JSON.parse(res.data.data.nilai_kompeten_nf)

@@ -41,7 +41,7 @@ const submit = () => {
     NProgress.start()
     axios.put(`/guru-pamong/${props.id}`, {
         nama: form.nama,
-        asal_sekolah: form.asal_sekolah,
+        asal_sekolah: form.asal_sekolah.nama,
         bidang_keahlian: form.bidang_keahlian
     })
     .then((res) => {

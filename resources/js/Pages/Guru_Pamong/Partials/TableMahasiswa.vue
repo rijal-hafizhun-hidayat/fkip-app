@@ -48,13 +48,20 @@ const destroyAsosiasiMahasiswa = (id) => {
 }
 
 const setJenisPlp = (jenis_plp) => {
+    let setPlp = ''
     if(jenis_plp == 'plp_1'){
-        jenis_plp = 'PLP 1'
+        setPlp = 'PLP 1'
     }
-    else{
-        jenis_plp = 'PLP 2'
+    else if(jenis_plp == 'plp_2'){
+        setPlp = 'PLP 2' 
     }
-    return jenis_plp
+    else if(jenis_plp == 'km_plp_1'){
+        setPlp = 'Kampus Mengajar (PLP 1)'
+    }
+    else if(jenis_plp == 'km_plp_2'){
+        setPlp = 'Kampus Mengajar (PLP 2)'
+    }
+    return setPlp
 }
 
 const setJenisBidang = (prodi) => {

@@ -28,7 +28,6 @@ onMounted(() => {
 const getPertanyaanByJenisPlpJenisBidangJenisPertanyaan = () => {
     axios.get(`/getPertanyaanByJenisPlpJenisBidangJenisPertanyaan/${props.jenis_plp}/${props.jenis_bidang}/${props.jenis_pertanyaan}`)
     .then((res) => {
-        console.log(res)
         pertanyaans.value = res.data.data
     })
     .catch((err) => {
@@ -37,7 +36,7 @@ const getPertanyaanByJenisPlpJenisBidangJenisPertanyaan = () => {
 }
 
 const getNilaiKomponenByIdMahasiswa = () => {
-    axios.get(`/getNilaiKomponenByIdMahasiswa/${props.jenis_plp}/${props.id}`)
+    axios.get(`/getNilaiKomponenByIdMahasiswa/${props.id}`)
     .then((res) => {
         if(res.data.data.nilai_kompeten_nb != null){
             nilai.nilai_kompeten_nb = JSON.parse(res.data.data.nilai_kompeten_nb)

@@ -161,8 +161,14 @@ const setJenisPlp = (jenisPlp) => {
     if(jenisPlp == 'plp_2'){
         setPlp = 'PLP 2'
     }
-    else{
+    else if(jenisPlp == 'plp_1'){
         setPlp = 'PLP 1'
+    }
+    else if(jenisPlp == 'km_plp_1'){
+        setPlp = 'Kampus Mengajar (PLP 1)'
+    }
+    else if(jenisPlp == 'km_plp_2'){
+        setPlp == 'Kampus Mengajar (PLP 2)'
     }
     return setPlp
 }
@@ -194,6 +200,8 @@ watch(filter, async (newFilter, oldSearch) => {
             <option disabled value=""> -- Pilih PLP --</option>
             <option value="plp_1">PLP 1</option>
             <option value="plp_2">PLP 2 </option>
+            <option value="km_plp_1">Kampus Merdeka (PLP 1)</option>
+            <option value="km_plp_2">Kampus Merdeka (PLP 2)</option>
         </SelectInput>
         <SelectInput v-if="user.role == 1" v-model="filter.prodi">
             <option disabled value=""> -- Pilih Prodi --</option>
@@ -253,17 +261,11 @@ watch(filter, async (newFilter, oldSearch) => {
                     </td>
                     <td v-if="user.role == 2 || user.role == 1 || user.role == 3" class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
-                            <!-- <DestroyButton v-if="user.role == 1" @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                            <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton> -->
                             <DetailButton @click="addNilai(mahasiswa.jenis_plp, mahasiswa.prodi, mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton>
-                            <!-- <PrimaryButton v-if="user.role == 2 || user.role == 5" @click="goToRouteBimbingan(mahasiswa.id)"><i class="fa-solid fa-person-chalkboard fa-lg"></i></PrimaryButton> -->
                         </div>
                     </td>
                     <td v-if="user.role == 2 || user.role == 1" class="border-t items-center px-6 py-4">
                         <div class="flex flex-row space-x-4">
-                            <!-- <DestroyButton v-if="user.role == 1" @click="destroy(mahasiswa.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
-                            <UpdateButton v-if="user.role == 1" @click="show(mahasiswa.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton> -->
-                            <!-- <DetailButton @click="addNilai(mahasiswa.jenis_plp, mahasiswa.prodi, mahasiswa.id)"><i class="fa-solid fa-file-pen fa-lg"></i></DetailButton> -->
                             <PrimaryButton v-if="user.role == 2 || user.role == 5 || user.role == 1" @click="goToRouteBimbingan(mahasiswa.id)"><i class="fa-solid fa-person-chalkboard fa-lg"></i></PrimaryButton>
                         </div>
                     </td>

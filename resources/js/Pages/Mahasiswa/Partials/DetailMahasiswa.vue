@@ -14,8 +14,6 @@ const form = reactive({
     nim: ''
 })
 
-console.log(props.id)
-
 onMounted(() => {
     getMahasiswaById()
 })

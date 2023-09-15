@@ -53,10 +53,10 @@ const submit = () => {
             <div class="p-3">
                 <form @submit.prevent="submit()" class="px-3 space-y-6">
                     <div>
-                        <InputLabel for="catatan_pembimbing" value="catatan_pembimbing" />
+                        <InputLabel for="catatan_pembimbing" value="Catatan Pembimbing" />
                         <SelectInput v-model="confirm" class="block w-full">
                             <option selected disabled value="">-- Pilih --</option>
-                            <option value="2">ACC</option>
+                            <option value="2">Di Setujui</option>
                             <option value="1">Revisi</option>
                             <option value="3">Di Tolak</option>
                         </SelectInput>

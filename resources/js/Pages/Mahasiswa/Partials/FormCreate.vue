@@ -22,7 +22,6 @@ const props = defineProps({
 })
 
 const submit = () => {
-    //console.log(form)
     NProgress.start()
     axios.post('/mahasiswa', {
         nama: form.nama,
@@ -99,6 +98,8 @@ const numOnly = (evt) => {
                     <option selected disabled value="">-- Pilih --</option>
                     <option value="plp_1">PLP 1</option>
                     <option value="plp_2">PLP 2</option>
+                    <option value="km_plp_1">Kampus Merdeka (PLP 1)</option>
+                    <option value="km_plp_2">Kampus Merdeka (PLP 2)</option>
                 </SelectInput>
                 <InputError v-if="validation.jenis_plp" :message="validation.jenis_plp[0]" class="mt-2" />
             </div>

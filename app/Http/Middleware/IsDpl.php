@@ -17,7 +17,7 @@ class IsDpl
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->role == User::ROLE_DPL_ID){
+        if(Auth::user()->role == User::ROLE_DPL_ID || Auth::user()->role == User::ROLE_ID_ADMIN){
             return $next($request);
         }
         return redirect()->route('dashboard');

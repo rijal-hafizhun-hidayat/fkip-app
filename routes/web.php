@@ -122,7 +122,7 @@ Route::middleware('auth')->group(function () {
         });
         Route::get('/getMahasiswaBimbinganByIdDpl/{id}', [MahasiswaService::class, 'getMahasiswaBimbinganByIdDpl'])->name('mahasiswa.getMahasiswaBimbinganByIdDpl');
         Route::get('/getMahasiswaByIdDpl/{id}', [MahasiswaService::class, 'getMahasiswaByIdDpl'])->name('mahasiswa.getMahasiswaByIdDpl');
-        Route::get('/getNilaiKomponenByIdMahasiswa/{jenis_plp}/{id}', [MahasiswaService::class, 'getNilaiKomponenByIdMahasiswa'])->name('mahasiswa.getNilaiKomponenByIdMahasiswa');
+        Route::get('/getNilaiKomponenByIdMahasiswa/{id}', [MahasiswaService::class, 'getNilaiKomponenByIdMahasiswa'])->name('mahasiswa.getNilaiKomponenByIdMahasiswa');
         Route::get('/getMahasiswaByIdAkun/{id}', [MahasiswaService::class, 'getMahasiswaByIdAkun'])->name('mahasiswa.getMahasiswaByIdAkun')->middleware('isGuruPamong');
         Route::put('/updateNilai/{id}', [MahasiswaService::class, 'updateNilai'])->name('mahasiswa.updateNilai');
         Route::get('/getPertanyaanByJenisPlpJenisBidangJenisPertanyaan/{jenisPlp}/{jenisBidang}/{jenisPertanyaan}', [MahasiswaService::class, 'getPertanyaanByJenisPlpJenisBidangJenisPertanyaan'])->name('mahasiswa.getPertanyaanByJenisPlpJenisBidangJenisPertanyaan');
@@ -167,7 +167,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/bimbingan/create/{id}', [BimbinganController::class, 'create'])->name('bimbingan.create');
 
         //service
-        Route::middleware('isDpl')->group(function(){
+        Route::middleware('isDplAdmin')->group(function(){
             Route::put('/bimbingan/catatan-pemimbing/{id}', [BimbinganService::class, 'storeCatatanPembimbing'])->name('bimbingan.storeCatatanPembimbing');
             Route::put('/bimbingan/confirmed/{id}', [BimbinganService::class, 'confirmed'])->name('bimbingan.confirmed');
         });
