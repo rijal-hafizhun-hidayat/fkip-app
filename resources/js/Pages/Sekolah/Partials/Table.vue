@@ -73,10 +73,10 @@ const setJenisPlp = (jenisPlp) => {
         jenisPlp = 'PLP 2'
     }
     else if(jenisPlp == 'km_plp_1'){
-        jenisPlp = 'Kampus Merdeka (PLP 1)'
+        jenisPlp = 'Kampus Mengajar (PLP 1)'
     }
     else if(jenisPlp == 'km_plp_2'){
-        jenisPlp = 'Kampus Merdeka (PLP 2)'
+        jenisPlp = 'Kampus Mengajar (PLP 2)'
     }
     return jenisPlp
 }
@@ -92,6 +92,8 @@ watch(filter, async (newFilter, oldFilter) => {
             <option selected disabled value="">-- Pilih --</option>
             <option value="plp_1">PLP 1</option>
             <option value="plp_2">PLP 2</option>
+            <option value="km_plp_1">Kampus Mengajar (PLP 1)</option>
+            <option value="km_plp_2">Kampus Mengajar (PLP 2)</option>
         </SelectInput>
         <PrimaryButton @click="reset">Reset</PrimaryButton>
     </div>
