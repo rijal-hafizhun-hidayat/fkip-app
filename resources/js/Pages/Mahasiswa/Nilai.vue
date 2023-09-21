@@ -111,13 +111,13 @@ const setIsClick = (isClick) => {
                 <div><PrimaryButton v-if="jenis_plp == 'plp_1' || jenis_plp == 'km_plp_1'" @click="setIsClick('nb')">+ Nilai Nb</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2'" @click="setIsClick('nb')">+ Nilai Nb</PrimaryButton></div>
                 <div><PrimaryButton v-if="jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2'" @click="setIsClick('ns')">+ Nilai Ns</PrimaryButton></div>
-                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2') && jenis_bidang == 'teaching'" @click="setIsClick('nc')">+ Nilai Nc</PrimaryButton></div>
-                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2') && jenis_bidang == 'bk'" @click="setIsClick('nc')">+ Nilai Nc</PrimaryButton></div>
-                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2') && jenis_bidang == 'pgpaud'" @click="setIsClick('nd')">+ Nilai Nd</PrimaryButton></div>
-                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2') && jenis_bidang == 'bk'" @click="setIsClick('nd')">+ Nilai Nd</PrimaryButton></div>
-                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2') && jenis_bidang == 'bk'" @click="setIsClick('ne')">+ Nilai Ne</PrimaryButton></div>
-                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2') && jenis_bidang == 'bk'" @click="setIsClick('nf')">+ Nilai Nf</PrimaryButton></div>
-                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2') && jenis_bidang == 'bk'" @click="setIsClick('ng')">+ Nilai Ng</PrimaryButton></div>
+                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2' || jenis_plp == 'am_plp_2') && jenis_bidang == 'teaching'" @click="setIsClick('nc')">+ Nilai Nc</PrimaryButton></div>
+                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2' || jenis_plp == 'am_plp_2') && jenis_bidang == 'bk'" @click="setIsClick('nc')">+ Nilai Nc</PrimaryButton></div>
+                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2' || jenis_plp == 'am_plp_2') && jenis_bidang == 'pgpaud'" @click="setIsClick('nd')">+ Nilai Nd</PrimaryButton></div>
+                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2' || jenis_plp == 'am_plp_2') && jenis_bidang == 'bk'" @click="setIsClick('nd')">+ Nilai Nd</PrimaryButton></div>
+                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2' || jenis_plp == 'am_plp_2') && jenis_bidang == 'bk'" @click="setIsClick('ne')">+ Nilai Ne</PrimaryButton></div>
+                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2' || jenis_plp == 'am_plp_2') && jenis_bidang == 'bk'" @click="setIsClick('nf')">+ Nilai Nf</PrimaryButton></div>
+                <div><PrimaryButton v-if="(jenis_plp == 'plp_2' || jenis_plp == 'km_plp_2' || jenis_plp == 'am_plp_2') && jenis_bidang == 'bk'" @click="setIsClick('ng')">+ Nilai Ng</PrimaryButton></div>
             </div>
 
             <TableNilai :id="id" :prodi="prodi" :jenis_plp="jenis_plp" :jenis_bidang="jenis_bidang"/>

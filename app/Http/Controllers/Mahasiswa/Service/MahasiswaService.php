@@ -322,7 +322,7 @@ class MahasiswaService extends Controller
     private function setTotalNilai($resultCredential, $id){
         $totalNilai = null;
         $nilaiKompeten = $this->getNilai($resultCredential, $id);
-        if($resultCredential['jenis_bidang'] == 'bk' && ($resultCredential['jenis_plp'] == 'plp_2' || $resultCredential['jenis_plp'] == 'km_plp_2')){
+        if($resultCredential['jenis_bidang'] == 'bk' && ($resultCredential['jenis_plp'] == 'plp_2' || $resultCredential['jenis_plp'] == 'km_plp_2' || $resultCredential['jenis_plp'] == 'km_plp_2')){
             if($resultCredential['jenis_nilai'] == 'nilai_ne' && $nilaiKompeten['nilai_ne'] == null){
                 $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $resultCredential['nilai_ne'] + $nilaiKompeten['nilai_ns'] + $nilaiKompeten['nilai_nf'] + $nilaiKompeten['nilai_ng']) / 7;
             }
@@ -366,7 +366,7 @@ class MahasiswaService extends Controller
                 $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne'] + $nilaiKompeten['nilai_ns'] + $nilaiKompeten['nilai_nf'] + $resultCredential['nilai_ng']) / 7;
             }
         }
-        else if($resultCredential['jenis_bidang'] == 'pgpaud' && ($resultCredential['jenis_plp'] == 'plp_2' || $resultCredential['jenis_plp'] == 'km_plp_2')){
+        else if($resultCredential['jenis_bidang'] == 'pgpaud' && ($resultCredential['jenis_plp'] == 'plp_2' || $resultCredential['jenis_plp'] == 'km_plp_2' || $resultCredential['jenis_plp'] == 'km_plp_2' || $resultCredential['jenis_plp'] == 'am_plp_2')){
             if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] == null){
                 $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ns']) / 3;
             }
@@ -386,7 +386,7 @@ class MahasiswaService extends Controller
                 $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nd'] + $resultCredential['nilai_ns']) / 3;
             }
         }
-        else if($resultCredential['jenis_bidang'] == 'teaching' && ($resultCredential['jenis_plp'] == 'plp_2' || $resultCredential['jenis_plp'] == 'km_plp_2')){
+        else if($resultCredential['jenis_bidang'] == 'teaching' && ($resultCredential['jenis_plp'] == 'plp_2' || $resultCredential['jenis_plp'] == 'km_plp_2' || $resultCredential['jenis_plp'] == 'km_plp_2')){
             if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] == null){
                 $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_ns']) / 3;
             }
@@ -433,46 +433,46 @@ class MahasiswaService extends Controller
     private function setJenisNilai($credential){
         $jenisNilai = $credential['jenis_nilai'];
 
-        if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'teaching' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'teaching' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNbTeaching($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nc' && $credential['jenis_bidang'] == 'teaching' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_nc' && $credential['jenis_bidang'] == 'teaching' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNcTeaching($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'teaching' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'teaching' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNdTeaching($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_ns' && $credential['jenis_bidang'] == 'teaching' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_ns' && $credential['jenis_bidang'] == 'teaching' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNs($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNbBk($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nc' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_nc' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNcBk($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNdBk($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_ne' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_ne' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNeBk($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_ns' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_ns' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNs($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nf' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_nf' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNfBk($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_ng' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_ng' && $credential['jenis_bidang'] == 'bk' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNgBk($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'pgpaud' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_nb' && $credential['jenis_bidang'] == 'pgpaud' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNbPgpaud($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'pgpaud' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_nd' && $credential['jenis_bidang'] == 'pgpaud' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNdPgpaud($credential);
         }
-        else if($credential['jenis_nilai'] == 'nilai_ns' && $credential['jenis_bidang'] == 'pgpaud' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2')){
+        else if($credential['jenis_nilai'] == 'nilai_ns' && $credential['jenis_bidang'] == 'pgpaud' && ($credential['jenis_plp'] == 'plp_2' || $credential['jenis_plp'] == 'km_plp_2' || $credential['jenis_plp'] == 'am_plp_2')){
             $credential[$jenisNilai] = $this->setNilaiNs($credential);
         }
         else if($credential['jenis_nilai'] == 'nilai_nb' && ($credential['jenis_plp'] == 'plp_1' || $credential['jenis_plp'] == 'km_plp_1')){
