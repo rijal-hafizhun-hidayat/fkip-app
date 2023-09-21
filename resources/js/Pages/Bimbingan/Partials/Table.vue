@@ -18,8 +18,6 @@ const props = defineProps({
     user: Array
 })
 
-console.log(props.id)
-
 onMounted(() => {
     moment.locale('id')
     getBimbinganByIdMahasiswa()
