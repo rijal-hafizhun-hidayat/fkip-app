@@ -87,6 +87,7 @@ const isChangeMahasiswa = () => {
     axios.get(`/getMahasiswaById/${form.id_mahasiswa.id}`)
     .then((res) => {
         form.nim = res.data.data.nim
+        setUsername()
     })
     .catch((err) => {
         console.log(err)
