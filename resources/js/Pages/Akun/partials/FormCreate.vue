@@ -103,8 +103,31 @@ const setUsernamePassword = () => {
     }
 }
 
-const nameMahasiswaWithLang = ({nama}) => {
-    return nama
+const setJenisPlp = (jenisPlp) => {
+    switch(jenisPlp){
+        case 'plp_1':
+            return 'PLP 1';
+            break;
+        case 'plp_2':
+            return 'PLP 2';
+            break;
+        case 'km_plp_1':
+            return 'Kampus Mengajar (PLP 1)';
+            break;
+        case 'km_plp_2':
+            return 'Kampus Mengajar (PLP 2)';
+            break;
+        case 'am_plp_2':
+            return 'Asistensi Mengajar';
+            break;
+        default:
+            return 'udentified';
+            break;
+    }
+}
+
+const nameMahasiswaWithLang = ({nama, jenis_plp, prodi}) => {
+    return `${nama} - ${prodi} - ${setJenisPlp(jenis_plp)}`
 }
 
 const nameDplWithLang = ({nama}) => {
