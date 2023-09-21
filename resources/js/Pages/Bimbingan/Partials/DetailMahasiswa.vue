@@ -29,23 +29,26 @@ const getMahasiswaById = () => {
 }
 
 const setJenisPlp = (jenisPlp) => {
-    if(jenisPlp == 'plp_1'){
-        jenisPlp = 'PLP 1'
+    switch(jenisPlp){
+        case 'plp_1':
+            return 'PLP 1';
+            break;
+        case 'plp_2':
+            return 'PLP 2';
+            break;
+        case 'km_plp_1':
+            return 'Kampus Mengajar (PLP 1)';
+            break;
+        case 'km_plp_2':
+            return 'Kampus Mengajar (PLP 2)';
+            break;
+        case 'am_plp_2':
+            return 'Asistensi Mengajar';
+            break;
+        default:
+            return 'udentified';
+            break;
     }
-    else if(jenisPlp == 'plp_2'){
-        jenisPlp = 'PLP 2'
-    }
-    else if(jenisPlp == 'km_plp_1'){
-        jenisPlp = 'Kampus Mengajar PLP 1'
-    }
-    else if(jenisPlp == 'km_plp_2'){
-        jenisPlp = 'Kampus Mengajar PLP 2'
-    }
-    else if(jenisPlp == 'am_plp_2'){
-        jenisPlp == 'Asistensi Mengajar'
-    }
-
-    return jenisPlp
 }
 </script>
 <template>

@@ -157,23 +157,26 @@ const reset = () => {
 }
 
 const setJenisPlp = (jenisPlp) => {
-    let setPlp = ''
-    if(jenisPlp == 'plp_2'){
-        setPlp = 'PLP 2'
+    switch(jenisPlp){
+        case 'plp_1':
+            return 'PLP 1';
+            break;
+        case 'plp_2':
+            return 'PLP 2';
+            break;
+        case 'km_plp_1':
+            return 'Kampus Mengajar (PLP 1)';
+            break;
+        case 'km_plp_2':
+            return 'Kampus Mengajar (PLP 2)';
+            break;
+        case 'am_plp_2':
+            return 'Asistensi Mengajar';
+            break;
+        default:
+            return 'udentified';
+            break;
     }
-    else if(jenisPlp == 'plp_1'){
-        setPlp = 'PLP 1'
-    }
-    else if(jenisPlp == 'km_plp_1'){
-        setPlp = 'Kampus Mengajar (PLP 1)'
-    }
-    else if(jenisPlp == 'km_plp_2'){
-        setPlp == 'Kampus Mengajar (PLP 2)'
-    }
-    else if(jenisPlp == 'am_plp_2'){
-        setPlp == 'Asistensi Mengajar'
-    }
-    return setPlp
 }
 
 const goToRouteBimbingan = (id) => {
@@ -205,6 +208,7 @@ watch(filter, async (newFilter, oldSearch) => {
             <option value="plp_2">PLP 2 </option>
             <option value="km_plp_1">Kampus Merdeka (PLP 1)</option>
             <option value="km_plp_2">Kampus Merdeka (PLP 2)</option>
+            <option value="am_plp_2">Asistensi Mengajar</option>
         </SelectInput>
         <SelectInput v-if="user.role == 1" v-model="filter.prodi">
             <option disabled value=""> -- Pilih Prodi --</option>

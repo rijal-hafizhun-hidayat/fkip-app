@@ -116,6 +116,7 @@ const numOnly = (evt) => {
                 <option value="plp_2">PLP 2</option>
                 <option value="km_plp_1">Kampus Mengajar (PLP 1)</option>
                 <option value="km_plp_2">Kampus Mengajar (PLP 2)</option>
+                <option value="am_plp_2">Asistensi Mengajar</option>
             </SelectInput>
             <InputError v-if="validation.jenis_plp" :message="validation.jenis_plp[0]" class="mt-2" />
         </div>
