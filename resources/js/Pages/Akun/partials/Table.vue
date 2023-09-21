@@ -6,7 +6,6 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import DestroyButton from '@/Components/DestroyButton.vue';
 import UpdateButton from '@/Components/UpdateButton.vue';
 import ResetButton from '@/Components/ResetButton.vue';
-import EmailButton from '@/Components/EmailButton.vue';
 import { router } from '@inertiajs/vue3'
 import Swal from 'sweetalert2'
 import { TailwindPagination } from 'laravel-vue-pagination';
@@ -131,7 +130,6 @@ watch(search, async (newSearch, oldSearch) => {
                         <DestroyButton @click="destroy(akun.id)"><i class="fa-solid fa-trash text-white"></i></DestroyButton>
                         <UpdateButton @click="update(akun.id)"><i class="fa-solid fa-pen-to-square text-white"></i></UpdateButton>
                         <ResetButton @click="formResetPass(akun.id)"><i class="fa-solid fa-unlock text-white fa-lg"></i></ResetButton>
-                        <EmailButton @click="sendEmail(akun.email)"><i class="fa-solid fa-envelope fa-lg"></i></EmailButton>
                     </div>
                     
                     </td>

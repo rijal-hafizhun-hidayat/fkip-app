@@ -9,19 +9,19 @@ const props = defineProps({
 
 const setIsConfirm = () => {
     if(props.isConfirm == 0){
-        confirm.value = 'Menunggu Proses Dpl'
+        confirm.value = 'Menunggu proses Dpl'
         classConfirm.value = 'bg-black'
     }
     else if(props.isConfirm == 1){
-        confirm.value = 'Revisi'
+        confirm.value = 'Direvisi'
         classConfirm.value = 'bg-amber-500'
     }
     else if(props.isConfirm == 2){
-        confirm.value = 'Di Setujui'
+        confirm.value = 'Disetujui'
         classConfirm.value = 'bg-green-500'
     }
     else if(props.isConfirm == 3){
-        confirm.value = 'Di Tolak'
+        confirm.value = 'Ditolak'
         classConfirm.value = 'bg-rose-500'
     }
     return confirm.value

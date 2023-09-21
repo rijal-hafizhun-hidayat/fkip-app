@@ -25,7 +25,7 @@ class AkunService extends Controller
         $akuns = $queryAkun->paginate(10);
         return $this->responseService($akuns, 200, true, null, null);
     }
-
+    
     public function store(StoreAkunRequest $request){
         if($request->role == User::ROLE_ID_ADMIN){
             $this->storeAkunAdmin($request->all());

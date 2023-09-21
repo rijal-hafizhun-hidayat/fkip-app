@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import DestroyButton from '@/Components/DestroyButton.vue';
 import Swal from 'sweetalert2';
 import { router } from '@inertiajs/vue3'
 
@@ -18,21 +17,6 @@ const getMahasiswaBimbinganByIdDpl = () => {
     axios.get(`/getMahasiswaBimbinganByIdDpl/${props.id}`)
     .then((res) => {
         mahasiswas.value = res.data.data
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-}
-
-const destroy = (id) => {
-    axios.delete(`/destroyAsosiasiDpl/${id}`)
-    .then((res) => {
-        Swal.fire({
-            icon: 'success',
-            title: res.data.title,
-            text: res.data.text
-        })
-        router.get(`/dpl/asosiasi/${props.id}`)
     })
     .catch((err) => {
         console.log(err)

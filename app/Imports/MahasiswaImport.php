@@ -11,10 +11,9 @@ class MahasiswaImport implements ToCollection, WithHeadingRow
 {
     public function collection(Collection $rows){
         foreach($rows as $row){
-            $isMahasiswa = Mahasiswa::where('id', $row['id'])->first();
+            $isMahasiswa = Mahasiswa::where('nim', $row['nim'])->first();
             if(is_null($isMahasiswa)){
                 Mahasiswa::create([
-                    'id' => $row['id'],
                     'nim' => $row['nim'],
                     'nama' => $row['nama'],
                     'prodi' => $row['prodi'],

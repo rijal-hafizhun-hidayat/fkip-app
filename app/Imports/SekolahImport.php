@@ -11,10 +11,9 @@ class SekolahImport implements ToCollection, WithHeadingRow
 {
     public function collection (Collection $rows){
         foreach($rows as $row){
-            $isSekolah = Sekolah::where('id', $row['id'])->first();
+            $isSekolah = Sekolah::where('nama', $row['nama'])->first();
             if(is_null($isSekolah)){
                 Sekolah::create([
-                    'id' => $row['id'],
                     'nama' => $row['sekolah'],
                     'jenis_plp' => $row['jenis_plp'],
                 ]);

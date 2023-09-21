@@ -89,6 +89,10 @@ class BimbinganService extends Controller
         }
     }
 
+    public function printPdf($id){
+        dd($id);
+    }
+
     private function storeBimbingan($credential, $id, $idDpl){
         try {
             Bimbingan::create([

@@ -16,7 +16,7 @@ class DplImport implements ToCollection, WithHeadingRow
             if(is_null($isDpl)){
                 Dpl::create([
                     'nama' => $row['nama'],
-                    'nipy' => rand(1000, 9999),
+                    'nipy' => $row['nipy'],
                     'prodi' => $row['prodi'],
                     'jenis_plp' => $row['jenis_plp']
                 ]);

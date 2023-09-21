@@ -33,6 +33,7 @@ class RegisteredUserController extends Controller
             'username' => $request->username,
             'password' => $request->password,
             'role' => $request->role,
+            'email' => $request->email,
             'id_guru_pamong' => $request->id_guru_pamong ?? null,
             'id_mahasiswa' => $request->id_mahasiswa ?? null
         ]);

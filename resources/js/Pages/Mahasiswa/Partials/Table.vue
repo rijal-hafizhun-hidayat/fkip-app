@@ -170,6 +170,9 @@ const setJenisPlp = (jenisPlp) => {
     else if(jenisPlp == 'km_plp_2'){
         setPlp == 'Kampus Mengajar (PLP 2)'
     }
+    else if(jenisPlp == 'am_plp_2'){
+        setPlp == 'Asistensi Mengajar'
+    }
     return setPlp
 }
 
