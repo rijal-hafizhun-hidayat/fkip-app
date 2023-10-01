@@ -15,6 +15,7 @@ use App\Http\Controllers\Dpl\DplController;
 use App\Http\Controllers\Dpl\Service\DplService;
 use App\Http\Controllers\Dpl\Service\DplImportService;
 use App\Http\Controllers\Bimbingan\BimbinganController;
+use App\Http\Controllers\Bimbingan\Service\BimbinganPdf;
 use App\Http\Controllers\Bimbingan\Service\BimbinganService;
 use App\Http\Controllers\Dashboard\Service\DashboardServiceController;
 use App\Http\Controllers\Sekolah\SekolahController;
@@ -177,6 +178,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/bimbingan/{id}', [BimbinganService::class, 'getBimbinganById'])->name('bimbingan.getBimbinganById');
         Route::get('/getBimbinganByIdMahasiswa/{id}', [BimbinganService::class, 'getBimbinganByIdMahasiswa'])->name('bimbingan.getBimbinganByIdMahasiswa');
         Route::post('/bimbingan/{id}', [BimbinganService::class, 'store'])->name('bimbingan.store');
+        Route::get('/bimbingan/print/{id}', [BimbinganPdf::class, 'printPdf'])->name('bimbingan.print');
     });
 
     //router sekolah

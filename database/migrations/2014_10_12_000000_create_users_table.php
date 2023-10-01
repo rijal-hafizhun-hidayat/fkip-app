@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('jenis_plp');
             $table->bigInteger('id_dpl')->nullable();
             $table->bigInteger('id_guru_pamong')->nullable();
             $table->bigInteger('id_mahasiswa')->nullable();

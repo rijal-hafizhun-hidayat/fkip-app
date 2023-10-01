@@ -108,7 +108,7 @@ const showModal = () => {
                         </SelectInput>
                     </div>
 
-                    <div v-if="jenisPlp == 'plp_2'">
+                    <div v-if="jenisPlp == 'plp_2' || jenisPlp == 'am_plp_2'">
                         <InputLabel for="tahapan_bimbingan" value="Tahapan Bimbingan"/>
                         <SelectInput v-model="form.tahap_bimbingan" class="block w-full" >
                             <option disabled selected value="">-- Pilih --</option>

@@ -127,10 +127,10 @@ class MahasiswaService extends Controller
             if(($jenisPlp == 'plp_1' || $jenisPlp == 'km_plp_1') && $jenisPertanyaan != 'ns'){
                 $pertanyaan = $this->getPertanyaanByPlpOne();
             }
-            else if(($jenisPlp == 'plp_2' || $jenisPlp == 'km_plp_2') && $jenisPertanyaan == 'ns'){
+            else if(($jenisPlp == 'plp_2' || $jenisPlp == 'km_plp_2' || $jenisPlp == 'am_plp_2') && $jenisPertanyaan == 'ns'){
                 $pertanyaan = $this->getPertanyaanByNs();
             }
-            else if($jenisPlp == 'plp_2' || $jenisPlp == 'km_plp_2'){
+            else if($jenisPlp == 'plp_2' || $jenisPlp == 'km_plp_2' || $jenisPlp == 'am_plp_2'){
                 $pertanyaan = $this->getPertanyaanByPlpTwo($jenisBidang, $jenisPertanyaan);
             }
             return $this->responseService($pertanyaan, 200, true, null, null);
@@ -366,7 +366,7 @@ class MahasiswaService extends Controller
                 $totalNilai = ($nilaiKompeten['nilai_nb'] + $nilaiKompeten['nilai_nc'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ne'] + $nilaiKompeten['nilai_ns'] + $nilaiKompeten['nilai_nf'] + $resultCredential['nilai_ng']) / 7;
             }
         }
-        else if($resultCredential['jenis_bidang'] == 'pgpaud' && ($resultCredential['jenis_plp'] == 'plp_2' || $resultCredential['jenis_plp'] == 'km_plp_2' || $resultCredential['jenis_plp'] == 'km_plp_2' || $resultCredential['jenis_plp'] == 'am_plp_2')){
+        else if($resultCredential['jenis_bidang'] == 'pgpaud' && ($resultCredential['jenis_plp'] == 'plp_2' || $resultCredential['jenis_plp'] == 'km_plp_2' || $resultCredential['jenis_plp'] == 'am_plp_2')){
             if($resultCredential['jenis_nilai'] == 'nilai_nb' && $nilaiKompeten['nilai_nb'] == null){
                 $totalNilai = ($resultCredential['nilai_nb'] + $nilaiKompeten['nilai_nd'] + $nilaiKompeten['nilai_ns']) / 3;
             }
