@@ -17,7 +17,7 @@ const user = computed(() => page.props.auth.user)
 const isHidden = ref(true)
 const validation = ref([])
 const tahapanBimbinganPlpI = ['Pra Pelaksanaan', 'Perangkat', 'Praktik Pembelajaran', 'Luaran', 'LogBook']
-const tahapanBimbinganPlpII = ['Pra Pelaksanaan', 'Obesrvasi ke Sekolah', 'Luaran']
+const tahapanBimbinganPlpII = ['Pra Pelaksanaan', 'Obesrvasi ke Sekolah', 'Luaran', 'LogBook']
 const props = defineProps({
     id: Number,
     id_mahasiswa: Number
